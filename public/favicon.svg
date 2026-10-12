@@ -1,0 +1,5 @@
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="PlantEye">
+  <rect width="64" height="64" rx="12" fill="#0f172a"/>
+  <path d="M14 46V28l12-8v8l12-8v26" fill="none" stroke="#36b9a6" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M14 46h36" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,12 @@
+ .app-shell { display: flex; min-height: 100vh; }
+.sidebar { width: 248px; flex-shrink: 0; display: flex; flex-direction: column; padding: 28px 16px 20px; color: #c7d0e3; background: #111a2e; }
+.brand { display: flex; align-items: center; gap: 12px; padding: 0 12px 40px; color: #fff; }
+.brand-mark { display: grid; width: 34px; height: 34px; place-items: center; border-radius: 10px; color: #172033; background: #64d7c4; font-size: 20px; font-weight: 700; }
+.brand strong, .brand span { display: block; }.brand strong { font-size: 14px; }.brand div span { margin-top: 3px; color: #8190ac; font-size: 11px; }
+.nav-heading { margin: 0 12px 12px; color: #64738f; font-size: 10px; font-weight: 700; letter-spacing: .16em; }
+.nav-link { display: flex; align-items: center; gap: 11px; margin: 3px 0; padding: 12px; border-radius: 8px; color: #9eabc2; font-size: 13px; transition: background .2s, color .2s; }
+.nav-link:hover { color: #fff; background: #1a2741; }.nav-link.active { color: #fff; background: #253653; font-weight: 600; }.nav-link.active .nav-dot { background: #64d7c4; box-shadow: 0 0 0 3px rgba(100,215,196,.13); }
+.nav-dot { width: 6px; height: 6px; border-radius: 50%; background: #52627f; }.sidebar-footer { margin-top: auto; padding: 20px 12px 0; color: #52627f; font-size: 9px; letter-spacing: .12em; }.sidebar-footer span { float: right; letter-spacing: 0; }
+.main-shell { min-width: 0; flex: 1; }.header { display: flex; align-items: center; justify-content: space-between; min-height: 124px; padding: 28px 48px; border-bottom: 1px solid #e7ebf2; background: #fff; }.breadcrumb { margin: 0 0 10px; color: #95a0b3; font-size: 10px; font-weight: 600; letter-spacing: .1em; }.header h1 { margin: 0; color: #172033; font-size: 25px; }.header-status { color: #8190a5; font-size: 12px; }.status-dot { display: inline-block; width: 7px; height: 7px; margin-right: 7px; border-radius: 50%; background: #f2b95e; }
+.content { padding: 48px; }
+@media (max-width: 760px) { .sidebar { width: 70px; padding: 20px 8px; }.brand { justify-content: center; padding: 0 0 28px; }.brand > div, .nav-heading, .nav-link { font-size: 0; }.nav-link { justify-content: center; padding: 13px 0; }.nav-link .nav-dot { width: 8px; height: 8px; }.sidebar-footer { display: none; }.header { min-height: 104px; padding: 24px; }.header h1 { font-size: 20px; }.header-status { font-size: 0; }.content { padding: 24px; } }
