@@ -1,0 +1,4 @@
+metric,unit,mae,matched_rows,missing_or_invalid_rows,evaluation_rule
+hourly_pow,kWh,89.64176193143737,505,0,양쪽 값이 숫자이고 NaN이 아닌 시간만 MAE에 포함
+may_bill,원,16135.517147658733,505,0,양쪽 값이 숫자이고 NaN이 아닌 시간만 MAE에 포함
+may_carbon,kgCO2,38.008107058914604,505,0,양쪽 값이 숫자이고 NaN이 아닌 시간만 MAE에 포함
