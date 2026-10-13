@@ -1,8 +1,0 @@
-column,unit,meaning
-id,YYYYMMDDHH 문자열,예측 대상 시간의 식별자
-hour,localtime 기준 YYYYMMDDHH 문자열,예측 대상 시간
-hourly_pow,kWh,해당 1시간의 예측 전력 사용량
-may_bill,원,hourly_pow × 180원/kWh로 계산한 시간별 예상 전기요금
-may_carbon,kgCO2,hourly_pow × 0.424kgCO2/kWh로 계산한 시간별 예상 탄소배출량
-agg_pow,kWh,505개 예측 시간의 hourly_pow 합계이며 모든 행에 동일하게 기록
-model,문자열,예측에 사용한 모델명
