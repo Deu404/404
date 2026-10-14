@@ -1,0 +1,35 @@
+{
+  "status": "passed",
+  "version": 4,
+  "model_sha256": "f4feeb989be8ee80fcf65284ceab035722ebf6044c6f0b78293dfce98a79da33",
+  "preexisting_files_unchanged": true,
+  "preexisting_files_checked": 6927,
+  "copied_source_files_hashes_checked": 118,
+  "standalone_imports": true,
+  "standalone_demo_expected_notices": 2,
+  "normalizers_recomputed_exactly_from_included_reference": true,
+  "reproduced_test_totals": {
+    "rows": 705120,
+    "tp": 55482,
+    "fp": 3,
+    "fn": 5514,
+    "tn": 644121,
+    "precision": 0.9999459313327926,
+    "recall": 0.9096006295494786,
+    "f1": 0.9526360522316945,
+    "false_positive_rate": 4.657488309704342e-06,
+    "clean_reference_rows": 705120,
+    "clean_reference_false_positives": 0
+  },
+  "reproduced_event_metrics": {
+    "events": 14534,
+    "detected": 14532,
+    "missed": 2,
+    "recall": 0.9998623916334113,
+    "stuck_detection_delay_seconds": {
+      "median": 20.0,
+      "max": 20
+    }
+  },
+  "content": "Current model, minimal runtime/validation code, actual classifier inputs, original train/calibration/test pairs, normalizer fitting reference and README"
+}

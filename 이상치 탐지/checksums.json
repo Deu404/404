@@ -1,0 +1,637 @@
+{
+  "algorithm": "SHA-256",
+  "version": 4,
+  "excludes": [
+    "checksums.json",
+    "outputs/",
+    "__pycache__/",
+    ".venv/"
+  ],
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 136,
+      "sha256": "dbd118c486092eeb7cced40fa0864ea6cd7fce4352d2b84088cbe93894dd420d"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 50,
+      "sha256": "dfec1b5973a5c04f1bf1f6270a02c7c4769988aaadfb34a4e415ce6600b6138f"
+    },
+    {
+      "path": "README.md",
+      "bytes": 10180,
+      "sha256": "cc7e4fe794af57b3fe154ec92cfc47f4b897447bae3ec882cb232342d9faefbf"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/01_PM-3.parquet",
+      "bytes": 3123734,
+      "sha256": "7279d7b0a0ed2c01b8071e44b0d8cbc27a9aae27e517c1e8d4ffb649f8048039"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/02_L-1전등.parquet",
+      "bytes": 3126018,
+      "sha256": "fcae531205b6689c14f904ebd5df9c3f045e2d6882c579a2a0d0f22f0bb69771"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/03_분쇄기(2).parquet",
+      "bytes": 3117091,
+      "sha256": "3492e76dd5784fa4a6e8a1c6dbd13d3e37538352c77c045e09a58caac8782cd0"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/04_분쇄기(1).parquet",
+      "bytes": 3129976,
+      "sha256": "77f4c8c8cd5bc4f5d5425852efc4e9047e186436cc8e95ed9bdbacc9a86e071d"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/05_좌측분전반.parquet",
+      "bytes": 3112196,
+      "sha256": "67b13c2e30cb3044030b9cddbae741ce35c2f427168547ea6865d5e26c2b0077"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/11_우측분전반1.parquet",
+      "bytes": 3120941,
+      "sha256": "ca7963f2ea9946548f7ca0e8fc605f23f82c0f6e5c5276859f93377d4a718302"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/12_4호기.parquet",
+      "bytes": 3108410,
+      "sha256": "dddb3fde1d9f70b44e12a6dc2270515c7e9689f18bc1f534858c71c5623ec7da"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/13_3호기.parquet",
+      "bytes": 3114042,
+      "sha256": "fa2d2264f61670b00cdc879fe4e24ed64277068a280543f207d499de5a21f76a"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/14_2호기.parquet",
+      "bytes": 3121992,
+      "sha256": "1fabe8ba5dbfe0ac03a153fc3ccc4138b4aa780776830ef9918ea2cb63565974"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/15_예비건조기.parquet",
+      "bytes": 3124546,
+      "sha256": "3bec3c6633d6e04f06d6592eb717218282ec699c4d6e220a8e8e7c48f63b9353"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/16_호이스트.parquet",
+      "bytes": 3128544,
+      "sha256": "fb2c7bfc1ad2fd1c051136b58e5d743542b78235424ce87c335f35646ab3ab09"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/17_6호기.parquet",
+      "bytes": 3126187,
+      "sha256": "d2b43eb98869963a6949bcc66a1b5b2f4d624a0a6609325823bd62dd6912de83"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/18_우측분전반2.parquet",
+      "bytes": 3128746,
+      "sha256": "a2ce794b48580189f6bbe5740b52152a0f43c98a1a3ec358936bebe0fd4fa8ba"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/clean_reference/01_PM-3.parquet",
+      "bytes": 2902597,
+      "sha256": "aa76049142ab875a221249ed3b12c4dc50e2568267499b759b032275e3f56900"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/clean_reference/02_L-1전등.parquet",
+      "bytes": 2906622,
+      "sha256": "80130294a5cdf429b48b16f8f423bb2ee4fc1442a573828f8516240290d9dde1"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/clean_reference/03_분쇄기(2).parquet",
+      "bytes": 2905497,
+      "sha256": "97c597994c66023bee51423028377fabab8b24b4044b954286e8e3af45322457"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/clean_reference/04_분쇄기(1).parquet",
+      "bytes": 2909537,
+      "sha256": "c2f2cf242f6d8c686c74b29a0f2b60bdd242a9a2d9cc684d865b49ad2c56df7b"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/clean_reference/05_좌측분전반.parquet",
+      "bytes": 2897838,
+      "sha256": "acf2b607ef5d8f43c9ddddfc2295dae6ef5f549ad816ad8563153bcd5a37371f"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/clean_reference/11_우측분전반1.parquet",
+      "bytes": 2910680,
+      "sha256": "997c715ee7d82b8de36369b3e25d15f1adc8fb8745b5661468f7f662226c8cf5"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/clean_reference/12_4호기.parquet",
+      "bytes": 2885339,
+      "sha256": "f94a876f279bd91fd1ddd6fd77471ef91a79e3a0b93d28cfc3abdcd3fedfbb01"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/clean_reference/13_3호기.parquet",
+      "bytes": 2904036,
+      "sha256": "2e1edb27246ab71d127975cf737473f282e26db22d5b89f29cba085c127ca45d"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/clean_reference/14_2호기.parquet",
+      "bytes": 2897291,
+      "sha256": "b22d50626ff875a3bff418f7cb4029320765c6148ffb8ff03ce522ced3219627"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/clean_reference/15_예비건조기.parquet",
+      "bytes": 2905828,
+      "sha256": "dca7d7b930d50ff96fa0027e25c9fbc9f09bc6bb816653d2b121ba01c1ce753f"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/clean_reference/16_호이스트.parquet",
+      "bytes": 2905884,
+      "sha256": "14aac8eadaccfc5f9f23a98a9c29bfb4d713c204bee67d50352d8338d9d6b131"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/clean_reference/17_6호기.parquet",
+      "bytes": 2898107,
+      "sha256": "ee4436c4f081ac9d0464f78e1ffefe9efed73e3602b3bbd442cc80dfb73f794c"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/clean_reference/18_우측분전반2.parquet",
+      "bytes": 2910357,
+      "sha256": "a47ba94f8091f56bb34bb25926ca3d5fce1911c7843398feb0e67f556943bdd2"
+    },
+    {
+      "path": "data/full_coverage_v4/calibration/events.json",
+      "bytes": 4327917,
+      "sha256": "69d64bd98276946d33e71dd8475016e3e36a9fbe144fa55bcc022cd5a8339dd7"
+    },
+    {
+      "path": "data/full_coverage_v4/manifest.json",
+      "bytes": 16357,
+      "sha256": "edfa3e9b713a000de904590a077301676349384a586151d4ebe9c738f12007c1"
+    },
+    {
+      "path": "data/full_coverage_v4/normalizers.json",
+      "bytes": 15786,
+      "sha256": "905510bdee1171dad1f1bd6605b8bab78da286f1f58f28853ef590bfb171ae15"
+    },
+    {
+      "path": "data/full_coverage_v4/test/01_PM-3.parquet",
+      "bytes": 3109375,
+      "sha256": "a2cd30d816f59304fc860817f3f92622dec4fb030d458a280017baab20124190"
+    },
+    {
+      "path": "data/full_coverage_v4/test/02_L-1전등.parquet",
+      "bytes": 3127080,
+      "sha256": "935735634212fc643ee1a759fc2d02849e605dbd8a815969c4b8757fa6790699"
+    },
+    {
+      "path": "data/full_coverage_v4/test/03_분쇄기(2).parquet",
+      "bytes": 3110184,
+      "sha256": "af3a7bd0549944569a356e0ac496c6509b035658614d192d241f098d8f172570"
+    },
+    {
+      "path": "data/full_coverage_v4/test/04_분쇄기(1).parquet",
+      "bytes": 3117071,
+      "sha256": "49b6542e75d260a6459b475ecb0f987d43bd1887580e8b36f25f88ec17c61e55"
+    },
+    {
+      "path": "data/full_coverage_v4/test/05_좌측분전반.parquet",
+      "bytes": 3124380,
+      "sha256": "62fb5a9c7cb9c2810b27c327f6d4f37075bdf1fe1a46b16a0f58978a095a6413"
+    },
+    {
+      "path": "data/full_coverage_v4/test/11_우측분전반1.parquet",
+      "bytes": 3140794,
+      "sha256": "c7ff7837da162a39f18f3517ab013acd17e731c3a25315ed249f23f1bebfffff"
+    },
+    {
+      "path": "data/full_coverage_v4/test/12_4호기.parquet",
+      "bytes": 3103234,
+      "sha256": "cf0cb8df45a9d07749bd176a1334826b6edad86962e35ea72808242b8158df6c"
+    },
+    {
+      "path": "data/full_coverage_v4/test/13_3호기.parquet",
+      "bytes": 3127048,
+      "sha256": "5a1cd570c537cac68588560fe9712b8edf5e9b27b6e67c39bc35e58bc286bd18"
+    },
+    {
+      "path": "data/full_coverage_v4/test/14_2호기.parquet",
+      "bytes": 3101872,
+      "sha256": "a689a8b7f3d9fe12005cb65797062b1fce09151bfaf9022b5b6625e753f61642"
+    },
+    {
+      "path": "data/full_coverage_v4/test/15_예비건조기.parquet",
+      "bytes": 3091405,
+      "sha256": "479602ba914198d78a83e230f02a29a4ecb62f12bb1a4ad379a658be78ca1ff9"
+    },
+    {
+      "path": "data/full_coverage_v4/test/16_호이스트.parquet",
+      "bytes": 3117207,
+      "sha256": "ff1ddeba4c6ccc7bd6c46c2a3fad57831a50de0a05f6428fb49354a173b39016"
+    },
+    {
+      "path": "data/full_coverage_v4/test/17_6호기.parquet",
+      "bytes": 3123196,
+      "sha256": "68e952aefd1c84706a84e0ff1d49eebe9d944a48cd951eaafd8a249548cbbdf7"
+    },
+    {
+      "path": "data/full_coverage_v4/test/18_우측분전반2.parquet",
+      "bytes": 3108257,
+      "sha256": "f0e046fa537ff37f84eaec0f20dcc82d5e80073186d4c50a293a78d56febf74f"
+    },
+    {
+      "path": "data/full_coverage_v4/test/clean_reference/01_PM-3.parquet",
+      "bytes": 2919665,
+      "sha256": "f67dbe71957208c88e0e5bfc0ea28de024d482714d126d08654343863401507f"
+    },
+    {
+      "path": "data/full_coverage_v4/test/clean_reference/02_L-1전등.parquet",
+      "bytes": 2913591,
+      "sha256": "74ed2921671c8836d121eb837cd206ee0f6c9bb32c190f365fcbc90086dbe094"
+    },
+    {
+      "path": "data/full_coverage_v4/test/clean_reference/03_분쇄기(2).parquet",
+      "bytes": 2911674,
+      "sha256": "3237150e7933b7a4a2fe926688e73fbb589cf9c184e069aa37f4890bba80e80b"
+    },
+    {
+      "path": "data/full_coverage_v4/test/clean_reference/04_분쇄기(1).parquet",
+      "bytes": 2916290,
+      "sha256": "ac889a590aa402961f6a51108d4598157f97c67470953c5d503e705440b8a41a"
+    },
+    {
+      "path": "data/full_coverage_v4/test/clean_reference/05_좌측분전반.parquet",
+      "bytes": 2916305,
+      "sha256": "b5c6ac61c518316d37db0ce8d6ebcb0ef0302533ef3fb0b220de9366ab8cf683"
+    },
+    {
+      "path": "data/full_coverage_v4/test/clean_reference/11_우측분전반1.parquet",
+      "bytes": 2919421,
+      "sha256": "078f928e104b66df44bc1fb00d12700600b4d1a6dd57df3904ef894c09e9834e"
+    },
+    {
+      "path": "data/full_coverage_v4/test/clean_reference/12_4호기.parquet",
+      "bytes": 2908905,
+      "sha256": "3c8fb972876107a7c5fcd9d8af469a9bebef7da39c80b87d07d6810ac79467e0"
+    },
+    {
+      "path": "data/full_coverage_v4/test/clean_reference/13_3호기.parquet",
+      "bytes": 2913918,
+      "sha256": "b9497e3600ece6da000c20fdae03c58e69cc7230a8cb0abf73506986d2d0c2f1"
+    },
+    {
+      "path": "data/full_coverage_v4/test/clean_reference/14_2호기.parquet",
+      "bytes": 2917487,
+      "sha256": "2d69a2ed1945a4e727508f2d617fc300746206977ad0c84a35039422e7f245de"
+    },
+    {
+      "path": "data/full_coverage_v4/test/clean_reference/15_예비건조기.parquet",
+      "bytes": 2914124,
+      "sha256": "e6e351010da5a49050ea704262c9fc1b755847260178f8729231bb9835509731"
+    },
+    {
+      "path": "data/full_coverage_v4/test/clean_reference/16_호이스트.parquet",
+      "bytes": 2919363,
+      "sha256": "fa3f2eb34044db7ce5600a44f679df0a7c465bb2625aae615991359d372019f7"
+    },
+    {
+      "path": "data/full_coverage_v4/test/clean_reference/17_6호기.parquet",
+      "bytes": 2912519,
+      "sha256": "938fc165d4b70190deb73b7ab9ca6b6c86fc530d57380dbf5f68d1c2184764d2"
+    },
+    {
+      "path": "data/full_coverage_v4/test/clean_reference/18_우측분전반2.parquet",
+      "bytes": 2916289,
+      "sha256": "3a9d79307ab08d9910b2b9a5e42b314d441b80eb157391bd6aba73b6d67e4c5d"
+    },
+    {
+      "path": "data/full_coverage_v4/test/events.json",
+      "bytes": 4413084,
+      "sha256": "0d217370d0b3bfc5d93c0b2fbda1e0cb1ca686ce98ab6c0c5bb86841528f2287"
+    },
+    {
+      "path": "data/full_coverage_v4/train/01_PM-3.parquet",
+      "bytes": 3124116,
+      "sha256": "526707a7f86599a13be2c8da7cdba13af943bd696f849e3fd9672c97a5dd2d6f"
+    },
+    {
+      "path": "data/full_coverage_v4/train/02_L-1전등.parquet",
+      "bytes": 3105313,
+      "sha256": "9f2e337d18d929af59dce88d53240dafbd02b176a80bcbbedbb5545f2824bf25"
+    },
+    {
+      "path": "data/full_coverage_v4/train/03_분쇄기(2).parquet",
+      "bytes": 3122819,
+      "sha256": "e07ed7bcf4294d9cd5b9210e35ad1306954be607f2cff7c6e46de4a7b96b963a"
+    },
+    {
+      "path": "data/full_coverage_v4/train/04_분쇄기(1).parquet",
+      "bytes": 3081561,
+      "sha256": "dcd3f1edf993174063cf4d3bb5f90c818b1e2a259b785fb503ef930de36ec06e"
+    },
+    {
+      "path": "data/full_coverage_v4/train/05_좌측분전반.parquet",
+      "bytes": 3119909,
+      "sha256": "9400e3c4928e1868372bf1d0dc8e3ee6cfb43e5ed729febde10bc642d40c11ae"
+    },
+    {
+      "path": "data/full_coverage_v4/train/11_우측분전반1.parquet",
+      "bytes": 3116976,
+      "sha256": "06d0eb2bf9af9197ac504a173c88790bfc35db2379320534590040a90667f452"
+    },
+    {
+      "path": "data/full_coverage_v4/train/12_4호기.parquet",
+      "bytes": 3116313,
+      "sha256": "67b29fabbd0534b14aaecf74acf2a5d995bfbe76d90e6724b6f13ad5ef4782b1"
+    },
+    {
+      "path": "data/full_coverage_v4/train/13_3호기.parquet",
+      "bytes": 3113802,
+      "sha256": "348ba4b71ff707d07ebde490c4193912c59af1196e4ecd1a178f29db43d805c5"
+    },
+    {
+      "path": "data/full_coverage_v4/train/14_2호기.parquet",
+      "bytes": 3115505,
+      "sha256": "9dd3f1ec71e257c1edc930cc7605a9f682fd3ed750db2ff28c0638a6a6ffb189"
+    },
+    {
+      "path": "data/full_coverage_v4/train/15_예비건조기.parquet",
+      "bytes": 3142542,
+      "sha256": "be7d9f35af678a739259215863289d3014858be74595032721d9a3a45b65437c"
+    },
+    {
+      "path": "data/full_coverage_v4/train/16_호이스트.parquet",
+      "bytes": 3132106,
+      "sha256": "3fa39c676f7f9b897a5fbde473df58a4db75125679e5a1d021dbb8122b435d9c"
+    },
+    {
+      "path": "data/full_coverage_v4/train/17_6호기.parquet",
+      "bytes": 3106179,
+      "sha256": "c5ec7a6a741044f4df9f143e92eed37c1435e8302e35572e04394f280960590a"
+    },
+    {
+      "path": "data/full_coverage_v4/train/18_우측분전반2.parquet",
+      "bytes": 3113526,
+      "sha256": "acca2c556ad436b78ad2124988efa96961451c18daed66fdb1955b3da02bf86e"
+    },
+    {
+      "path": "data/full_coverage_v4/train/clean_reference/01_PM-3.parquet",
+      "bytes": 2903567,
+      "sha256": "eb2c8edb68a8df427e6f1156652a2576e96d95e02cf64001187ff9527d4ba7e7"
+    },
+    {
+      "path": "data/full_coverage_v4/train/clean_reference/02_L-1전등.parquet",
+      "bytes": 2887569,
+      "sha256": "e2081131fef04b1cf5e82c4e828bd47f60cd56a48a6d36b71d36394a796ec1a4"
+    },
+    {
+      "path": "data/full_coverage_v4/train/clean_reference/03_분쇄기(2).parquet",
+      "bytes": 2906120,
+      "sha256": "dd1680a3ff8e0e1ead07085b5d5b3f29651ca46dd87e6a4bce164acaab845bba"
+    },
+    {
+      "path": "data/full_coverage_v4/train/clean_reference/04_분쇄기(1).parquet",
+      "bytes": 2878028,
+      "sha256": "bb80ab7d16a85738cff4aca04d88000a12f9fb81ba1497253784c8cfe22286d5"
+    },
+    {
+      "path": "data/full_coverage_v4/train/clean_reference/05_좌측분전반.parquet",
+      "bytes": 2903597,
+      "sha256": "18beaf523051b33b3ef90fda8f0cfc5f6728d6cb2e94d54135de56c5f1cc3d0a"
+    },
+    {
+      "path": "data/full_coverage_v4/train/clean_reference/11_우측분전반1.parquet",
+      "bytes": 2904095,
+      "sha256": "2f3bdbc1d970685a79fc4960ca287d6bc7b4041cad4a9e065a697f3319a045a2"
+    },
+    {
+      "path": "data/full_coverage_v4/train/clean_reference/12_4호기.parquet",
+      "bytes": 2895566,
+      "sha256": "20f46f13c0677129d24ed77425f17506baded4293538ec52e42cb6c3f099eca4"
+    },
+    {
+      "path": "data/full_coverage_v4/train/clean_reference/13_3호기.parquet",
+      "bytes": 2891643,
+      "sha256": "a534c907e4618016dca695cb0addb550afa19a7ad0a4b6ea03db808de6a4e18c"
+    },
+    {
+      "path": "data/full_coverage_v4/train/clean_reference/14_2호기.parquet",
+      "bytes": 2906564,
+      "sha256": "11fb323f1dffb427e612b1773a61d3e98abdd7cba82d3d562525de2fb3a9ef9f"
+    },
+    {
+      "path": "data/full_coverage_v4/train/clean_reference/15_예비건조기.parquet",
+      "bytes": 2903959,
+      "sha256": "8796e0889d400f24b3d8cac20257bb38de8f66d3c541ebd76e182612e0168bb2"
+    },
+    {
+      "path": "data/full_coverage_v4/train/clean_reference/16_호이스트.parquet",
+      "bytes": 2902720,
+      "sha256": "46a4c918d22d09ca21b85397b80bac5d1ad86c649431f7c97ab00ae82e8e3981"
+    },
+    {
+      "path": "data/full_coverage_v4/train/clean_reference/17_6호기.parquet",
+      "bytes": 2904209,
+      "sha256": "05a2ec86cc565f4ebd2dd13c06a106d4efca6a834d9ce70ed226fa79dd166cfe"
+    },
+    {
+      "path": "data/full_coverage_v4/train/clean_reference/18_우측분전반2.parquet",
+      "bytes": 2893918,
+      "sha256": "5094110571b4be3f38bf80ec54778a2edc19fa01a6a0bff2251926f9177a860e"
+    },
+    {
+      "path": "data/full_coverage_v4/train/events.json",
+      "bytes": 4250414,
+      "sha256": "d92cfa42d496727851035fc0b65723db5f89ac2543aba456cc0ebe1fc7580c88"
+    },
+    {
+      "path": "data/full_coverage_v4/verification.json",
+      "bytes": 8937,
+      "sha256": "cb257bb0a753958cf6255aa03f37f38c31aff3d40cf7239f4678f60765f33653"
+    },
+    {
+      "path": "data/normalization_source/01_PM-3.parquet",
+      "bytes": 3472809,
+      "sha256": "3a8bb92740fdda2949a3b6b4fc3a0620a239b45c82b8e5174bad9bec1ba5d202"
+    },
+    {
+      "path": "data/normalization_source/02_L-1전등.parquet",
+      "bytes": 3470570,
+      "sha256": "bcedf65ce197dce24d7ce021b6def8b306031ff1dafb2555ae94b42c421ae656"
+    },
+    {
+      "path": "data/normalization_source/03_분쇄기(2).parquet",
+      "bytes": 3469398,
+      "sha256": "a49238d6602c97a6ed2615de7372c65e5054b01e2ce2e1dc7868f9d02ad4ef05"
+    },
+    {
+      "path": "data/normalization_source/04_분쇄기(1).parquet",
+      "bytes": 3464935,
+      "sha256": "7bd66ccb9f0061c133b155dcb9b53f746f43c86789aba1d9bc749153d803a6b1"
+    },
+    {
+      "path": "data/normalization_source/05_좌측분전반.parquet",
+      "bytes": 3468056,
+      "sha256": "7b9a03b081773067e5d88a4fc082a650aa3d837e497563d019d82cb86a788377"
+    },
+    {
+      "path": "data/normalization_source/11_우측분전반1.parquet",
+      "bytes": 3466378,
+      "sha256": "0e3a6e16de38f656d97dcaf5ec6b4ed884d1856880afc79279b8a52cd176e0ec"
+    },
+    {
+      "path": "data/normalization_source/12_4호기.parquet",
+      "bytes": 3473426,
+      "sha256": "519c01d91fa68e793c97763e97f326ad5f1d5306c9daac5fc95fe90b3c4579c1"
+    },
+    {
+      "path": "data/normalization_source/13_3호기.parquet",
+      "bytes": 3464671,
+      "sha256": "963d294a05c4ddc18ef4e95ed4677ddfba20d41dfa38726fd2d874af74d68ae5"
+    },
+    {
+      "path": "data/normalization_source/14_2호기.parquet",
+      "bytes": 3468620,
+      "sha256": "0a222721d775b7ddd9c4705a7dfd635e4a3f3f41c297b839bd2a85cb4b6ce050"
+    },
+    {
+      "path": "data/normalization_source/15_예비건조기.parquet",
+      "bytes": 3470437,
+      "sha256": "47023d6737d0682d13a595127470543439b02d97a1e819e44651361c1a2b116c"
+    },
+    {
+      "path": "data/normalization_source/16_호이스트.parquet",
+      "bytes": 3476042,
+      "sha256": "5e7fbf779705848f755684f260ffaa756527dd567def8bc9d070183f0722ea38"
+    },
+    {
+      "path": "data/normalization_source/17_6호기.parquet",
+      "bytes": 3465761,
+      "sha256": "de5b2009ef66e03ad303abff4e47822a96ead4858b6b665bbb947eccf6a7d0c1"
+    },
+    {
+      "path": "data/normalization_source/18_우측분전반2.parquet",
+      "bytes": 3474371,
+      "sha256": "7406fc1ca5a89e6815889e36b145477b62c6adbdc308424c338c9a4e3da7b874"
+    },
+    {
+      "path": "data/normalization_source/manifest.json",
+      "bytes": 5153,
+      "sha256": "97da8afa626aa1a1354369a1c31b257c918e7dfec204d60ca2af0c0663704b29"
+    },
+    {
+      "path": "data/training_rows/01_PM-3.parquet",
+      "bytes": 3528070,
+      "sha256": "80abc6d6e0ee6fa11db151c0a42abba9c2c5aaf702787fcf9f012b0f1cacdc12"
+    },
+    {
+      "path": "data/training_rows/02_L-1전등.parquet",
+      "bytes": 3565367,
+      "sha256": "d3dd07dc10e6c4271ac3d361afae152c71a47e62bbb90783aafbf62f14c30e22"
+    },
+    {
+      "path": "data/training_rows/03_분쇄기(2).parquet",
+      "bytes": 3580062,
+      "sha256": "e119207b4861cd14b34dee48d71d39eca55f665fbc6bbdebfe9f2ed9d533eb23"
+    },
+    {
+      "path": "data/training_rows/04_분쇄기(1).parquet",
+      "bytes": 3371403,
+      "sha256": "fa460a86252f1475a12130b35dfddffa50cbf6ccc650530ab8c89d6ea4103ecf"
+    },
+    {
+      "path": "data/training_rows/05_좌측분전반.parquet",
+      "bytes": 3534799,
+      "sha256": "a74b79c6e953a06efa98ce3d0df911f85bca0db11552702af8f0981659129ca3"
+    },
+    {
+      "path": "data/training_rows/11_우측분전반1.parquet",
+      "bytes": 3577776,
+      "sha256": "6afb09a77f1f828311d712cd6d1f710f04f90e392238586ec96f0d7c3b369d7d"
+    },
+    {
+      "path": "data/training_rows/12_4호기.parquet",
+      "bytes": 3571944,
+      "sha256": "a33812feda34181635913af0c03571becd58be3d117b7190eff239dc6e75d345"
+    },
+    {
+      "path": "data/training_rows/13_3호기.parquet",
+      "bytes": 3563300,
+      "sha256": "c03c9b36bd92ac593b7927c92e8a2c38401ebf48a3e202991afe8db1dd878a81"
+    },
+    {
+      "path": "data/training_rows/14_2호기.parquet",
+      "bytes": 3516726,
+      "sha256": "039691beea9d8d8d271ee9242ddd440c8683743882d0a0b721391d4fde50d7e5"
+    },
+    {
+      "path": "data/training_rows/15_예비건조기.parquet",
+      "bytes": 3504978,
+      "sha256": "6eb8c0e9c54a5c183fe64103d273644af14c1d8b8e14b375846ca4f163837da2"
+    },
+    {
+      "path": "data/training_rows/16_호이스트.parquet",
+      "bytes": 3578526,
+      "sha256": "a85ed5cd8315f341e802344b910f5315cdf312cd0cad21bec6c8cb519a0ca17e"
+    },
+    {
+      "path": "data/training_rows/17_6호기.parquet",
+      "bytes": 3457643,
+      "sha256": "a85afd647ad8f16eefb5bd570272a127e26c02afb1122a3084c0e3127ec68c47"
+    },
+    {
+      "path": "data/training_rows/18_우측분전반2.parquet",
+      "bytes": 3571001,
+      "sha256": "6bbed2d81a4a40ce765e74882a5730ae1aeea5aaca754c454d2354688f0fb109"
+    },
+    {
+      "path": "data/training_rows/manifest.json",
+      "bytes": 22628,
+      "sha256": "f0f419c756220d3ad4dc972be306a6450ee743bf8476d8ef8302048f09dfe49c"
+    },
+    {
+      "path": "examples/stream_input.jsonl",
+      "bytes": 85522,
+      "sha256": "9743244405c726285cd4afba24c4e74ac2c7f36cde7766d67d731d228597a554"
+    },
+    {
+      "path": "models/model_info.json",
+      "bytes": 4906,
+      "sha256": "c20c986e4fdbef46a6a3303ca3b1884ad6d4c09c90a0189c681dbe44ba4cfe3b"
+    },
+    {
+      "path": "models/random_forest.joblib",
+      "bytes": 109277,
+      "sha256": "f4feeb989be8ee80fcf65284ceab035722ebf6044c6f0b78293dfce98a79da33"
+    },
+    {
+      "path": "requirements.txt",
+      "bytes": 98,
+      "sha256": "f319358db008b67b3c94e1273c11b1af42e09e9aee41d067d80d5794c24f8d99"
+    },
+    {
+      "path": "scripts/evaluate.py",
+      "bytes": 5303,
+      "sha256": "b44bce52a7548aaffeb5cea055d7cea2c115233b95e2e6751aadee774ffeeaba"
+    },
+    {
+      "path": "scripts/full_features.py",
+      "bytes": 8147,
+      "sha256": "f493041736919a04ebc4acdcd1076dd3ff81274a65efdf2d0d330bd5caa1e748"
+    },
+    {
+      "path": "scripts/rf_common.py",
+      "bytes": 1267,
+      "sha256": "3d9ccb07e585e83331394e2c7ced02ee2a5f63df4d676a37c9894bc4571797a2"
+    },
+    {
+      "path": "scripts/stream_monitor.py",
+      "bytes": 8233,
+      "sha256": "ec0fcc75491b5dbec5b154c8314e2b74839cee5f3ac840bbc095dc28de86abb9"
+    },
+    {
+      "path": "scripts/verify_files.py",
+      "bytes": 563,
+      "sha256": "ff3762e2317cc632c3bcfccd52747071670251f9b2bb60e192e3c981c9a99e90"
+    },
+    {
+      "path": "verification.json",
+      "bytes": 1116,
+      "sha256": "d1fd6436a1a05118882dabc16e249bf74fd9b32f77bc2a25d50d679301819bcf"
+    }
+  ]
+}
