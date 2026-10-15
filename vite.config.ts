@@ -1,4 +1,4 @@
-import { createReadStream } from 'node:fs'
+import { createReadStream, existsSync } from 'node:fs'
 import { createInterface } from 'node:readline'
 import { resolve } from 'node:path'
 import { defineConfig, type Plugin } from 'vite'
@@ -17,8 +17,17 @@ const equipmentDataPlugin = (): Plugin => ({
       }
 
       try {
-        const input = createReadStream(resolve(process.cwd(), '장비별 Data', fileName), { encoding: 'utf8' })
+        const localPath = resolve(process.cwd(), '장비별 Data', fileName)
+        const csvPath = process.env.EQUIPMENT_DATA_DIR ? resolve(process.env.EQUIPMENT_DATA_DIR, fileName) : existsSync(localPath) ? localPath : resolve(process.cwd(), '..', '장비별 Data', fileName)
+        if (!existsSync(csvPath)) {
+          response.statusCode = 404
+          response.setHeader('Content-Type', 'application/json; charset=utf-8')
+          response.end(JSON.stringify({ samples: [] }))
+          return
+        }
+        const input = createReadStream(csvPath, { encoding: 'utf8' })
         const lines = createInterface({ input, crlfDelay: Infinity })
+        input.on('error', (error) => lines.emit('error', error))
         const iterator = lines[Symbol.asyncIterator]()
         const headerLine = await iterator.next()
         const headers = headerLine.done ? [] : headerLine.value.split(',')
@@ -51,4 +60,9 @@ const equipmentDataPlugin = (): Plugin => ({
 
 export default defineConfig({
   plugins: [react(), equipmentDataPlugin()],
+  server: {
+    proxy: {
+      '/api/agent': 'http://127.0.0.1:8787',
+    },
+  },
 })

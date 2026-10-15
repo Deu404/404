@@ -1,3 +1,4 @@
+import { decideAlert } from '../shared/decision.ts'
 import { dataProvider } from '../adapters/dataProvider'
 import { asAlertAcknowledgement, asAlertState, asAlertType, asOptionalFiniteNumber, asString, isRecord } from './dataNormalization'
 import { DEFAULT_ANOMALY_DETECTOR, type AnomalyDetector } from './alertRules'
@@ -22,10 +23,19 @@ export function normalizeAlerts(input: unknown, anomalyDetector: AnomalyDetector
     const id = asString(value.id).trim()
     if (!id) return []
     const type = asAlertType(value.type)
+    const sourceType = !['overcurrent', 'low-power-factor', 'power-consumption-increase', 'phase-current-imbalance'].includes(String(value.type)) ? typeof value.type === 'string' ? value.type : '미등록 유형' : undefined
     const measurement = asOptionalFiniteNumber(value.measurement)
     const reference = asOptionalFiniteNumber(value.reference)
-    const change = asOptionalFiniteNumber(value.change)
+    let change = asOptionalFiniteNumber(value.change)
     const classification = anomalyDetector({ type, measurement, reference, change })
+    const decision = decideAlert({ sourceType, id, equipmentId: asString(value.equipmentId), occurredAt: asString(value.occurredAt), type, measurement, reference, change })
+    if (anomalyDetector === DEFAULT_ANOMALY_DETECTOR) {
+      classification.priority = decision.priority ?? 'medium'
+      if (decision.status === 'no_applicable_rule') classification.ruleResult = { matched: false, reason: '이 유형에 등록된 판정 룰이 없어 담당자 확인이 필요합니다.', demoOnly: true }
+      classification.severity = decision.priority === 'high' ? 'critical' : decision.priority === 'low' ? 'normal' : 'warning'
+    }
+    const calculatedChange = type === 'power-consumption-increase' && !sourceType ? decision.evaluations[0]?.measurement : null
+    if (calculatedChange !== null && calculatedChange !== undefined) change = Math.round(calculatedChange * 10) / 10
     const state = asAlertState(value.state)
     const acknowledgementFallback: AlertAcknowledgement = state === 'resolved' ? 'acknowledged' : 'unacknowledged'
     return [{
@@ -33,10 +43,11 @@ export function normalizeAlerts(input: unknown, anomalyDetector: AnomalyDetector
       equipmentId: asString(value.equipmentId),
       occurredAt: asString(value.occurredAt),
       type,
+      ...(sourceType ? { sourceType } : {}),
       severity: classification.severity,
       priority: classification.priority,
       ...(asOptionalFiniteNumber(value.powerChangeKw) === undefined ? {} : { powerChangeKw: asOptionalFiniteNumber(value.powerChangeKw) }),
-      ...(asOptionalFiniteNumber(value.changeRatePercent) === undefined ? {} : { changeRatePercent: asOptionalFiniteNumber(value.changeRatePercent) }),
+      ...(calculatedChange !== null && calculatedChange !== undefined ? { changeRatePercent: change } : asOptionalFiniteNumber(value.changeRatePercent) === undefined ? {} : { changeRatePercent: asOptionalFiniteNumber(value.changeRatePercent) }),
       ...(measurement === undefined ? {} : { measurement }),
       ...(reference === undefined ? {} : { reference }),
       ...(change === undefined ? {} : { change }),

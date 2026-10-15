@@ -6,10 +6,15 @@ import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
   {
-    ignores: ['dist', 'node_modules'],
+    ignores: ['dist', 'node_modules', '.agent-backups/**', 'Agent/**'],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
+  {
+    languageOptions: {
+      parserOptions: { tsconfigRootDir: import.meta.dirname },
+    },
+  },
   {
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
@@ -18,6 +23,7 @@ export default tseslint.config(
         ...globals.node,
       },
       parserOptions: {
+        tsconfigRootDir: import.meta.dirname,
         ecmaFeatures: {
           jsx: true,
         },
@@ -25,7 +31,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['scripts/**/*.mjs'],
+    files: ['**/scripts/**/*.mjs'],
     languageOptions: {
       globals: {
         ...globals.node,

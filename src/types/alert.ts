@@ -19,6 +19,7 @@ export type Alert = {
   equipmentId: string
   occurredAt: string
   type: AlertType
+  sourceType?: string
   severity: EquipmentStatus
   priority: AlertPriority
   // Legacy power-change fields remain optional so missing values are not shown as zero.
