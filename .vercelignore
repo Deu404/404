@@ -1,0 +1,9 @@
+node_modules
+dist
+.git
+Agent
+장비별 Data
+이상치 탐지
+.venv
+__pycache__
+*.pyc
