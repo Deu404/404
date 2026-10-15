@@ -1,0 +1,22 @@
+{
+  "name": "planteye-agent-server",
+  "version": "1.0.0",
+  "description": "React 대시보드가 호출하는 TypeScript/Node 백엔드입니다. 현재는 Node 기본 `fetch`와 `http` 모듈만 사용하므로 OpenAI SDK 또는 npm 설치 없이 코드 구조를 확인할 수 있습니다.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --experimental-strip-types src/server.ts",
+    "verify": "node --experimental-strip-types src/verifyTools.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "private": "true",
+  "engines": {
+    "node": ">=22.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5"
+  }
+}
