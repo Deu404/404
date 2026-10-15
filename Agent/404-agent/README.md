@@ -1,67 +1,92 @@
-# PlantEye AI 에이전트 전달 패키지 (최신 반영본)
+# PlantEye 에이전트 최신 전달용 변경 묶음
 
-이 폴더는 `404-main` 프로젝트에 즉시 통합 가능한 AI 점검 및 경영진 분석 에이전트 완성본입니다.
+기준일: 2026-10-16. 이 폴더가 담당자에게 전달할 최신본입니다.
 
----
+**단독 실행용 전체 프로젝트가 아닙니다.** 최신 대시보드 프로젝트에 에이전트 관련 파일을 합치기 위한 변경 파일 묶음입니다. `node_modules`, `dist`, 실제 `.env`, 대용량 원본 CSV는 포함하지 않습니다.
 
-## 1. 반영된 핵심 기능
+## 달라진 점
 
-1. **현장 작업자용 이상 진단 & 표준 점검 가이드 (신입/숙련자)**
-   - 기획서 표준 설비 식별자 완전 일치: `3호기(robot-03)`, `6호기(pump-02)`, `4호기(robot-02)`, `PM-3(compressor-01)`, `분쇄기(1)(motor-02)`
-   - 4대 이상 규칙 평가 (과전류, 역률 저하, 소비 증가, 상간 전류 불균형)
-   - 2D 공장 배치도 연계 도면 좌표(`location: { x, y, zone }`) 및 Random Forest ML 이상 탐지 결과(`detectorResult`) 반환
-2. **공장 경영자용 5월 전력·요금·탄소 예측 & 종합 분석 리포트 (공장주)**
-   - 2025.05.10 ~ 05.31 시간대별 총 예상 전력량(1,976만 kWh), 예상 전기요금(35.6억 원), 탄소배출량(8,378톤), 피크 시간대(5.10 04:00) 브리핑
-   - 설비 이상 통계 + 예측 지표를 결합한 3단 구조(설비 리스크/비용 분석/경영 권고) 마크다운 종합 리포트 생성
-3. **UI 추천 질문 칩 6종 및 동적 알림 매핑 (`resolveCaseId`)**
-   - 어떤 알림을 클릭하더라도 에러 없이 표준 데모 사례로 자동 연결
+- 이상 유형·우선순위·행동·보고 조건은 공통 룰 함수가 결정하고 AI는 결과를 쉽게 설명합니다.
+- 첫 화면에 핵심 판정·필수 주의사항·보고 조건을 표시하고 상세 근거는 접어서 확인합니다.
+- 보고 문구는 같은 판정 결과에서 코드로 만듭니다. 자동 보고 전송은 하지 않습니다.
+- 실제 모델 결과에 수치·단위가 없으면 '확인 필요'로 표시합니다. 다른 설비의 데모 사례로 대체하지 않습니다.
+- 최신 실제 데이터 화면(`/alerts`)과 기존 에이전트 데모(`/agent-demo`)를 구분했습니다.
+- AI 연결이 실패해도 판정·보고 안내는 유지됩니다.
 
----
+## 적용 대상
 
-## 2. 파일 복사 가이드
+이번에 업데이트한 **실제 CSV/API 기반 최신 대시보드 버전**을 기준으로 합니다. 과거 목업 중심 프로젝트에 무조건 덮어쓰면 안 됩니다.
 
-프로젝트 루트(`404-main` 또는 `404`)에 아래 파일들을 복사/덮어쓰기합니다.
+1. 담당자의 기존 프로젝트를 백업합니다.
+2. 이 폴더와 대상 프로젝트의 같은 경로를 비교합니다.
+3. 아래 '반드시 함께 반영할 파일'을 함께 적용합니다.
+4. 화면·설정 파일은 담당자가 추가로 수정한 부분을 유지하며 병합합니다.
+5. 아래 검증 명령을 대상 프로젝트 루트에서 실행합니다.
 
-- `server/` → 루트 폴더의 `server/`로 전체 복사
-- `src/components/alerts/AgentPanel.tsx` → `src/components/alerts/`에 복사
-- `src/pages/AlertsPage.tsx` → `src/pages/`에 덮어쓰기
-- `src/styles/pages.css` → `src/styles/`에 덮어쓰기
+## 반드시 함께 반영할 파일
 
-> **package.json 스크립트 추가 (선택 권장):**  
-> 루트 `package.json`의 `"scripts"`에 아래 2줄을 추가해 두면 편하게 실행할 수 있습니다.
-> ```json
-> "agent": "node --env-file-if-exists=server/.env server/src/server.ts",
-> "test:agent": "node server/src/verifyTools.ts"
-> ```
+| 묶음 | 경로 |
+| --- | --- |
+| 공통 판정·가이드 | `src/shared/*` |
+| 에이전트 서버 | `server/src/*`, `server/src/fixtures/*`, `server/prompt.txt`, `server/tsconfig.json` |
+| 에이전트 화면 | `src/components/alerts/AgentPanel.tsx`, `DecisionCard.tsx` |
+| 모델·데모 연결 | `src/pages/AlertsPage.tsx`, `AgentDemoPage.tsx`, `src/services/demoAgentService.ts`, `src/App.tsx` |
+| 목록과 판정 일치 | `src/services/alertRules.ts`, `alertService.ts`, `src/types/alert.ts`, `src/config/equipmentDataMap.ts` |
+| 데모 입력 | `src/mocks/mockAlerts.ts` |
+| 화면 스타일 | `src/styles/pages.css` |
 
----
+서버가 `src/shared`를 가져오므로 `server`만 복사하면 실행되지 않습니다. 실제 CSV/API 어댑터·기타 화면·공통 타입은 기존 최신 대시보드에서 제공되어야 합니다.
 
-## 3. 실행 및 검증 방법
+## 비교 후 병합할 설정
 
-### ① 도구 단독 검증 (OpenAI API 키 불필요)
+- `package.json`: 기존 의존성과 기능을 유지하며 `agent`, `test:agent`, `test:decision`, `test:agent-integration` 스크립트를 반영합니다. 포함된 package.json·lock은 현재 작업본의 참고 스냅샷입니다. 대상 의존성이 다르면 lock을 임의로 덮지 말고 병합한 package.json으로 다시 설치합니다.
+- `tsconfig.app.json`: `allowImportingTsExtensions: true`를 유지합니다.
+- `src/App.tsx`: `/agent-demo` 라우트와 import를 추가합니다. 최신 나머지 라우트는 유지합니다.
+- `src/pages/AlertsPage.tsx`: 실제 모델 입력을 `anomaly`로 전달하고 알림 변경 시 패널이 초기화되도록 key를 유지합니다.
+- `src/styles/pages.css`: 기존 화면 스타일과 `.decision-card` 스타일을 함께 유지합니다.
+- `eslint.config.js`: 중첩 전달용 스크립트에도 Node 전역 설정이 적용되도록 `**/scripts/**/*.mjs`를 사용합니다.
+- `vite.config.ts`: 현재 장비 CSV 경계를 포함한 참고본입니다. 파일 미배치 시 404를 반환하는 처리와 통합 테스트용 `EQUIPMENT_DATA_DIR`를 병합합니다.
+
+## 실행
+
+Node.js 24 이상, npm을 사용합니다. **파일을 합친 대상 프로젝트 루트**에서 실행하세요.
+
 ```powershell
-npm run test:agent
-# 또는
-node server/src/verifyTools.ts
+npm install
+Copy-Item server/.env.example server/.env
 ```
-11개 테스트 케이스가 오류 없이 출력되면 정상입니다.
 
-### ② 에이전트 백엔드 서버 실행
+`server/.env`에 자신의 API 키를 입력합니다. 키가 없어도 룰 판정·보고 초안은 사용할 수 있습니다. 실제 키는 저장소에 올리지 않습니다.
+
+서로 다른 터미널에서:
+
 ```powershell
-# Windows PowerShell 기준
-$env:OPENAI_API_KEY = "발급받은_API_키"
-$env:OPENAI_MODEL = "gpt-5-mini"
+npm run dev -- --configLoader runner
 npm run agent
-# 또는
-node server/src/server.ts
 ```
-서버가 `http://localhost:8787`에서 대기합니다.
 
-### ③ React 프런트엔드 실행
+- 기존 에이전트 기능 확인: `http://localhost:5173/agent-demo`
+- 실제 모델 화면: `http://localhost:5173/alerts`
+- 서버 주소: `http://localhost:8787`
+
+실제 모델 목록은 대상 프로젝트의 `VITE_ANOMALY_API_URL` 설정과 모델 API의 응답이 있어야 표시됩니다. 장비 원본 CSV는 별도 자료입니다. 화면의 CSV 추이와 모델 이상 사건의 시점이 같다고 가정하지 않습니다.
+
+## 검증
+
 ```powershell
-npm run dev
-# 또는
-npm.cmd run dev
+npm run test:decision
+npx tsc -p server/tsconfig.json
+npm run lint
+npm run build -- --configLoader runner
+npm run test:agent-integration
 ```
-브라우저에서 `http://localhost:5173/alerts`에 접속하여 알림을 클릭한 뒤, 우측 **AI 점검 안내** 패널에서 추천 질문 버튼을 눌러 테스트합니다.
 
+브라우저 검증에는 Chrome/Edge가 필요합니다. 통합 검증은 `tests/fixtures/equipment`의 합성 CSV와 모의 API를 사용하며 외부 AI를 호출하지 않습니다.
+
+## 담당자에게 보낼 문구
+
+> 기존 프로젝트에 합칠 최신 에이전트 변경 파일 묶음입니다. 전체 프로젝트는 아니므로 README의 적용 순서대로 병합해 주세요. 판단은 공통 룰 함수가 하고 AI는 설명만 합니다. 실제 모델 결과에 측정값이 없으면 확인 필요로 표시하고, 기존 데모는 /agent-demo에서 확인할 수 있습니다. API 키와 실제 장비 CSV는 별도로 준비해야 합니다.
+
+## 현재 제한
+
+심각도·행동·보고 기준은 데모입니다. 현장 기준 승인, 실제 모델 측정값·단위 연결, 지속·반복 정책은 후속 작업입니다. 파일 목록과 출처는 `docs/파일목록.json`, 판정 기준은 `docs/판정-룰표.md`를 확인하세요.

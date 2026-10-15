@@ -1,0 +1,221 @@
+{
+  "date": "2026-10-16",
+  "purpose": "기존 최신 대시보드에 적용하는 에이전트 변경 파일 묶음",
+  "files": [
+    {
+      "path": "eslint.config.js",
+      "source": "404-main",
+      "sha256": "f92e01ce56db3c310a810923a9ca721e5dfdf13834cc608ac0285f3bdf9cafbe"
+    },
+    {
+      "path": "package-lock.json",
+      "source": "404-main",
+      "sha256": "8da6d28f45f3176b655e26d5eb980b61a7f170e4899a1e6570a0becb43e22034"
+    },
+    {
+      "path": "package.json",
+      "source": "404-main",
+      "sha256": "c359e02a8afd03e22ed86f71cfc2432927a316d9d4b106a7a93a15ec20d5fd82"
+    },
+    {
+      "path": "scripts/verify-agent.ts",
+      "source": "404-main",
+      "sha256": "4b58aac9e46bbd67a00f8a63590d1ec527d8c4ea6f3a6fc11f1d7135313e21f2"
+    },
+    {
+      "path": "scripts/verify-canonical-fixtures.mjs",
+      "source": "404-main",
+      "sha256": "363534757b65953b9458e8f5019c017c96d5e901c69d087d4cedee2ba3cf7cf9"
+    },
+    {
+      "path": "scripts/verify-data-boundary.mjs",
+      "source": "404-main",
+      "sha256": "42717b89ca77cd25b24290babc623415af4fc071638a56dceec6d99b972c3306"
+    },
+    {
+      "path": "scripts/verify-equipment-detail-browser.mjs",
+      "source": "404-main",
+      "sha256": "de9448e3da4f9b10c8cba9f6a8c60b87252f5a3204380364fbf451b7ead11a88"
+    },
+    {
+      "path": "scripts/verify-equipment-detail-render.mjs",
+      "source": "404-main",
+      "sha256": "be77edf0cf35bf20288add5fc45ee701caf4f8dd6fe45d952ca7e15e94dcada4"
+    },
+    {
+      "path": "scripts/verify-equipment-detail.mjs",
+      "source": "404-main",
+      "sha256": "f04687109afe1087fdad503de5df68150da1b877a56db521139167cc1a292391"
+    },
+    {
+      "path": "server/.env.example",
+      "source": "404-main",
+      "sha256": "89310a645a8fdbbd0dd691d02ebe9a5d12f28898aad07a47c1e5d93c5cd0d4e1"
+    },
+    {
+      "path": "server/README.md",
+      "source": "404-main",
+      "sha256": "9ba01cedf0483986f766c2538e58b304d5b4fbdaff5529eb147f29ceddc38227"
+    },
+    {
+      "path": "server/prompt.txt",
+      "source": "404-main",
+      "sha256": "b29bc225eeba99c6734ca1feef8b8388674a668cf0edd18323b26220e00f8b81"
+    },
+    {
+      "path": "server/src/agent.ts",
+      "source": "404-main",
+      "sha256": "5f8df4406541d2fed8690738900dcdfd17e0dc16b86fd4af447ec7e81a2740bd"
+    },
+    {
+      "path": "server/src/fixtures/demoCases.ts",
+      "source": "404-main",
+      "sha256": "1b78b62219425c2648092d016bda831707bd3ebfb601642de70bf03f4a8bf57a"
+    },
+    {
+      "path": "server/src/fixtures/demoGuides.ts",
+      "source": "404-main",
+      "sha256": "632dd6083abde195ee854fae47e96b9207ecadfb57653d7191502427cc28732a"
+    },
+    {
+      "path": "server/src/rules.ts",
+      "source": "404-main",
+      "sha256": "eedbd9888ce217ddf13f07ea35deab2b4d14d0f2d393315bd38c7e8bbd5d403e"
+    },
+    {
+      "path": "server/src/server.ts",
+      "source": "404-main",
+      "sha256": "20c04e016cdb7ac820ce222cb33f821ed35dd329a32c75ecdcbad50a01177566"
+    },
+    {
+      "path": "server/src/tools.ts",
+      "source": "404-main",
+      "sha256": "680a6965cec4d0617a85c26278d8b8b13cde4770cbdb40524cb7d3d657d8a7c6"
+    },
+    {
+      "path": "server/src/types.ts",
+      "source": "404-main",
+      "sha256": "2257943be1083e6235b4cead3844162e5a670db5e5ae834625f9f499f8c4991c"
+    },
+    {
+      "path": "server/src/verifyTools.ts",
+      "source": "404-main",
+      "sha256": "b2fa5b6d6700df822d58a92704306853acff4b786d238b256c212406e9048aba"
+    },
+    {
+      "path": "server/tsconfig.json",
+      "source": "404-main",
+      "sha256": "b54d79d2679ed3434526b51a744b0f236755c0996fb0df69f952ac2933aeb74f"
+    },
+    {
+      "path": "src/App.tsx",
+      "source": "404-main",
+      "sha256": "857440e98b0c34959f8f32286e725901174c93365c3c8459f298fffa75fa7398"
+    },
+    {
+      "path": "src/components/alerts/AgentPanel.tsx",
+      "source": "404-main",
+      "sha256": "b1cd11de8da244652a5a9534bd2922cf1267a1b1ee046e418c7257929d509ecd"
+    },
+    {
+      "path": "src/components/alerts/DecisionCard.tsx",
+      "source": "404-main",
+      "sha256": "f738247a5d7cb07870b7c96e90a99e1f2053c39ac691bce050003e7b3a8c5271"
+    },
+    {
+      "path": "src/config/equipmentDataMap.ts",
+      "source": "404-main",
+      "sha256": "a316cb4dc514f83d7f59cf9356d692e96cf656f3ee641a07c790f1f018161c5b"
+    },
+    {
+      "path": "src/mocks/mockAlerts.ts",
+      "source": "404-main",
+      "sha256": "012dabeb30bc7f6cad935ea93350bcbb707c0ad177b046dd85142d27aa79d4d4"
+    },
+    {
+      "path": "src/pages/AgentDemoPage.tsx",
+      "source": "404-main",
+      "sha256": "6144368463c04274eb589f8da83a47b70932596959c404d16982187f29d15281"
+    },
+    {
+      "path": "src/pages/AlertsPage.tsx",
+      "source": "404-main",
+      "sha256": "bf89c0bf4d106eef7852a1c6ba2b023de5a7f72fd9c233768956f0e3a1508f06"
+    },
+    {
+      "path": "src/services/alertRules.ts",
+      "source": "404-main",
+      "sha256": "84ace0e7cb30670d816cdb65541329ae27da4c42fad422b3b72eedcda747cf13"
+    },
+    {
+      "path": "src/services/alertService.ts",
+      "source": "404-main",
+      "sha256": "8c44b6da8f784be1f4b5ba1eb59224dd5640c581d011d0b2f9a830a4b2a2656d"
+    },
+    {
+      "path": "src/services/demoAgentService.ts",
+      "source": "404-main",
+      "sha256": "3b5e31cf712312782dedd64f598736821c877e472cb3bb25dd4be551d96a8365"
+    },
+    {
+      "path": "src/shared/decision.ts",
+      "source": "404-main",
+      "sha256": "79eb325e226bf9094ecd6ee9b00dfb2e3e5b89270aabc56ae96299ea40699f3f"
+    },
+    {
+      "path": "src/shared/demoGuides.ts",
+      "source": "404-main",
+      "sha256": "33ab6396ebf17b39745e93c108d07fc035911c281a53e3fdad98679563d2d397"
+    },
+    {
+      "path": "src/shared/modelDecision.ts",
+      "source": "404-main",
+      "sha256": "85de9d094ef36811946f38d8b5e97140d877f0e1709afb91e684a12f9453dc3f"
+    },
+    {
+      "path": "src/shared/rules.ts",
+      "source": "404-main",
+      "sha256": "1bfd16cac72a6116514a6a8f2c05cd8518c9f53a3db15209e18d5a5e9142af89"
+    },
+    {
+      "path": "src/shared/types.ts",
+      "source": "404-main",
+      "sha256": "15ab83e2130ed3bad339035f647564130ef2ca18eabb217ad4dfc79f8f184318"
+    },
+    {
+      "path": "src/styles/pages.css",
+      "source": "404-main",
+      "sha256": "bc8ecd4d6aeaf0857ed51b6208d6ead2a1c0e6855ecb1e0bc3d7337d08bbbb29"
+    },
+    {
+      "path": "src/types/alert.ts",
+      "source": "404-main",
+      "sha256": "4685ff07de0871bf40f1dd29786c3c856c63bbd8df2f6358d8c5de73c70b5294"
+    },
+    {
+      "path": "tsconfig.app.json",
+      "source": "404-main",
+      "sha256": "759be5671a286db81566486e9d3f97e2d3eb19f74065c36b344dab385c129cfc"
+    },
+    {
+      "path": "vite.config.ts",
+      "source": "404-agent (검증용 합성 자료 및 CSV 누락 처리 보완)",
+      "sha256": "6f4099d8469cf9a07d66fdea303d163eb5733fb9f307dc07424d2a1ce15c3f9a"
+    },
+    {
+      "path": "scripts/verify-model-agent-browser.mjs",
+      "source": "404-agent (검증용 합성 자료 및 CSV 누락 처리 보완)",
+      "sha256": "a193cd69a67abf6de3c0eb46b7c52183a24b8e6753f35669aa51420d79987959"
+    },
+    {
+      "path": "tests/fixtures/equipment/equipment_1(PM-3).csv",
+      "source": "404-agent (검증용 합성 자료 및 CSV 누락 처리 보완)",
+      "sha256": "dbc790df972fae24c0149d23f9d565b663b4e379b40d926901f52cdbf0c73426"
+    },
+    {
+      "path": "tests/fixtures/equipment/README.md",
+      "source": "404-agent (검증용 합성 자료 및 CSV 누락 처리 보완)",
+      "sha256": "c65c59512524fa492a3d592b59c905f213f37c1ad2d1f91e8bcefc664ca7b359"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "name": "planteye",
+  "private": true,
+  "description": "PlantEye 공장 설비 전력 모니터링 및 이상 탐지 서비스",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test:equipment-detail": "node scripts/verify-canonical-fixtures.mjs && node scripts/verify-data-boundary.mjs && node scripts/verify-equipment-detail.mjs && node scripts/verify-equipment-detail-render.mjs && node scripts/verify-equipment-detail-browser.mjs",
+    "test:equipment-detail-render": "node scripts/verify-equipment-detail-render.mjs",
+    "test:equipment-detail-browser": "node scripts/verify-equipment-detail-browser.mjs",
+    "preview": "vite preview",
+    "agent": "node --env-file-if-exists=server/.env server/src/server.ts",
+    "test:agent": "node server/src/verifyTools.ts",
+    "test:decision": "node scripts/verify-agent.ts",
+    "test:agent-integration": "node scripts/verify-model-agent-browser.mjs"
+  },
+  "dependencies": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-router-dom": "^7.8.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^5.0.2",
+    "eslint": "10.12.0",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "eslint-plugin-react-refresh": "0.5.7",
+    "globals": "17.13.0",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "8.71.1",
+    "vite": "^7.1.2"
+  }
+}
