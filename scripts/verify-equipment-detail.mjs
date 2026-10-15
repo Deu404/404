@@ -9,6 +9,7 @@ const alertsPath = resolve('src/mocks/mockAlerts.ts')
 const guidesPath = resolve('src/mocks/mockGuides.ts')
 const adapterPath = resolve('src/adapters/mockDataAdapter.ts')
 const normalizationPath = resolve('src/services/dataNormalization.ts')
+const equipmentMapPath = resolve('src/config/equipmentDataMap.ts')
 const servicePath = resolve('src/services/equipmentService.ts')
 const providerPath = resolve('src/adapters/dataProvider.ts')
 const compiledPath = resolve('node_modules/.tmp/equipment-detail-mockPowerData.test.mjs')
@@ -17,6 +18,7 @@ const guidesCompiledPath = resolve('node_modules/.tmp/equipment-detail-mockGuide
 const adapterCompiledPath = resolve('node_modules/.tmp/equipment-detail-mockDataAdapter.test.mjs')
 const providerCompiledPath = resolve('node_modules/.tmp/equipment-detail-dataProvider.test.mjs')
 const normalizationCompiledPath = resolve('node_modules/.tmp/equipment-detail-dataNormalization.test.mjs')
+const equipmentMapCompiledPath = resolve('node_modules/.tmp/equipment-detail-equipmentDataMap.test.mjs')
 const serviceCompiledPath = resolve('node_modules/.tmp/equipment-detail-equipmentService.test.mjs')
 const source = await readFile(sourcePath, 'utf8')
 const compiled = ts.transpileModule(source, {
@@ -28,6 +30,10 @@ const providerCompiled = ts.transpileModule(providerSource, {
 }).outputText.replace(/from ['"]\.\/mockDataAdapter['"]/, "from './equipment-detail-mockDataAdapter.test.mjs'")
 const normalizationSource = await readFile(normalizationPath, 'utf8')
 const normalizationCompiled = ts.transpileModule(normalizationSource, {
+  compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
+}).outputText
+const equipmentMapSource = await readFile(equipmentMapPath, 'utf8')
+const equipmentMapCompiled = ts.transpileModule(equipmentMapSource, {
   compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
 }).outputText
 const alertsSource = await readFile(alertsPath, 'utf8')
@@ -51,6 +57,7 @@ const serviceCompiled = ts.transpileModule(serviceSource, {
   compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
 }).outputText
   .replace(/from ['"]\.\.\/adapters\/dataProvider['"]/, "from './equipment-detail-dataProvider.test.mjs'")
+  .replace(/from ['"]\.\.\/config\/equipmentDataMap['"]/, "from './equipment-detail-equipmentDataMap.test.mjs'")
   .replace(/from ['"]\.\/dataNormalization['"]/, "from './equipment-detail-dataNormalization.test.mjs'")
 
 await mkdir(dirname(compiledPath), { recursive: true })
@@ -60,6 +67,7 @@ await writeFile(guidesCompiledPath, guidesCompiled, 'utf8')
 await writeFile(adapterCompiledPath, adapterCompiled, 'utf8')
 await writeFile(providerCompiledPath, providerCompiled, 'utf8')
 await writeFile(normalizationCompiledPath, normalizationCompiled, 'utf8')
+await writeFile(equipmentMapCompiledPath, equipmentMapCompiled, 'utf8')
 await writeFile(serviceCompiledPath, serviceCompiled, 'utf8')
 
 try {
@@ -70,9 +78,9 @@ try {
   const { normalizeEquipmentList, resolveMockEquipment } = service
 
   assert.equal(MOCK_EQUIPMENT.length, 13)
-  assert.equal(resolveMockEquipment(null).id, 'compressor-01')
+  assert.equal(resolveMockEquipment(null).id, 'conveyor-01')
   assert.equal(resolveMockEquipment('compressor-02').id, 'compressor-02')
-  assert.equal(resolveMockEquipment('not-real').id, 'compressor-01')
+  assert.equal(resolveMockEquipment('not-real').id, 'conveyor-01')
 
   const normalized = normalizeEquipmentList([
     null,
@@ -103,5 +111,6 @@ try {
   await rm(adapterCompiledPath, { force: true })
   await rm(providerCompiledPath, { force: true })
   await rm(normalizationCompiledPath, { force: true })
+  await rm(equipmentMapCompiledPath, { force: true })
   await rm(serviceCompiledPath, { force: true })
 }

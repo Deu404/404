@@ -1,4 +1,5 @@
 import { dataProvider } from '../adapters/dataProvider'
+import { EQUIPMENT_LAYOUT } from '../config/equipmentDataMap'
 import type { Equipment } from '../types/equipment'
 import { asEquipmentStatus, asFiniteNumber, asOptionalFiniteNumber, asString, isRecord } from './dataNormalization'
 
@@ -23,7 +24,20 @@ export function normalizeEquipmentList(input: unknown): Equipment[] {
 }
 
 function equipmentList(): Equipment[] {
-  return normalizeEquipmentList(dataProvider.equipment)
+  const sourceById = new Map(normalizeEquipmentList(dataProvider.equipment).map((item) => [item.id, item]))
+  return EQUIPMENT_LAYOUT.map((layoutItem) => {
+    const source = sourceById.get(layoutItem.id)
+    return {
+      id: layoutItem.id,
+      name: layoutItem.name,
+      zone: source?.zone ?? '',
+      status: source?.status ?? 'normal',
+      ...(source?.powerKw === undefined ? {} : { powerKw: source.powerKw }),
+      x: layoutItem.x,
+      y: layoutItem.y,
+      message: source?.message ?? '상태 확인 필요',
+    }
+  })
 }
 
 export function listEquipment(): Equipment[] {

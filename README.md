@@ -40,6 +40,19 @@ npm run dev
 
 개발 서버가 시작되면 브라우저에서 `http://localhost:5173`을 엽니다.
 
+## 에이전트 서버(선택)
+
+에이전트 서버는 아직 루트 프로젝트에 통합되어 있지 않으며 `Agent/404-전달용/server`에 있습니다. React 화면의 AI 점검 패널은 서버가 없거나 키가 없을 때 안내를 표시합니다. 키는 파일에 저장하지 말고 PowerShell 세션에서만 설정합니다.
+
+```powershell
+cd "C:\Github\404\Agent\404-전달용\server"
+$env:OPENAI_API_KEY = "여기에-실제-키-입력"
+$env:OPENAI_MODEL = "gpt-50-mini"
+node src/server.ts
+```
+
+서버를 실행하지 않고 도구만 확인하려면 같은 폴더에서 `node src/verifyTools.ts`를 실행합니다. 실제 키를 설정하지 않은 상태에서는 `/api/agent`를 호출하지 마세요.
+
 ## 검사 및 빌드
 
 FEAT-002에서 실행하는 명령은 다음과 같습니다.

@@ -20,6 +20,18 @@ async function compile(sourcePath, outputPath, replacements = []) {
 await rm(tempRoot, { recursive: true, force: true })
 await compile(resolve(sourceRoot, 'adapters/externalDataAdapter.ts'), resolve(tempRoot, 'adapters/externalDataAdapter.mjs'))
 await compile(resolve(sourceRoot, 'services/dataNormalization.ts'), resolve(tempRoot, 'services/dataNormalization.mjs'))
+await compile(resolve(sourceRoot, 'config/equipmentDataMap.ts'), resolve(tempRoot, 'config/equipmentDataMap.mjs'))
+await compile(resolve(sourceRoot, 'adapters/csvDataAdapter.ts'), resolve(tempRoot, 'adapters/csvDataAdapter.mjs'), [
+  [/from ['"]\.\.\/config\/equipmentDataMap['"]/, "from '../config/equipmentDataMap.mjs'"],
+  [/from ['"]\.\.\/services\/dataNormalization['"]/, "from '../services/dataNormalization.mjs'"],
+])
+await mkdir(resolve(tempRoot, 'data'), { recursive: true })
+await writeFile(resolve(tempRoot, 'data/forecastSource.mjs'), `export default ${JSON.stringify(await readFile(resolve('전기요금 및 탄소배출량 예측', 'may_hourly_predictions_agg_fixed.csv'), 'utf8'))}`)
+await writeFile(resolve(tempRoot, 'data/forecastActualsSource.mjs'), `export default ${JSON.stringify(await readFile(resolve('전기요금 및 탄소배출량 예측', 'hourly_prediction_vs_actual.csv'), 'utf8'))}`)
+await compile(resolve(sourceRoot, 'data/forecastData.ts'), resolve(tempRoot, 'data/forecastData.mjs'), [
+  [/from ['"]\.\.\/\.\.\/전기요금 및 탄소배출량 예측\/may_hourly_predictions_agg_fixed\.csv\?raw['"]/, "from './forecastSource.mjs'"],
+  [/from ['"]\.\.\/\.\.\/전기요금 및 탄소배출량 예측\/hourly_prediction_vs_actual\.csv\?raw['"]/, "from './forecastActualsSource.mjs'"],
+])
 await compile(resolve(sourceRoot, 'services/alertRules.ts'), resolve(tempRoot, 'services/alertRules.mjs'))
 await compile(resolve(sourceRoot, 'mocks/mockPowerData.ts'), resolve(tempRoot, 'mocks/mockPowerData.mjs'))
 await compile(resolve(sourceRoot, 'mocks/mockAlerts.ts'), resolve(tempRoot, 'mocks/mockAlerts.mjs'))
@@ -34,10 +46,13 @@ await compile(resolve(sourceRoot, 'adapters/dataProvider.ts'), resolve(tempRoot,
 ])
 await compile(resolve(sourceRoot, 'services/equipmentService.ts'), resolve(tempRoot, 'services/equipmentService.mjs'), [
   [/from ['"]\.\.\/adapters\/dataProvider['"]/, "from '../adapters/dataProvider.mjs'"],
+  [/from ['"]\.\.\/config\/equipmentDataMap['"]/, "from '../config/equipmentDataMap.mjs'"],
   [/from ['"]\.\/dataNormalization['"]/, "from './dataNormalization.mjs'"],
 ])
 await compile(resolve(sourceRoot, 'services/powerService.ts'), resolve(tempRoot, 'services/powerService.mjs'), [
   [/from ['"]\.\.\/adapters\/dataProvider['"]/, "from '../adapters/dataProvider.mjs'"],
+  [/from ['"]\.\.\/data\/forecastData['"]/, "from '../data/forecastData.mjs'"],
+  [/from ['"]\.\.\/adapters\/csvDataAdapter['"]/, "from '../adapters/csvDataAdapter.mjs'"],
   [/from ['"]\.\/dataNormalization['"]/, "from './dataNormalization.mjs'"],
   [/from ['"]\.\/equipmentService['"]/, "from './equipmentService.mjs'"],
 ])
@@ -108,13 +123,15 @@ try {
   const ruleClassifiedAlert = alertService.normalizeAlerts([{ id: 'rule-authority', type: 'power-consumption-increase', measurement: 212, reference: 196, change: 8.2, severity: 'warning', priority: 'high' }])[0]
   assert.deepEqual({ severity: ruleClassifiedAlert.severity, priority: ruleClassifiedAlert.priority, matched: ruleClassifiedAlert.ruleResult.matched }, { severity: 'normal', priority: 'low', matched: false })
   assert.equal(new Set(alertService.listAlerts().map(({ type }) => type)).size, 4)
+  const equipmentIds = new Set(equipmentService.listEquipment().map(({ id }) => id))
+  assert.equal(equipmentIds.size, 13)
   const guideKeys = new Set(guideService.listGuides().map(({ guideKey }) => guideKey))
   for (const alert of alertService.listAlerts()) {
-    assert.ok(equipmentService.getEquipmentById(alert.equipmentId), `missing equipment for ${alert.id}`)
+    assert.ok(equipmentIds.has(alert.equipmentId), `missing equipment for ${alert.id}`)
     assert.ok(guideKeys.has(alert.guideKey), `missing guide for ${alert.id}`)
   }
   for (const guide of guideService.listGuides()) {
-    for (const equipmentId of guide.relatedEquipmentIds) assert.ok(equipmentService.getEquipmentById(equipmentId), `missing related equipment for ${guide.guideKey}`)
+    for (const equipmentId of guide.relatedEquipmentIds) assert.ok(equipmentIds.has(equipmentId), `missing related equipment for ${guide.guideKey}`)
   }
   const normalizedGuides = guideService.normalizeGuides([null, { guideKey: 'guide-partial', alertType: 'overcurrent', steps: [null, { id: 'step-1' }], relatedEquipmentIds: ['equipment-1', 2] }, { title: 'no-key' }])
   assert.deepEqual(normalizedGuides, [{
@@ -148,7 +165,7 @@ try {
   assert.match(alertsSource, /equipment-power\?equipment=/)
   assert.match(alertsSource, /inspection-guide\?guide=/)
   const equipmentSource = await readFile(resolve(sourceRoot, 'pages/EquipmentPowerPage.tsx'), 'utf8')
-  assert.match(equipmentSource, /getEquipmentById/)
+  assert.match(equipmentSource, /listEquipment\(\)/)
   assert.match(equipmentSource, /설비를 찾을 수 없습니다/)
   assert.match(equipmentSource, /getAlertsByEquipmentId/)
   assert.match(equipmentSource, /alerts\?alert=/)

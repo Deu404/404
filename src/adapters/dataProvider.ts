@@ -1,4 +1,5 @@
 import type { Alert, AlertSummary, AlertType, AlertPriority } from '../types/alert'
+import type { AnomalyDetection } from '../types/anomaly'
 import type { Equipment, EquipmentDetail } from '../types/equipment'
 import type { InspectionGuide } from '../types/guide'
 import type { DashboardPowerPoint } from '../types/power'
@@ -13,6 +14,7 @@ export type DataProvider = {
   readonly alertSummary: readonly AlertSummary[]
   readonly attentionEquipment: readonly Equipment[]
   readonly alerts: readonly Alert[]
+  readonly anomalies: readonly AnomalyDetection[]
   readonly guides: readonly InspectionGuide[]
   readonly defaultGuideKey: string
   readonly alertTypeLabels: Readonly<Record<AlertType, string>>
