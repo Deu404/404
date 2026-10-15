@@ -1,10 +1,10 @@
 import { dataProvider } from '../adapters/dataProvider'
-import { fetchEquipmentCsvDetail } from '../adapters/csvDataAdapter'
+import { fetchEquipmentCsvDetail, fetchAllEquipmentCsvDetails } from '../adapters/csvDataAdapter'
 import { rawForecastActualsData, rawForecastData } from '../data/forecastData'
 import type { AlertSummary } from '../types/alert'
 import type { Equipment, EquipmentDetail, AnomalyHistoryItem } from '../types/equipment'
 import type { EnergyComparison } from '../types/comparison'
-import type { DashboardPowerPoint, HourlyPowerPoint } from '../types/power'
+import type { DashboardPowerPoint, ForecastComparisonPoint, HourlyPowerPoint } from '../types/power'
 import type { ForecastMae, ForecastPoint } from '../types/forecast'
 import { asEquipmentStatus, asOptionalFiniteNumber, asAlertState, asString, isRecord } from './dataNormalization'
 import { normalizeEquipmentList } from './equipmentService'
@@ -82,6 +82,27 @@ export function getEquipmentDetailById(equipmentId: string | null | undefined): 
 export async function getEquipmentCsvDetailById(equipmentId: string | null | undefined): Promise<EquipmentDetail | undefined> {
   if (!equipmentId) return undefined
   return fetchEquipmentCsvDetail(equipmentId)
+}
+
+export async function getEquipmentCsvDetails(): Promise<EquipmentDetail[]> {
+  return fetchAllEquipmentCsvDetails()
+}
+
+export function getDashboardPowerSeriesFromEquipment(details: readonly EquipmentDetail[]): DashboardPowerPoint[] {
+  const latestByEquipmentAndHour = new Map<string, number>()
+  details.forEach((detail) => detail.currentPowerSeries.forEach(({ time, powerKw }) => {
+    if (powerKw === undefined) return
+    const hour = time.match(/(?:^| )([0-2]\d):/)?.[1]
+    if (!hour) return
+    latestByEquipmentAndHour.set(`${detail.equipmentId}-${hour}`, powerKw)
+  }))
+
+  const totalsByHour = new Map<string, number>()
+  latestByEquipmentAndHour.forEach((powerKw, key) => {
+    const hour = key.slice(-2)
+    totalsByHour.set(hour, (totalsByHour.get(hour) ?? 0) + powerKw)
+  })
+  return [...totalsByHour.entries()].sort(([left], [right]) => left.localeCompare(right)).map(([hour, value]) => ({ time: `${hour}:00`, value }))
 }
 
 export function getDefaultEquipmentDetail(): EquipmentDetail | undefined {
@@ -168,6 +189,18 @@ export function normalizeForecastMae(input: unknown, includeRow: (time: string) 
 
 export function getForecastMae(includeRow: (time: string) => boolean = () => true): ForecastMae {
   return normalizeForecastMae(rawForecastActualsData, includeRow)
+}
+
+export function getForecastComparisonData(): ForecastComparisonPoint[] {
+  return rawForecastActualsData.flatMap((value) => {
+    if (!isRecord(value)) return []
+    const time = asString(value.time).trim()
+    const predictedPowerKw = asOptionalFiniteNumber(value.hourly_pow_pred)
+    const actualPowerKw = asOptionalFiniteNumber(value.hourly_pow_actual)
+    return time && predictedPowerKw !== undefined && actualPowerKw !== undefined
+      ? [{ time, predictedPowerKw, actualPowerKw }]
+      : []
+  })
 }
 
 export function normalizeAlertSummary(input: unknown): AlertSummary[] {

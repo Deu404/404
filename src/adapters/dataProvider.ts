@@ -4,7 +4,7 @@ import type { Equipment, EquipmentDetail } from '../types/equipment'
 import type { InspectionGuide } from '../types/guide'
 import type { DashboardPowerPoint } from '../types/power'
 import type { EquipmentStatus } from '../types/status'
-import { mockDataAdapter } from './mockDataAdapter'
+import { realDataAdapter } from './realDataAdapter'
 
 export type DataProvider = {
   readonly equipment: readonly Equipment[]
@@ -24,4 +24,4 @@ export type DataProvider = {
   readonly severityOrder: Readonly<Record<EquipmentStatus, number>>
 }
 
-export const dataProvider: DataProvider = mockDataAdapter
+export const dataProvider: DataProvider = realDataAdapter

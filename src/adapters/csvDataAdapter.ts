@@ -43,4 +43,9 @@ export async function fetchEquipmentCsvDetail(equipmentId: string): Promise<Equi
   }
 }
 
+export async function fetchAllEquipmentCsvDetails(): Promise<EquipmentDetail[]> {
+  const details = await Promise.all(Object.keys(EQUIPMENT_DATA_MAP).map((equipmentId) => fetchEquipmentCsvDetail(equipmentId)))
+  return details.flatMap((detail) => detail ? [detail] : [])
+}
+
 export type { CsvSample }

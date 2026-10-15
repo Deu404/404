@@ -1,103 +1,109 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { alertTypeLabels, getAlertById, getEquipmentName, listAlerts, priorityLabels, priorityOrder, severityLabels, severityOrder } from '../services/alertService'
-import type { Alert } from '../types/alert'
+import { AgentPanel } from '../components/alerts/AgentPanel'
 import { DateRangeFilter } from '../components/common/DateRangeFilter'
-import { getDateRangeValidation, isDateInRange, type DateRange } from '../utils/dateRange'
 import { listModelAnomalies } from '../services/anomalyService'
 import { listEquipment } from '../services/equipmentService'
-import { AgentPanel } from '../components/alerts/AgentPanel'
-
-type SortMode = 'priority' | 'severity' | 'latest'
+import { getEquipmentCsvDetailById } from '../services/powerService'
+import { getDateRangeValidation, isDateInRange, type DateRange } from '../utils/dateRange'
+import type { AnomalyDetection } from '../types/anomaly'
+import type { EquipmentDetail } from '../types/equipment'
 
 type FilterValue = 'all' | string
 
-const acknowledgementLabels: Record<Alert['acknowledgement'], string> = {
-  acknowledged: '확인됨',
-  unacknowledged: '미확인',
-}
+const CHART_WIDTH = 760
+const CHART_HEIGHT = 280
+const CHART_PADDING = { top: 30, right: 24, bottom: 46, left: 58 }
 
-const measurementUnits: Record<Alert['type'], string> = {
-  overcurrent: 'A',
-  'low-power-factor': '역률',
-  'power-consumption-increase': 'kW',
-  'phase-current-imbalance': '%',
-}
+function PowerTrend({ detail, equipmentName }: { detail?: EquipmentDetail; equipmentName: string }) {
+  const series = detail?.currentPowerSeries ?? []
+  const points = series.flatMap((item, index) => item.powerKw === undefined ? [] : [{ ...item, x: CHART_PADDING.left + (index * (CHART_WIDTH - CHART_PADDING.left - CHART_PADDING.right)) / Math.max(series.length - 1, 1), power: item.powerKw }])
+  const values = points.map(({ power }) => power)
+  const maxPower = values.length ? Math.max(1, Math.ceil(Math.max(...values) / 10) * 10) : 1
+  const chartHeight = CHART_HEIGHT - CHART_PADDING.top - CHART_PADDING.bottom
+  const plotted = points.map(({ x, power, ...item }) => ({ ...item, x, power, y: CHART_PADDING.top + chartHeight - (power / maxPower) * chartHeight }))
+  const line = plotted.map(({ x, y }) => `${x},${y}`).join(' ')
+  const ticks = [0, 1, 2, 3, 4].map((index) => (maxPower / 4) * index)
 
-const changeUnits: Record<Alert['type'], string> = {
-  overcurrent: 'A',
-  'low-power-factor': '역률',
-  'power-consumption-increase': '%',
-  'phase-current-imbalance': '%',
-}
-
-function formatValue(value: number | undefined, unit = '') {
-  return value === undefined ? '데이터 없음' : `${value.toLocaleString('ko-KR')}${unit ? ` ${unit}` : ''}`
-}
-
-function formatSignedValue(value: number | undefined, unit = '') {
-  if (value === undefined) return '데이터 없음'
-  return `${value > 0 ? '+' : ''}${value.toLocaleString('ko-KR')}${unit ? ` ${unit}` : ''}`
-}
-
-function formatAlertChange(alert: Alert) {
-  return alert.change === undefined
-    ? formatSignedValue(alert.powerChangeKw, 'kW')
-    : formatSignedValue(alert.change, changeUnits[alert.type])
+  return <section className="panel alert-power-panel" aria-labelledby="alert-power-title">
+    <div className="panel-heading"><div><p className="eyebrow">LIVE EQUIPMENT DATA</p><h2 id="alert-power-title">{equipmentName} 전력 추이</h2><p className="panel-description">선택 설비 CSV의 실제 측정 시각별 유효 전력입니다.</p></div><span className="equipment-count">{points.length ? `${points.length}건` : '데이터 없음'}</span></div>
+    <div className="alert-power-chart">{plotted.length ? <svg viewBox={`0 0 ${CHART_WIDTH} ${CHART_HEIGHT}`} role="img" aria-label={`${equipmentName} 실제 전력 추이`}>
+      {ticks.map((value) => { const y = CHART_PADDING.top + chartHeight - (value / maxPower) * chartHeight; return <g key={value}><line className="chart-grid" x1={CHART_PADDING.left} x2={CHART_WIDTH - CHART_PADDING.right} y1={y} y2={y} /><text className="chart-label" x={CHART_PADDING.left - 9} y={y + 4} textAnchor="end">{Math.round(value)}</text></g> })}
+      <line className="chart-axis" x1={CHART_PADDING.left} x2={CHART_WIDTH - CHART_PADDING.right} y1={CHART_HEIGHT - CHART_PADDING.bottom} y2={CHART_HEIGHT - CHART_PADDING.bottom} /><polyline className="detail-chart-line current" points={line} />
+      {plotted.map(({ time, power, x, y }, index) => <g key={`${time}-${index}`}><circle className="detail-chart-point current" cx={x} cy={y} r="3" /><title>{`${time}: ${power} kW`}</title></g>)}
+      <text className="chart-unit" x="12" y={CHART_PADDING.top - 8}>전력 (kW)</text><text className="chart-unit" x={CHART_WIDTH - CHART_PADDING.right} y={CHART_HEIGHT - 5} textAnchor="end">측정 시각</text>
+    </svg> : <div className="empty-state alert-chart-empty">선택 설비의 실제 전력 데이터가 없습니다.</div>}</div>
+  </section>
 }
 
 export function AlertsPage() {
-  const alertData = listAlerts()
-  const modelAnomalies = listModelAnomalies()
   const [searchParams, setSearchParams] = useSearchParams()
-  const requestedAlertId = searchParams.get('alert')
-  const requestedAlert = getAlertById(requestedAlertId)
-  const [query, setQuery] = useState('')
-  const [alertType, setAlertType] = useState<FilterValue>('all')
-  const [severity, setSeverity] = useState<FilterValue>('all')
-  const [equipment, setEquipment] = useState<FilterValue>('all')
-  const [acknowledgement, setAcknowledgement] = useState<FilterValue>('all')
-  const [sortMode, setSortMode] = useState<SortMode>('priority')
-  const [dateRange, setDateRange] = useState<DateRange>({ startDate: '', endDate: '' })
-  const dateValidation = getDateRangeValidation(dateRange)
-  const [selectedId, setSelectedId] = useState(alertData[0]?.id ?? '')
   const equipmentOptions = useMemo(() => listEquipment(), [])
-  const alerts = useMemo(() => [...alertData]
-    .filter((alert) => {
-      const searchableText = `${alert.id} ${alert.equipmentId} ${getEquipmentName(alert.equipmentId)} ${alert.summary} ${alertTypeLabels[alert.type]}`.toLowerCase()
-      return isDateInRange(alert.occurredAt, dateValidation)
-        && (alertType === 'all' || alert.type === alertType)
-        && (severity === 'all' || alert.severity === severity)
-        && (equipment === 'all' || alert.equipmentId === equipment)
-        && (acknowledgement === 'all' || alert.acknowledgement === acknowledgement)
-        && searchableText.includes(query.toLowerCase())
-    })
-    .sort((a, b) => sortMode === 'latest'
-      ? b.occurredAt.localeCompare(a.occurredAt)
-      : sortMode === 'severity'
-        ? severityOrder[b.severity] - severityOrder[a.severity] || priorityOrder[b.priority] - priorityOrder[a.priority]
-        : priorityOrder[b.priority] - priorityOrder[a.priority] || severityOrder[b.severity] - severityOrder[a.severity]), [alertData, alertType, severity, equipment, acknowledgement, query, sortMode, dateValidation])
+  const [modelAnomalies, setModelAnomalies] = useState<AnomalyDetection[]>([])
+  const requestedId = searchParams.get('anomaly')
+  const requestedEquipment = searchParams.get('equipment')
+  const [query, setQuery] = useState('')
+  const [equipmentFilter, setEquipmentFilter] = useState<FilterValue>('all')
+  const [dateRange, setDateRange] = useState<DateRange>({ startDate: '', endDate: '' })
+  const [selectedId, setSelectedId] = useState(requestedId ?? '')
+  const [powerDetail, setPowerDetail] = useState<EquipmentDetail>()
+  const dateValidation = getDateRangeValidation(dateRange)
 
   useEffect(() => {
-    if (requestedAlertId) setSelectedId(requestedAlert?.id ?? '')
-  }, [requestedAlertId, requestedAlert?.id])
+    let cancelled = false
+    listModelAnomalies().then((results) => { if (!cancelled) setModelAnomalies(results) })
+    return () => { cancelled = true }
+  }, [])
 
-  const selected = requestedAlertId
-    ? alerts.find(({ id }) => id === requestedAlertId) ?? alerts[0]
-    : alerts.find(({ id }) => id === selectedId) ?? alerts[0]
-  const selectAlert = (id: string) => {
-    setSelectedId(id)
-    setSearchParams({ alert: id })
+  const anomalies = useMemo(() => modelAnomalies.filter((anomaly) => {
+    const searchable = `${anomaly.id} ${anomaly.equipmentId} ${anomaly.equipmentName} ${anomaly.fields.join(' ')}`.toLowerCase()
+    return isDateInRange(anomaly.occurredAt, dateValidation) && (equipmentFilter === 'all' || anomaly.equipmentId === equipmentFilter) && searchable.includes(query.toLowerCase())
+  }), [modelAnomalies, equipmentFilter, query, dateValidation])
+  const selected = anomalies.find(({ id }) => id === selectedId) ?? anomalies[0]
+  const selectedEquipmentId = selected?.equipmentId ?? requestedEquipment ?? equipmentOptions[0]?.id
+  const selectedEquipment = equipmentOptions.find(({ id }) => id === selectedEquipmentId) ?? equipmentOptions[0]
+
+  useEffect(() => {
+    let cancelled = false
+    setPowerDetail(undefined)
+    if (selectedEquipmentId) getEquipmentCsvDetailById(selectedEquipmentId).then((detail) => { if (!cancelled) setPowerDetail(detail) })
+    return () => { cancelled = true }
+  }, [selectedEquipmentId])
+
+  const equipmentSummary = useMemo(() => {
+    const counts = new Map<string, number>()
+    anomalies.forEach(({ equipmentId }) => counts.set(equipmentId, (counts.get(equipmentId) ?? 0) + 1))
+    return [...counts.entries()].map(([id, count]) => ({ equipment: equipmentOptions.find(({ id: itemId }) => itemId === id), count })).filter(({ equipment }) => equipment)
+  }, [anomalies, equipmentOptions])
+
+  const selectAnomaly = (anomaly: AnomalyDetection) => {
+    setSelectedId(anomaly.id)
+    setSearchParams({ anomaly: anomaly.id })
   }
+  const filteredPowerDetail = powerDetail ? { ...powerDetail, currentPowerSeries: powerDetail.currentPowerSeries.filter(({ time }) => isDateInRange(time, dateValidation)) } : undefined
+  const filteredPowerCount = filteredPowerDetail?.currentPowerSeries.length ?? 0
+  const hasModelResults = anomalies.length > 0
 
   return <div className="dashboard-page alerts-page">
-    <section className="dashboard-intro"><div><p className="eyebrow">POWER ALERTS / REVIEW QUEUE</p><h2>이상 알림</h2><p>전력 변화가 관찰된 항목을 우선순위에 따라 검토합니다.</p></div><span className="mock-badge">DEVELOPMENT MOCK DATA</span></section>
-    <p className="mock-notice">개발용 가상 데이터 · 실제 진단 결과가 아닌 검토용 시뮬레이션입니다.</p>
-    <section className="panel" aria-labelledby="model-anomaly-title"><div className="panel-heading"><div><p className="eyebrow">MODEL OUTPUT / REVIEW</p><h2 id="model-anomaly-title">모델 감지 결과</h2></div><span className="equipment-count">{modelAnomalies.length}건</span></div>{modelAnomalies.length ? <div className="alert-detail-list">{modelAnomalies.map((anomaly) => <div className="alert-detail-row" key={anomaly.id}><span className="status-dot-large warning" /><div className="alert-row-main"><Link className="alert-equipment-link" to={`/equipment-power?equipment=${anomaly.equipmentId}`}><strong>{anomaly.equipmentName}</strong> <small>({anomaly.equipmentId})</small></Link><small>source: {anomaly.source}</small><p>의심 항목: {anomaly.fields.join(', ')}</p></div><span className="alert-badge warning">모델 감지</span></div>)}</div> : <p className="empty-state">모델 감지 결과가 없습니다.</p>}<p className="muted">모델 출력은 이상 의심 항목이며 fault 확정이나 심각도·우선순위를 의미하지 않습니다.</p></section>
-    <DateRangeFilter {...dateRange} onChange={setDateRange} error={dateValidation.error} resultCount={alerts.length} />
-    <section className="alert-controls panel" aria-label="알림 검색 및 필터"><label>검색<input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="설비명, 요약, 알림 ID" /></label><label>이상 유형<select value={alertType} onChange={(event) => setAlertType(event.target.value)}><option value="all">전체</option>{Object.entries(alertTypeLabels).map(([value, label]) => <option value={value} key={value}>{label}</option>)}</select></label><label>심각도<select value={severity} onChange={(event) => setSeverity(event.target.value)}><option value="all">전체</option><option value="critical">이상</option><option value="warning">주의</option><option value="normal">정상 참고</option></select></label><label>설비<select value={equipment} onChange={(event) => setEquipment(event.target.value)}><option value="all">전체</option>{equipmentOptions.map((item) => <option value={item.id} key={item.id}>{item.name} ({item.id})</option>)}</select></label><label>확인 상태<select value={acknowledgement} onChange={(event) => setAcknowledgement(event.target.value)}><option value="all">전체</option><option value="unacknowledged">미확인</option><option value="acknowledged">확인됨</option></select></label><label>정렬<select value={sortMode} onChange={(event) => setSortMode(event.target.value as SortMode)}><option value="priority">우선순위 우선</option><option value="severity">심각도 우선</option><option value="latest">최신순</option></select></label><span className="control-help">우선순위가 높은 항목을 먼저 표시합니다.</span></section>
-    <div className="alerts-content"><section className="panel alert-table-panel" aria-labelledby="alert-list-title"><div className="panel-heading"><div><p className="eyebrow">ALERT LIST</p><h2 id="alert-list-title">검토 대기 알림</h2></div><span className="equipment-count">{alerts.length}건</span></div>{alerts.length ? <div className="alert-detail-list">{alerts.map((alert) => <button type="button" className={`alert-detail-row ${selected?.id === alert.id ? 'selected' : ''}`} key={alert.id} onClick={() => selectAlert(alert.id)} aria-pressed={selected?.id === alert.id}><span className={`status-dot-large ${alert.severity}`} /><div className="alert-row-main"><strong>{getEquipmentName(alert.equipmentId)} <small className="alert-equipment-id">({alert.equipmentId})</small></strong><small>{alert.occurredAt} · {alert.id}</small><p>{alertTypeLabels[alert.type]} · {alert.summary}</p></div><span className={`alert-badge ${alert.severity}`}>{severityLabels[alert.severity]}</span><span className={`priority-badge ${alert.priority}`}>우선순위 {priorityLabels[alert.priority]}</span><span className={`ack-badge ${alert.acknowledgement}`}>{acknowledgementLabels[alert.acknowledgement]}</span><span className="alert-change">{formatAlertChange(alert)}<br /><small>{formatSignedValue(alert.changeRatePercent, '%')}</small></span></button>)}</div> : <p className="empty-state">조건에 맞는 알림이 없습니다.</p>}</section>
-      <section className="panel alert-selected-panel" aria-live="polite">{requestedAlertId && !requestedAlert ? <><p className="eyebrow">ALERT NOT FOUND</p><h2>알림을 찾을 수 없습니다.</h2><p className="selected-detail">요청한 알림 ID를 확인하고 알림 목록에서 다시 선택하세요.</p></> : selected ? <><p className="eyebrow">SELECTED ALERT</p><h2>{selected.summary}</h2><p className="selected-equipment">{getEquipmentName(selected.equipmentId)} · 설비 번호 {selected.equipmentId} · {selected.occurredAt}</p><div className="selected-badges"><span className={`alert-badge ${selected.severity}`}>{severityLabels[selected.severity]}</span><span className={`priority-badge ${selected.priority}`}>우선순위 {priorityLabels[selected.priority]}</span><span className={`ack-badge ${selected.acknowledgement}`}>{acknowledgementLabels[selected.acknowledgement]}</span></div><p className="selected-detail">{selected.detail}</p><div className="alert-fact-grid"><span>알림 ID<strong>{selected.id}</strong></span><span>이상 유형<strong>{alertTypeLabels[selected.type]}</strong></span><span>발생 시각<strong>{selected.occurredAt}</strong></span><span>반복 횟수<strong>{selected.repeatCount ?? '데이터 없음'}회</strong></span></div><div className="selected-metrics"><span>측정값<strong>{formatValue(selected.measurement, measurementUnits[selected.type])}</strong></span><span>기준값<strong>{formatValue(selected.reference, measurementUnits[selected.type])}</strong></span><span>변화량<strong>{formatSignedValue(selected.change, changeUnits[selected.type])}</strong></span><span>전력 변화<strong>{formatSignedValue(selected.powerChangeKw, 'kW')}</strong></span><span>변화율<strong>{formatSignedValue(selected.changeRatePercent, '%')}</strong></span></div><div className="rule-reason"><strong>판단 근거</strong><p>{selected.ruleResult.reason}</p><small>데모용 기준값: {formatValue(selected.ruleResult.demoThreshold, selected.ruleResult.thresholdUnit)} · 실제 안전 기준이 아닙니다.</small></div><div className="detail-actions"><Link className="detail-link" to={`/equipment-power?equipment=${selected.equipmentId}`}>설비 상세 보기 <span>→</span></Link><Link className="detail-link" to={`/inspection-guide?guide=${selected.guideKey}&alert=${selected.id}`}>관련 점검 가이드 <span>→</span></Link></div></> : <p className="empty-state">알림을 선택하면 상세 정보가 표시됩니다.</p>}</section></div>
-    {selected && <AgentPanel alert={selected} />}
+    <section className="dashboard-intro"><div><p className="eyebrow">ANOMALY MONITORING / FIELD VIEW</p><h2>이상탐지 대시보드</h2><p>실제 모델 결과와 설비 측정 데이터를 기준으로 확인합니다.</p></div><span className="data-badge">REAL DATA ONLY</span></section>
+
+    <div className="agent-top-section"><p className="panel-description">선택한 설비의 이상 항목과 측정 근거를 바탕으로 초기 점검을 안내합니다. 모델 감지는 고장 확정이 아닙니다.</p><AgentPanel anomaly={selected} /></div>
+
+    <section className="alert-summary-grid" aria-label="이상 알림 요약">
+      <div className="alert-summary-card urgent"><span>긴급</span><strong>에이전트 분류 대기</strong><small>모델 결과에 심각도·우선순위가 없습니다.</small></div>
+      <div className="alert-summary-card caution"><span>주의</span><strong>에이전트 분류 대기</strong><small>임의 규칙으로 분류하지 않습니다.</small></div>
+      <div className="alert-summary-card resolved"><span>확인 완료</span><strong>데이터 없음</strong><small>확인 상태가 제공되지 않았습니다.</small></div>
+    </section>
+
+    <DateRangeFilter {...dateRange} onChange={setDateRange} error={dateValidation.error} resultCount={filteredPowerCount} />
+    <section className="alert-controls panel" aria-label="이상 알림 필터"><label>검색<input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="설비명, 의심 항목" /></label><label>설비<select value={equipmentFilter} onChange={(event) => setEquipmentFilter(event.target.value)}><option value="all">전체 설비</option>{equipmentOptions.map(({ id, name }) => <option value={id} key={id}>{name}</option>)}</select></label><span className="control-help">필터는 실제 모델 결과와 실제 측정 데이터에만 적용됩니다.</span></section>
+
+    <div className="alerts-wire-grid">
+      <aside className="panel alert-inbox-panel" aria-labelledby="alert-inbox-title"><div className="panel-heading"><div><p className="eyebrow">FIELD INBOX</p><h2 id="alert-inbox-title">확인할 이상 알림</h2></div><span className="equipment-count">{anomalies.length ? `${anomalies.length}건` : '데이터 없음'}</span></div>{anomalies.length ? <div className="alert-detail-list">{anomalies.map((anomaly) => <button type="button" className={`alert-detail-row ${selected?.id === anomaly.id ? 'selected' : ''}`} key={anomaly.id} onClick={() => selectAnomaly(anomaly)}><span className="status-dot-large warning" /><span className="alert-row-main"><strong>{anomaly.equipmentName}</strong><small>{anomaly.occurredAt}</small><p>{anomaly.fields.join(', ')} · 확인 상태 데이터 없음</p></span></button>)}</div> : <div className="alert-empty"><strong>표시할 모델 이상 결과가 없습니다.</strong><p>실제 모델 결과 API가 연결되면 장비명, 발생 시각, 의심 항목이 여기에 표시됩니다.</p></div>}</aside>
+
+      <main className="alert-evidence-column"><PowerTrend detail={filteredPowerDetail} equipmentName={selectedEquipment?.name ?? '선택 설비'} />{hasModelResults && <section className="panel alert-reason-panel" aria-labelledby="alert-reason-title"><div className="panel-heading"><div><p className="eyebrow">MODEL EVIDENCE</p><h2 id="alert-reason-title">왜 이상인가?</h2></div><span className="equipment-count">모델 근거</span></div><p className="selected-equipment">{selected?.equipmentName} · {selected?.occurredAt}</p><p className="selected-detail">모델이 의심 대상으로 반환한 항목: <strong>{selected?.fields.join(', ')}</strong></p><div className="alert-fact-grid"><span>발생 시각<strong>{selected?.occurredAt}</strong></span><span>측정 근거<strong>{powerDetail ? 'CSV 조회됨' : '데이터 없음'}</strong></span><span>심각도<strong>데이터 없음</strong></span><span>우선순위<strong>데이터 없음</strong></span></div></section>}</main>
+    </div>
+
+    {hasModelResults && <section className="panel equipment-summary-panel alert-equipment-summary" aria-labelledby="alert-equipment-summary-title"><div className="panel-heading"><div><p className="eyebrow">EQUIPMENT TREND</p><h2 id="alert-equipment-summary-title">설비별 이상 건수와 추이</h2></div><span className="equipment-count">모델 결과 기준</span></div><div className="alert-detail-list">{equipmentSummary.map(({ equipment, count }) => <Link className="equipment-alert-row" to={`/alerts?anomaly=${anomalies.find(({ equipmentId }) => equipmentId === equipment?.id)?.id ?? ''}`} key={equipment?.id}><span><strong>{equipment?.name}</strong><small>{count}건 · 실제 발생 시각은 알림 목록에서 확인</small></span><b>{count}건</b></Link>)}</div></section>}
   </div>
 }

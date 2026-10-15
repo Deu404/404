@@ -48,6 +48,10 @@ export function listGuides(): InspectionGuide[] {
   return normalizeGuides(dataProvider.guides)
 }
 
+export function listConnectedGuides(): InspectionGuide[] {
+  return []
+}
+
 export function getGuideByKey(guideKey: string | null | undefined): InspectionGuide | undefined {
   if (!guideKey) return undefined
   return listGuides().find(({ guideKey: key }) => key === guideKey)
@@ -58,6 +62,10 @@ export function getGuidesByAlertType(alertType: AlertType | null | undefined): I
   return listGuides().filter(({ alertType: type }) => type === alertType)
 }
 
+export function resolveConnectedGuide(guideKey: string | null | undefined): InspectionGuide | undefined {
+  if (!guideKey) return undefined
+  return listConnectedGuides().find(({ guideKey: key }) => key === guideKey)
+}
 export function getDefaultGuide(): InspectionGuide | undefined {
   return getGuideByKey(dataProvider.defaultGuideKey) ?? listGuides()[0]
 }

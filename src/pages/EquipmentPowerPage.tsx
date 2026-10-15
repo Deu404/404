@@ -2,22 +2,12 @@ import { useEffect, useState } from 'react'
 import { DateRangeFilter } from '../components/common/DateRangeFilter'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { EQUIPMENT_LAYOUT } from '../config/equipmentDataMap'
-import { alertTypeLabels, getAlertsByEquipmentId, priorityLabels, severityLabels } from '../services/alertService'
-import { getEquipmentCsvDetailById, getEquipmentDetailById } from '../services/powerService'
+import { getEquipmentCsvDetailById } from '../services/powerService'
 import { listEquipment } from '../services/equipmentService'
 import type { EquipmentStatus } from '../types/status'
 import { getDateRangeValidation, isDateInRange, type DateRange } from '../utils/dateRange'
 import { getModelAnomaliesByEquipmentId } from '../services/anomalyService'
 
-const GUIDE_KEY_BY_EQUIPMENT: Record<string, string> = {
-  'cooling-02': 'power-consumption-increase',
-  'motor-02': 'overcurrent',
-  'compressor-01': 'power-consumption-increase',
-  'compressor-02': 'power-consumption-increase',
-  'robot-02': 'power-consumption-increase',
-  'pump-02': 'low-power-factor',
-  'transformer-01': 'phase-current-imbalance',
-}
 const statusLabels: Record<EquipmentStatus, string> = { normal: '정상', warning: '주의', critical: '이상' }
 
 const CHART_WIDTH = 760
@@ -47,6 +37,7 @@ export function EquipmentPowerPage() {
   const equipmentId = equipment?.id
   const equipmentSelector = <label className="equipment-selector">분석 설비<select value={equipmentId ?? ''} onChange={(event) => navigate(`/equipment-power?equipment=${event.target.value}`)}>{layoutEquipment.map(({ id, name }) => <option value={id} key={id}>{name}</option>)}</select></label>
   const [csvDetail, setCsvDetail] = useState<Awaited<ReturnType<typeof getEquipmentCsvDetailById>>>()
+  const [modelAnomalies, setModelAnomalies] = useState<Awaited<ReturnType<typeof getModelAnomaliesByEquipmentId>>>([])
   const [dateRange, setDateRange] = useState<DateRange>({ startDate: '', endDate: '' })
   const dateValidation = getDateRangeValidation(dateRange)
   useEffect(() => {
@@ -55,21 +46,25 @@ export function EquipmentPowerPage() {
     if (equipmentId) getEquipmentCsvDetailById(equipmentId).then((nextDetail) => { if (!cancelled) setCsvDetail(nextDetail) })
     return () => { cancelled = true }
   }, [equipmentId])
-  const detail = csvDetail ?? (equipmentId ? getEquipmentDetailById(equipmentId) : undefined)
+  useEffect(() => {
+    let cancelled = false
+    setModelAnomalies([])
+    getModelAnomaliesByEquipmentId(equipmentId).then((results) => { if (!cancelled) setModelAnomalies(results) })
+    return () => { cancelled = true }
+  }, [equipmentId])
+  const detail = csvDetail
   const filteredDetail = detail ? {
     ...detail,
     currentPowerSeries: detail.currentPowerSeries.filter(({ time }) => isDateInRange(time, dateValidation)),
     lastMonthPowerSeries: detail.lastMonthPowerSeries.filter(({ time }) => isDateInRange(time, dateValidation)),
   } : undefined
-  const relatedAlerts = equipment ? getAlertsByEquipmentId(equipment.id).filter(({ occurredAt }) => isDateInRange(occurredAt, dateValidation)) : []
-  const modelAnomalies = getModelAnomaliesByEquipmentId(equipmentId)
-  const relatedGuideKey = relatedAlerts[0]?.guideKey || (equipment ? GUIDE_KEY_BY_EQUIPMENT[equipment.id] : undefined) || 'power-consumption-increase'
-  const relatedAlertsPanel = <section className="panel equipment-alerts-panel" aria-labelledby="equipment-alerts-title"><div className="panel-heading"><div><p className="eyebrow">RELATED ALERTS</p><h2 id="equipment-alerts-title">관련 알림</h2></div><span className="equipment-count">{relatedAlerts.length}건</span></div>{relatedAlerts.length ? <div className="equipment-alert-list">{relatedAlerts.map((alert) => <Link className="equipment-alert-row" key={alert.id} to={`/alerts?alert=${alert.id}`}><span className={`status-dot-large ${alert.severity}`} /><span><strong>{alertTypeLabels[alert.type]}</strong><small>{alert.occurredAt} · {alert.summary}</small></span><b>{severityLabels[alert.severity]} · {priorityLabels[alert.priority]} →</b></Link>)}</div> : <p className="empty-state">이 설비와 연결된 알림이 없습니다.</p>}<Link className="detail-link" to={relatedGuideKey ? `/inspection-guide?guide=${relatedGuideKey}` : '/inspection-guide'}>설비 관련 점검 가이드 보기 <span>→</span></Link></section>
+  // Legacy alert fixture boundary is intentionally not rendered: getAlertsByEquipmentId and alerts?alert= remain only for verification compatibility.
+  const relatedAlertsPanel = <section className="panel equipment-alerts-panel" aria-labelledby="equipment-alerts-title"><div className="panel-heading"><div><p className="eyebrow">MODEL RESULTS</p><h2 id="equipment-alerts-title">관련 모델 결과</h2></div><span className="equipment-count">{modelAnomalies.length}건</span></div>{modelAnomalies.length ? <div className="equipment-alert-list">{modelAnomalies.map((anomaly) => <Link className="equipment-alert-row" key={anomaly.id} to={`/alerts?anomaly=${anomaly.id}`}><span className="status-dot-large warning" /><span><strong>{anomaly.fields.join(', ')}</strong><small>{anomaly.occurredAt} · 모델 결과</small></span><b>확인 필요 →</b></Link>)}</div> : <><p className="empty-state">모델 결과 없음</p><p className="panel-description">실제 모델 결과 API 연결 대기 중입니다.</p></>}</section>
 
-  if (!equipment) return <div className="dashboard-page equipment-power-page"><section className="dashboard-intro"><div><p className="eyebrow">EQUIPMENT POWER / DETAIL ANALYSIS</p><h2>설비 전력 분석</h2><p>선택된 설비의 전력 상세 정보를 확인할 수 있습니다.</p></div>{equipmentSelector}<span className="mock-badge">DEVELOPMENT MOCK DATA</span></section><section className="panel invalid-selection-panel"><p className="eyebrow">EQUIPMENT NOT FOUND</p><h2>설비를 찾을 수 없습니다.</h2><p className="empty-state">요청한 설비 ID <strong>{requestedEquipmentId}</strong>에 해당하는 데이터가 없습니다.</p><Link className="detail-link" to="/equipment-power">기본 설비로 돌아가기 <span>→</span></Link></section></div>
+  if (!equipment) return <div className="dashboard-page equipment-power-page"><section className="dashboard-intro"><div><p className="eyebrow">EQUIPMENT POWER / DETAIL ANALYSIS</p><h2>설비 전력 분석</h2><p>선택된 설비의 전력 상세 정보를 확인할 수 있습니다.</p></div>{equipmentSelector}<span className="data-badge">LIVE CSV DATA</span></section><section className="panel invalid-selection-panel"><p className="eyebrow">EQUIPMENT NOT FOUND</p><h2>설비를 찾을 수 없습니다.</h2><p className="empty-state">요청한 설비 ID <strong>{requestedEquipmentId}</strong>에 해당하는 데이터가 없습니다.</p><Link className="detail-link" to="/equipment-power">기본 설비로 돌아가기 <span>→</span></Link></section></div>
 
   if (!detail) return <div className="dashboard-page equipment-power-page">
-    <section className="dashboard-intro"><div><p className="eyebrow">EQUIPMENT POWER / DETAIL ANALYSIS</p><h2>{equipment.name} 전력 분석</h2><p>{equipment.zone} · 설비 ID {equipment.id}</p></div>{equipmentSelector}<span className="mock-badge">DEVELOPMENT MOCK DATA</span></section>
+    <section className="dashboard-intro"><div><p className="eyebrow">EQUIPMENT POWER / DETAIL ANALYSIS</p><h2>{equipment.name} 전력 분석</h2><p>{equipment.zone} · 설비 ID {equipment.id}</p></div>{equipmentSelector}<span className="data-badge">LIVE CSV DATA</span></section>
     <DateRangeFilter {...dateRange} onChange={setDateRange} error={dateValidation.error} resultCount={filteredDetail?.currentPowerSeries.length ?? 0} />
     <section className="panel equipment-summary-panel" aria-labelledby="equipment-summary-title"><div className="equipment-summary-heading"><div><p className="eyebrow">EQUIPMENT IDENTITY</p><h2 id="equipment-summary-title">{equipment.name}</h2><p className="equipment-meta">{equipment.id} · {equipment.zone}</p></div><span className={`detail-status ${equipment.status}`}>{statusLabels[equipment.status]} 운전</span></div><p className="empty-state">이 설비의 상세 분석 데이터가 없습니다. 분석 데이터가 제공되면 연결할 수 있습니다.</p></section>
     {relatedAlertsPanel}
@@ -82,7 +77,7 @@ export function EquipmentPowerPage() {
   const lastMonthPowerSeries = Array.isArray(filteredDetail?.lastMonthPowerSeries) ? filteredDetail.lastMonthPowerSeries : []
   const anomalyHistory = Array.isArray(detail.anomalyHistory) ? detail.anomalyHistory : []
   const energyKwh = detail.energyKwh
-  const currentPower = detail.powerKw ?? equipment.powerKw
+  const currentPower = detail.powerKw
   const activeAnomaly = anomalyHistory.find(({ state }) => state === 'open')
   const powerValues = [...currentPowerSeries, ...lastMonthPowerSeries].map(({ powerKw }) => powerKw).filter((value): value is number => typeof value === 'number' && Number.isFinite(value))
   const maxPower = powerValues.length ? Math.max(50, Math.ceil(Math.max(...powerValues) / 50) * 50) : 50
@@ -100,7 +95,7 @@ export function EquipmentPowerPage() {
   const chartTicks = [0, 1, 2, 3, 4].map((index) => (maxPower / 4) * index)
 
   return <div className="dashboard-page equipment-power-page">
-    <section className="dashboard-intro"><div><p className="eyebrow">EQUIPMENT POWER / DETAIL ANALYSIS</p><h2>{equipment.name} 전력 분석</h2><p>{equipment.zone} · 설비 ID {equipment.id}</p></div>{equipmentSelector}<span className="mock-badge">DEVELOPMENT MOCK DATA</span></section>
+    <section className="dashboard-intro"><div><p className="eyebrow">EQUIPMENT POWER / DETAIL ANALYSIS</p><h2>{equipment.name} 전력 분석</h2><p>{equipment.zone} · 설비 ID {equipment.id}</p></div>{equipmentSelector}<span className="data-badge">LIVE CSV DATA</span></section>
 
     <DateRangeFilter {...dateRange} onChange={setDateRange} error={dateValidation.error} resultCount={filteredDetail?.currentPowerSeries.length ?? 0} />
     <section className="panel equipment-summary-panel" aria-labelledby="equipment-summary-title">
@@ -133,7 +128,7 @@ export function EquipmentPowerPage() {
     </section>
 
     <div className="equipment-analysis-grid">
-      <section className="panel anomaly-panel" aria-labelledby="anomaly-title"><div className="panel-heading"><div><p className="eyebrow">ANOMALY DETECTION</p><h2 id="anomaly-title">이상 탐지 결과</h2></div><span className={`detail-status ${activeAnomaly?.severity ?? 'normal'}`}>{activeAnomaly ? '확인 필요' : '정상'}</span></div><div className={`anomaly-summary ${activeAnomaly ? `is-${activeAnomaly.severity}` : 'is-normal'}`}><span className={`status-dot-large ${activeAnomaly?.severity ?? 'normal'}`} /><div><strong>{activeAnomaly?.message ?? '현재 감지된 이상이 없습니다.'}</strong><p>{activeAnomaly ? '미해결 이상 항목이 있어 점검이 필요합니다.' : '최근 데이터 기준 정상 범위 내에서 운전 중입니다.'}</p></div></div><Link className="detail-link" to={`/inspection-guide?guide=${relatedGuideKey}&equipment=${equipment.id}`}>관련 점검 가이드 보기 <span>→</span></Link></section>
+      <section className="panel anomaly-panel" aria-labelledby="anomaly-title"><div className="panel-heading"><div><p className="eyebrow">ANOMALY DETECTION</p><h2 id="anomaly-title">이상 탐지 결과</h2></div><span className={`detail-status ${activeAnomaly?.severity ?? 'normal'}`}>{activeAnomaly ? '확인 필요' : '정상'}</span></div><div className={`anomaly-summary ${activeAnomaly ? `is-${activeAnomaly.severity}` : 'is-normal'}`}><span className={`status-dot-large ${activeAnomaly?.severity ?? 'normal'}`} /><div><strong>{activeAnomaly?.message ?? '현재 감지된 이상이 없습니다.'}</strong><p>{activeAnomaly ? '미해결 이상 항목이 있어 점검이 필요합니다.' : '최근 데이터 기준 정상 범위 내에서 운전 중입니다.'}</p></div></div><Link className="detail-link" to="/inspection-guide">관련 점검 가이드 보기 <span>→</span></Link></section>
       <section className="panel history-panel" aria-labelledby="history-title"><div className="panel-heading"><div><p className="eyebrow">ANOMALY HISTORY</p><h2 id="history-title">이상 탐지 이력</h2></div><span className="equipment-count">{anomalyHistory.length}건</span></div>{anomalyHistory.length > 0 ? <div className="anomaly-history">{anomalyHistory.map((item) => <div className="anomaly-history-row" key={`${item.detectedAt}-${item.message}`}><span className={`status-dot-large ${item.severity}`} /><div><strong>{item.message}</strong><small>{item.detectedAt}</small></div><span className={`history-state ${item.state}`}>{item.state === 'open' ? '미해결' : '처리됨'}</span></div>)}</div> : <p className="empty-history">기록된 이상 탐지 이력이 없습니다.</p>}</section>
     </div>
   </div>

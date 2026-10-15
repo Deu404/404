@@ -4,7 +4,6 @@ import { AlertsPage } from './pages/AlertsPage'
 import { DashboardPage } from './pages/DashboardPage'
 import { EquipmentPowerPage } from './pages/EquipmentPowerPage'
 import { FactoryLayoutPage } from './pages/FactoryLayoutPage'
-import { ForecastPage } from './pages/ForecastPage'
 import { InspectionGuidePage } from './pages/InspectionGuidePage'
 
 export default function App() {
@@ -12,11 +11,12 @@ export default function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<DashboardPage />} />
+        <Route path="/factory-layout" element={<FactoryLayoutPage />} />
         <Route path="/layout" element={<FactoryLayoutPage />} />
         <Route path="/equipment-power" element={<EquipmentPowerPage />} />
         <Route path="/alerts" element={<AlertsPage />} />
         <Route path="/inspection-guide" element={<InspectionGuidePage />} />
-        <Route path="/forecast" element={<ForecastPage />} />
+        <Route path="/forecast" element={<Navigate to="/" replace />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>

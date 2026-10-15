@@ -57,5 +57,3 @@ export function resolveEquipment(equipmentId: string | null | undefined): Equipm
   return getEquipmentById(equipmentId) ?? getDefaultEquipment()
 }
 
-// Compatibility name for the existing equipment-detail verification boundary.
-export const resolveMockEquipment = resolveEquipment

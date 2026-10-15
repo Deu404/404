@@ -1,12 +1,13 @@
-import { getDashboardPowerSeries } from '../../services/powerService'
+import type { DashboardPowerPoint } from '../../types/power'
 
 const WIDTH = 760
 const HEIGHT = 280
 const PADDING = { top: 24, right: 24, bottom: 48, left: 58 }
 const MAX_VALUE = 1600
 
-export function PowerConsumptionChart() {
-  const series = getDashboardPowerSeries()
+type PowerConsumptionChartProps = { series: DashboardPowerPoint[] }
+
+export function PowerConsumptionChart({ series }: PowerConsumptionChartProps) {
   const chartWidth = WIDTH - PADDING.left - PADDING.right
   const chartHeight = HEIGHT - PADDING.top - PADDING.bottom
   const points = series.flatMap((item, index) => item.value === undefined ? [] : [{

@@ -8,6 +8,12 @@ export type DashboardPowerPoint = {
   value?: number
 }
 
+export type ForecastComparisonPoint = {
+  time: string
+  predictedPowerKw: number
+  actualPowerKw: number
+}
+
 export type PowerMeasurement = {
   measuredAt?: string
   activePowerKw?: number
