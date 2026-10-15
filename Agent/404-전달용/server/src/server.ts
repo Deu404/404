@@ -1,0 +1,32 @@
+// PlantEye 에이전트 HTTP API.
+// 실행: node src/server.ts (server 폴더에서)
+import { createServer } from 'node:http'
+import { runAgent } from './agent.ts'
+
+const port = Number(process.env.PORT || 8787)
+
+function send(res: any, status: number, body: unknown) {
+  res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Content-Type', 'Access-Control-Allow-Methods': 'POST, OPTIONS' })
+  res.end(JSON.stringify(body))
+}
+
+async function readBody(req: any) {
+  let raw = ''
+  for await (const chunk of req) raw += chunk
+  return JSON.parse(raw || '{}')
+}
+
+const server = createServer(async (req, res) => {
+  if (req.method === 'OPTIONS') return send(res, 204, {})
+  if (req.method !== 'POST' || req.url !== '/api/agent') return send(res, 404, { status: 'error', message: 'POST /api/agent만 지원합니다.' })
+  try {
+    const body = await readBody(req)
+    const result = await runAgent(body)
+    return send(res, 200, result)
+  } catch (error) {
+    const message = error instanceof Error ? error.message : '알 수 없는 서버 오류입니다.'
+    return send(res, 500, { status: 'error', message, demoOnly: true })
+  }
+})
+
+server.listen(port, () => console.log(`PlantEye agent API listening on http://localhost:${port}`))
