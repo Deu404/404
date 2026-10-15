@@ -1,12 +1,14 @@
-// 에이전트 도구 4개. AI 연결 전에 단독 실행으로 검증 가능하도록 순수 함수로 작성한다.
+// 에이전트 도구 6개. AI 연결 전에 단독 실행으로 검증 가능하도록 순수 함수로 작성한다.
 // 계산·규칙 판단은 모두 여기서 수행하고, 요약된 결과만 반환한다(원본 전체를 반환하지 않음).
-import { findDemoCase } from './fixtures/demoCases.ts'
+import { DEMO_CASES, findDemoCase } from './fixtures/demoCases.ts'
 import { findDemoGuide } from './fixtures/demoGuides.ts'
 import { DEMO_PRIORITY, RULE_VERSION, evaluateAll, ruleId } from './rules.ts'
 import type {
   AlertType,
   AnomalyCaseResult,
   ClassifyResult,
+  ExecutiveReportResult,
+  ForecastSummaryResult,
   GuideResult,
   PriorityResult,
   ToolMeta,
@@ -38,7 +40,7 @@ function collectMissing(caseId: string): string[] {
 }
 
 // ---- 1) get_anomaly_case ----
-export function get_anomaly_case(input: { caseId?: unknown }): AnomalyCaseResult | ToolMeta {
+export function get_anomaly_case(input?: { caseId?: unknown }): AnomalyCaseResult | ToolMeta {
   const caseId = input?.caseId
   if (typeof caseId !== 'string' || caseId.trim() === '') {
     return baseMeta({ status: 'invalid_input', message: 'caseId(문자열)가 필요합니다.' })
@@ -58,16 +60,17 @@ export function get_anomaly_case(input: { caseId?: unknown }): AnomalyCaseResult
     }),
     equipmentId: c.equipmentId,
     equipmentName: c.equipmentName,
+    location: c.location,
     measuredAt: c.measuredAt,
     measurements: c.measurements,
     units: { current: 'A', powerFactor: 'ratio_0_1', activePower: 'kW' },
     comparison: c.comparison,
-    detectorResult: null,
+    detectorResult: c.detectorResult ?? null,
   }
 }
 
 // ---- 2) classify_anomaly ----
-export function classify_anomaly(input: { caseId?: unknown }): ClassifyResult | ToolMeta {
+export function classify_anomaly(input?: { caseId?: unknown }): ClassifyResult | ToolMeta {
   const caseId = input?.caseId
   if (typeof caseId !== 'string' || caseId.trim() === '') {
     return baseMeta({ status: 'invalid_input', message: 'caseId(문자열)가 필요합니다.' })
@@ -99,7 +102,7 @@ export function classify_anomaly(input: { caseId?: unknown }): ClassifyResult | 
 }
 
 // ---- 3) evaluate_priority ----
-export function evaluate_priority(input: { caseId?: unknown }): PriorityResult | ToolMeta {
+export function evaluate_priority(input?: { caseId?: unknown }): PriorityResult | ToolMeta {
   const caseId = input?.caseId
   if (typeof caseId !== 'string' || caseId.trim() === '') {
     return baseMeta({ status: 'invalid_input', message: 'caseId(문자열)가 필요합니다.' })
@@ -147,7 +150,7 @@ export function evaluate_priority(input: { caseId?: unknown }): PriorityResult |
 }
 
 // ---- 4) get_inspection_guide ----
-export function get_inspection_guide(input: { alertType?: unknown }): GuideResult | ToolMeta {
+export function get_inspection_guide(input?: { alertType?: unknown }): GuideResult | ToolMeta {
   const alertType = input?.alertType
   if (typeof alertType !== 'string' || !VALID_TYPES.includes(alertType as AlertType)) {
     return baseMeta({ status: 'invalid_input', message: `alertType은 ${VALID_TYPES.join(', ')} 중 하나여야 합니다.` })
@@ -171,4 +174,73 @@ export function get_inspection_guide(input: { alertType?: unknown }): GuideResul
   }
 }
 
-export const TOOLS = { get_anomaly_case, classify_anomaly, evaluate_priority, get_inspection_guide }
+// ---- 5) get_forecast_summary (신규: 5월 전기요금 및 탄소배출량 예측 요약) ----
+export function get_forecast_summary(_input?: unknown): ForecastSummaryResult | ToolMeta {
+  void _input
+  return {
+    status: 'ok',
+    dataSource: 'forecast_model_v1',
+    demoOnly: false,
+    missingFields: [],
+    message: '2025년 5월 10일~31일 시간대별 전력 예측치 및 요금·탄소 집계 데이터를 조회했습니다.',
+    period: '2025-05-10 00:00:00 ~ 2025-05-31 00:00:00 (총 21일간)',
+    hoursCount: 505,
+    totalPredictedPowerKWh: 19760337.47,
+    totalEstimatedCostKRW: 3556860745,
+    totalEstimatedCarbonKg: 8378383.09,
+    peakHour: {
+      hour: '2025-05-10 04:00',
+      powerKWh: 39205.81,
+      estimatedCostKRW: 7057046,
+    },
+    evaluationMetrics: {
+      hourlyPowMAE: 89.64,
+      billMAE: 16135.52,
+      carbonMAE: 38.01,
+    },
+  }
+}
+
+// ---- 6) get_executive_report_data (신규: 경영자용 종합 분석 리포트 데이터) ----
+export function get_executive_report_data(_input?: unknown): ExecutiveReportResult | ToolMeta {
+  void _input
+  const cases = DEMO_CASES
+  const critical = cases.filter((c) => {
+    const ev = evaluateAll(c)
+    return ev.some((e) => e.result === 'matched' && DEMO_PRIORITY[e.alertType] === 'high')
+  })
+
+  return {
+    status: 'ok',
+    dataSource: 'forecast_model_v1',
+    demoOnly: false,
+    missingFields: [],
+    message: '설비 이상 리스크 통계와 5월 비용 예측 지표를 종합한 경영 리포트용 데이터를 조회했습니다.',
+    reportPeriod: '2025년 5월 (5.10 ~ 5.31 분석 기준)',
+    forecastSummary: {
+      totalPowerKWh: 19760337.47,
+      totalCostKRW: 3556860745,
+      totalCarbonKg: 8378383.09,
+      peakHour: '2025-05-10 04:00 (최대 39,205.81 kWh 예상)',
+    },
+    anomaliesSummary: {
+      totalCasesChecked: cases.length,
+      criticalEquipments: [...new Set(critical.map((c) => `${c.equipmentName} (${c.equipmentId})`))],
+      commonDefectTypes: ['overcurrent (과전류)', 'phase-current-imbalance (상간 전류 불균형)'],
+    },
+    recommendations: [
+      '피크 예상 시간대(새벽 4시 전후) 고전력 설비의 가동 분산으로 최대 부하 요금 억제 필요',
+      '기획서 시나리오 1 대상인 3호기(robot-03)의 과전류 및 4호기(robot-02) 전류 불균형 대상 사전 절연/배선 점검 권장',
+      '전기요금 산출 모델 오차(MAE)가 약 1.6만 원 선으로 높은 정확도를 보이므로 익월 예산 수립에 신뢰성 있게 활용 가능',
+    ],
+  }
+}
+
+export const TOOLS = {
+  get_anomaly_case,
+  classify_anomaly,
+  evaluate_priority,
+  get_inspection_guide,
+  get_forecast_summary,
+  get_executive_report_data,
+}

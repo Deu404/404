@@ -25,10 +25,23 @@ export type ToolMeta = {
   caseId?: string
   caseVersion?: string
   ruleVersion?: string
-  dataSource: 'synthetic'
-  demoOnly: true
+  dataSource: 'synthetic' | 'forecast_model_v1'
+  demoOnly: boolean
   missingFields: string[]
   message: string
+}
+
+export type DetectorResult = {
+  modelDetected: boolean
+  modelName: string
+  suspectedFields: string[]
+  occurredAt?: string
+} | null
+
+export type EquipmentLocation = {
+  x: number
+  y: number
+  zone: string
 }
 
 // ---- 데모 사례 저장소에 들어가는 원본 형태 ----
@@ -37,6 +50,7 @@ export type DemoCase = {
   caseVersion: string
   equipmentId: string
   equipmentName: string
+  location?: EquipmentLocation
   measuredAt: string // 시간대 포함 ISO
   measurements: {
     currentR: number | null
@@ -52,6 +66,7 @@ export type DemoCase = {
     referenceAt: string | null
     referenceBasis: string | null
   } | null
+  detectorResult?: DetectorResult
   note: string // 이 사례가 어떤 시나리오인지(데모 설명)
 }
 
@@ -59,11 +74,12 @@ export type DemoCase = {
 export type AnomalyCaseResult = ToolMeta & {
   equipmentId: string
   equipmentName: string
+  location?: EquipmentLocation
   measuredAt: string
   measurements: DemoCase['measurements']
   units: { current: 'A'; powerFactor: 'ratio_0_1'; activePower: 'kW' }
   comparison: DemoCase['comparison']
-  detectorResult: null
+  detectorResult: DetectorResult
 }
 
 // ---- 2) classify_anomaly 출력 ----
@@ -108,4 +124,40 @@ export type GuideResult = ToolMeta & {
   reportConditions: string[]
   source: string
   guideVersion: string
+}
+
+// ---- 5) get_forecast_summary 출력 (신규) ----
+export type ForecastSummaryResult = ToolMeta & {
+  period: string
+  hoursCount: number
+  totalPredictedPowerKWh: number
+  totalEstimatedCostKRW: number
+  totalEstimatedCarbonKg: number
+  peakHour: {
+    hour: string
+    powerKWh: number
+    estimatedCostKRW: number
+  }
+  evaluationMetrics: {
+    hourlyPowMAE: number
+    billMAE: number
+    carbonMAE: number
+  }
+}
+
+// ---- 6) get_executive_report_data 출력 (신규) ----
+export type ExecutiveReportResult = ToolMeta & {
+  reportPeriod: string
+  forecastSummary: {
+    totalPowerKWh: number
+    totalCostKRW: number
+    totalCarbonKg: number
+    peakHour: string
+  }
+  anomaliesSummary: {
+    totalCasesChecked: number
+    criticalEquipments: string[]
+    commonDefectTypes: string[]
+  }
+  recommendations: string[]
 }

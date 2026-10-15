@@ -1,6 +1,13 @@
 // 도구 단독 검증 스크립트. AI 연결 전에 각 도구를 예시 입력으로 실행해 출력을 확인한다.
 // 실행: node src/verifyTools.ts  (server 폴더에서)
-import { classify_anomaly, evaluate_priority, get_anomaly_case, get_inspection_guide } from './tools.ts'
+import {
+  classify_anomaly,
+  evaluate_priority,
+  get_anomaly_case,
+  get_executive_report_data,
+  get_forecast_summary,
+  get_inspection_guide,
+} from './tools.ts'
 
 function show(title: string, result: unknown) {
   console.log('\n========== ' + title + ' ==========')
@@ -34,3 +41,13 @@ show('classify_anomaly(빈 입력)', classify_anomaly({}))
 
 // 8) 분기: 가이드 없는(= 유효하지 않은) 유형
 show('get_inspection_guide(unknown-type)', get_inspection_guide({ alertType: 'unknown-type' }))
+
+// 9) [신규] 5월 전기요금 및 탄소배출량 예측 요약 조회
+show('get_forecast_summary()', get_forecast_summary())
+
+// 10) [신규] 경영자용 종합 분석 리포트 데이터 조회
+show('get_executive_report_data()', get_executive_report_data())
+
+// 11) [신규] ML 탐지 모델 연계 사례(PM-3)
+show('get_anomaly_case(demo-pm3-005)', get_anomaly_case({ caseId: 'demo-pm3-005' }))
+

@@ -9,7 +9,7 @@ PowerShell 실행 정책으로 `npm`이 막혀 있어도 아래 명령은 동작
 ```powershell
 cd "c:\Users\samsung\Desktop\데이터분석\404-main\server"
 $env:OPENAI_API_KEY = "나중에_발급받은_키"
-$env:OPENAI_MODEL = "gpt-4o-mini"
+$env:OPENAI_MODEL = "gpt-5-mini"
 node src/server.ts
 ```
 
