@@ -16,7 +16,8 @@
     "agent": "node --env-file-if-exists=server/.env server/src/server.ts",
     "test:agent": "node server/src/verifyTools.ts",
     "test:decision": "node scripts/verify-agent.ts",
-    "test:agent-integration": "node scripts/verify-model-agent-browser.mjs"
+    "test:agent-integration": "node scripts/verify-model-agent-browser.mjs",
+    "dev:all": "node scripts/dev.mjs"
   },
   "dependencies": {
     "react": "^19.1.1",

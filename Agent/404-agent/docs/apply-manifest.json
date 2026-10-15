@@ -1,0 +1,325 @@
+{
+  "files": [
+    {
+      "path": "eslint.config.js",
+      "sha256": "7ae99e628c3aa24c02fc095d09fe6719182627cb96e5b1e06def2e3188bc8bf3",
+      "acceptedHashes": [
+        "eb50be4353e92199bb33ceb30e1291d3c155e6588cea271e64569a15653b595a",
+        "f92e01ce56db3c310a810923a9ca721e5dfdf13834cc608ac0285f3bdf9cafbe"
+      ]
+    },
+    {
+      "path": "scripts/verify-agent.ts",
+      "sha256": "4b58aac9e46bbd67a00f8a63590d1ec527d8c4ea6f3a6fc11f1d7135313e21f2",
+      "acceptedHashes": [
+        "02642f35444edf23ea921131f5466fa3f45fe0ae7b4479ac936dbd46dcadc9d4",
+        "4b58aac9e46bbd67a00f8a63590d1ec527d8c4ea6f3a6fc11f1d7135313e21f2"
+      ]
+    },
+    {
+      "path": "scripts/verify-canonical-fixtures.mjs",
+      "sha256": "363534757b65953b9458e8f5019c017c96d5e901c69d087d4cedee2ba3cf7cf9",
+      "acceptedHashes": [
+        "363534757b65953b9458e8f5019c017c96d5e901c69d087d4cedee2ba3cf7cf9",
+        "38dc89a1c9b9b2fb4c7f6f2c58546a373ae63a12db1b6f86abe23f5928705e17"
+      ]
+    },
+    {
+      "path": "scripts/verify-data-boundary.mjs",
+      "sha256": "42717b89ca77cd25b24290babc623415af4fc071638a56dceec6d99b972c3306",
+      "acceptedHashes": [
+        "383d11f5e143b26b275a2d9373a9f01c33816d1f9e9851d4107c15b16e81d622",
+        "42717b89ca77cd25b24290babc623415af4fc071638a56dceec6d99b972c3306"
+      ]
+    },
+    {
+      "path": "scripts/verify-equipment-detail-browser.mjs",
+      "sha256": "de9448e3da4f9b10c8cba9f6a8c60b87252f5a3204380364fbf451b7ead11a88",
+      "acceptedHashes": [
+        "222905fd9d3af372754d95dc1f463e791acd917723bf9df626750593bed75392",
+        "de9448e3da4f9b10c8cba9f6a8c60b87252f5a3204380364fbf451b7ead11a88"
+      ]
+    },
+    {
+      "path": "scripts/verify-equipment-detail-render.mjs",
+      "sha256": "be77edf0cf35bf20288add5fc45ee701caf4f8dd6fe45d952ca7e15e94dcada4",
+      "acceptedHashes": [
+        "b428405b754054bbbdee1cc75c63a256c8bb8ad6c62f3e6e76942adc65000f5e",
+        "be77edf0cf35bf20288add5fc45ee701caf4f8dd6fe45d952ca7e15e94dcada4"
+      ]
+    },
+    {
+      "path": "scripts/verify-equipment-detail.mjs",
+      "sha256": "f04687109afe1087fdad503de5df68150da1b877a56db521139167cc1a292391",
+      "acceptedHashes": [
+        "c8b09eac21ced42511b59fc55736a09bf8541fc95dcf600c903fa13f4c47e550",
+        "f04687109afe1087fdad503de5df68150da1b877a56db521139167cc1a292391"
+      ]
+    },
+    {
+      "path": "server/.env.example",
+      "sha256": "89310a645a8fdbbd0dd691d02ebe9a5d12f28898aad07a47c1e5d93c5cd0d4e1",
+      "acceptedHashes": [
+        "89310a645a8fdbbd0dd691d02ebe9a5d12f28898aad07a47c1e5d93c5cd0d4e1"
+      ]
+    },
+    {
+      "path": "server/README.md",
+      "sha256": "9ba01cedf0483986f766c2538e58b304d5b4fbdaff5529eb147f29ceddc38227",
+      "acceptedHashes": [
+        "501df41928a9c58caebbdedc92ed4d6acb054b5cab8291097acea1ba0b473c53",
+        "9ba01cedf0483986f766c2538e58b304d5b4fbdaff5529eb147f29ceddc38227"
+      ]
+    },
+    {
+      "path": "server/prompt.txt",
+      "sha256": "b29bc225eeba99c6734ca1feef8b8388674a668cf0edd18323b26220e00f8b81",
+      "acceptedHashes": [
+        "b29bc225eeba99c6734ca1feef8b8388674a668cf0edd18323b26220e00f8b81"
+      ]
+    },
+    {
+      "path": "server/src/agent.ts",
+      "sha256": "5f8df4406541d2fed8690738900dcdfd17e0dc16b86fd4af447ec7e81a2740bd",
+      "acceptedHashes": [
+        "5f8df4406541d2fed8690738900dcdfd17e0dc16b86fd4af447ec7e81a2740bd",
+        "c79b38690e190f785065e861326b3fe4eb0e617fa649eab557e23d45cdc54bf0"
+      ]
+    },
+    {
+      "path": "server/src/fixtures/demoCases.ts",
+      "sha256": "1b78b62219425c2648092d016bda831707bd3ebfb601642de70bf03f4a8bf57a",
+      "acceptedHashes": [
+        "1b78b62219425c2648092d016bda831707bd3ebfb601642de70bf03f4a8bf57a"
+      ]
+    },
+    {
+      "path": "server/src/fixtures/demoGuides.ts",
+      "sha256": "632dd6083abde195ee854fae47e96b9207ecadfb57653d7191502427cc28732a",
+      "acceptedHashes": [
+        "632dd6083abde195ee854fae47e96b9207ecadfb57653d7191502427cc28732a"
+      ]
+    },
+    {
+      "path": "server/src/rules.ts",
+      "sha256": "eedbd9888ce217ddf13f07ea35deab2b4d14d0f2d393315bd38c7e8bbd5d403e",
+      "acceptedHashes": [
+        "eedbd9888ce217ddf13f07ea35deab2b4d14d0f2d393315bd38c7e8bbd5d403e"
+      ]
+    },
+    {
+      "path": "server/src/tools.ts",
+      "sha256": "680a6965cec4d0617a85c26278d8b8b13cde4770cbdb40524cb7d3d657d8a7c6",
+      "acceptedHashes": [
+        "680a6965cec4d0617a85c26278d8b8b13cde4770cbdb40524cb7d3d657d8a7c6"
+      ]
+    },
+    {
+      "path": "server/src/types.ts",
+      "sha256": "2257943be1083e6235b4cead3844162e5a670db5e5ae834625f9f499f8c4991c",
+      "acceptedHashes": [
+        "2257943be1083e6235b4cead3844162e5a670db5e5ae834625f9f499f8c4991c"
+      ]
+    },
+    {
+      "path": "server/src/verifyTools.ts",
+      "sha256": "b2fa5b6d6700df822d58a92704306853acff4b786d238b256c212406e9048aba",
+      "acceptedHashes": [
+        "b2fa5b6d6700df822d58a92704306853acff4b786d238b256c212406e9048aba"
+      ]
+    },
+    {
+      "path": "server/tsconfig.json",
+      "sha256": "b54d79d2679ed3434526b51a744b0f236755c0996fb0df69f952ac2933aeb74f",
+      "acceptedHashes": [
+        "b54d79d2679ed3434526b51a744b0f236755c0996fb0df69f952ac2933aeb74f"
+      ]
+    },
+    {
+      "path": "src/App.tsx",
+      "sha256": "857440e98b0c34959f8f32286e725901174c93365c3c8459f298fffa75fa7398",
+      "acceptedHashes": [
+        "79069c3e3f5813cca2cb5982c70d54b928370c89e19ca1f8720b93418246ebcf",
+        "857440e98b0c34959f8f32286e725901174c93365c3c8459f298fffa75fa7398",
+        "f6aecfeedc9526994e561b9440a8515a00ef88c3d265a679cd7e59e8695f661b"
+      ]
+    },
+    {
+      "path": "src/components/alerts/AgentPanel.tsx",
+      "sha256": "b1cd11de8da244652a5a9534bd2922cf1267a1b1ee046e418c7257929d509ecd",
+      "acceptedHashes": [
+        "b1cd11de8da244652a5a9534bd2922cf1267a1b1ee046e418c7257929d509ecd",
+        "c52fa0cfe91ec6c1d1383cbab2072eb6f8f84bfdeff946fd74f7a39e86bd08de",
+        "f9b3ac1f0d04e4d72f4dd3c363157996224a9b4bfc9bd2aa53a605d8db22997f"
+      ]
+    },
+    {
+      "path": "src/components/alerts/DecisionCard.tsx",
+      "sha256": "f738247a5d7cb07870b7c96e90a99e1f2053c39ac691bce050003e7b3a8c5271",
+      "acceptedHashes": [
+        "e052f9dfc4bcfe1d0febfab68dfdbc516bb7107bb60b491ae4aced0b4b3048a8",
+        "f738247a5d7cb07870b7c96e90a99e1f2053c39ac691bce050003e7b3a8c5271"
+      ]
+    },
+    {
+      "path": "src/config/equipmentDataMap.ts",
+      "sha256": "a316cb4dc514f83d7f59cf9356d692e96cf656f3ee641a07c790f1f018161c5b",
+      "acceptedHashes": [
+        "a316cb4dc514f83d7f59cf9356d692e96cf656f3ee641a07c790f1f018161c5b"
+      ]
+    },
+    {
+      "path": "src/mocks/mockAlerts.ts",
+      "sha256": "012dabeb30bc7f6cad935ea93350bcbb707c0ad177b046dd85142d27aa79d4d4",
+      "acceptedHashes": [
+        "012dabeb30bc7f6cad935ea93350bcbb707c0ad177b046dd85142d27aa79d4d4"
+      ]
+    },
+    {
+      "path": "src/pages/AgentDemoPage.tsx",
+      "sha256": "6144368463c04274eb589f8da83a47b70932596959c404d16982187f29d15281",
+      "acceptedHashes": [
+        "6144368463c04274eb589f8da83a47b70932596959c404d16982187f29d15281"
+      ]
+    },
+    {
+      "path": "src/pages/AlertsPage.tsx",
+      "sha256": "bf89c0bf4d106eef7852a1c6ba2b023de5a7f72fd9c233768956f0e3a1508f06",
+      "acceptedHashes": [
+        "2481de0168a4f80550ba8b2950b82ca7f225f7cd39662e063ec7372459dd2b11",
+        "2d175deb6ea67df0d157afc5575f49b1b963a0ebcf43fa9d8c25669d36c629b1",
+        "bf89c0bf4d106eef7852a1c6ba2b023de5a7f72fd9c233768956f0e3a1508f06"
+      ]
+    },
+    {
+      "path": "src/services/alertRules.ts",
+      "sha256": "84ace0e7cb30670d816cdb65541329ae27da4c42fad422b3b72eedcda747cf13",
+      "acceptedHashes": [
+        "84ace0e7cb30670d816cdb65541329ae27da4c42fad422b3b72eedcda747cf13",
+        "ac04f89751b05b99bab921e9448be3156f3ffaf41dbcdcb8f9dc75c5bda5ef98"
+      ]
+    },
+    {
+      "path": "src/services/alertService.ts",
+      "sha256": "8c44b6da8f784be1f4b5ba1eb59224dd5640c581d011d0b2f9a830a4b2a2656d",
+      "acceptedHashes": [
+        "8c44b6da8f784be1f4b5ba1eb59224dd5640c581d011d0b2f9a830a4b2a2656d",
+        "9ae9f8e33e0f14cbd4cad0bd8caf443de096b60aadc9c5602f91aa5f93fcb721"
+      ]
+    },
+    {
+      "path": "src/services/demoAgentService.ts",
+      "sha256": "3b5e31cf712312782dedd64f598736821c877e472cb3bb25dd4be551d96a8365",
+      "acceptedHashes": [
+        "3b5e31cf712312782dedd64f598736821c877e472cb3bb25dd4be551d96a8365"
+      ]
+    },
+    {
+      "path": "src/shared/decision.ts",
+      "sha256": "79eb325e226bf9094ecd6ee9b00dfb2e3e5b89270aabc56ae96299ea40699f3f",
+      "acceptedHashes": [
+        "3298d240f85a5451352d172a29cdc2762fadcb086a74b4ae0ff043832467262b",
+        "79eb325e226bf9094ecd6ee9b00dfb2e3e5b89270aabc56ae96299ea40699f3f"
+      ]
+    },
+    {
+      "path": "src/shared/demoGuides.ts",
+      "sha256": "33ab6396ebf17b39745e93c108d07fc035911c281a53e3fdad98679563d2d397",
+      "acceptedHashes": [
+        "33ab6396ebf17b39745e93c108d07fc035911c281a53e3fdad98679563d2d397"
+      ]
+    },
+    {
+      "path": "src/shared/modelDecision.ts",
+      "sha256": "85de9d094ef36811946f38d8b5e97140d877f0e1709afb91e684a12f9453dc3f",
+      "acceptedHashes": [
+        "85de9d094ef36811946f38d8b5e97140d877f0e1709afb91e684a12f9453dc3f"
+      ]
+    },
+    {
+      "path": "src/shared/rules.ts",
+      "sha256": "1bfd16cac72a6116514a6a8f2c05cd8518c9f53a3db15209e18d5a5e9142af89",
+      "acceptedHashes": [
+        "1bfd16cac72a6116514a6a8f2c05cd8518c9f53a3db15209e18d5a5e9142af89"
+      ]
+    },
+    {
+      "path": "src/shared/types.ts",
+      "sha256": "15ab83e2130ed3bad339035f647564130ef2ca18eabb217ad4dfc79f8f184318",
+      "acceptedHashes": [
+        "15ab83e2130ed3bad339035f647564130ef2ca18eabb217ad4dfc79f8f184318"
+      ]
+    },
+    {
+      "path": "src/styles/pages.css",
+      "sha256": "bc8ecd4d6aeaf0857ed51b6208d6ead2a1c0e6855ecb1e0bc3d7337d08bbbb29",
+      "acceptedHashes": [
+        "912e496bbf668f69418c0197cec4aaf9613049cc2354517c2bbb20ef98d12de0",
+        "b1f34da08abaf10714b629eff002136b31b2d6ba4c4747f9c7acd0df7dcd96f7",
+        "bc8ecd4d6aeaf0857ed51b6208d6ead2a1c0e6855ecb1e0bc3d7337d08bbbb29"
+      ]
+    },
+    {
+      "path": "src/types/alert.ts",
+      "sha256": "4685ff07de0871bf40f1dd29786c3c856c63bbd8df2f6358d8c5de73c70b5294",
+      "acceptedHashes": [
+        "4685ff07de0871bf40f1dd29786c3c856c63bbd8df2f6358d8c5de73c70b5294",
+        "ff9886700ce2ecb6208131535c1f21482464497c2a5c8dedaf4be0ef06a58f0d"
+      ]
+    },
+    {
+      "path": "vite.config.ts",
+      "sha256": "6f4099d8469cf9a07d66fdea303d163eb5733fb9f307dc07424d2a1ce15c3f9a",
+      "acceptedHashes": [
+        "54e0bb4b7aca262ccb44261c36845076c61c1fd3dfdaa8dccc05eaff824fcc7e",
+        "6f4099d8469cf9a07d66fdea303d163eb5733fb9f307dc07424d2a1ce15c3f9a",
+        "6fdaf7d633e668218bc38eb0cfcce2922df2699e1b4db8edf567ef7dcb653aa2",
+        "a8c0ebe22baab5012c0d85051690a8cf95296284e1e03903fe4ec7484c53bff2"
+      ]
+    },
+    {
+      "path": "scripts/verify-model-agent-browser.mjs",
+      "sha256": "a193cd69a67abf6de3c0eb46b7c52183a24b8e6753f35669aa51420d79987959",
+      "acceptedHashes": [
+        "6996f32d8fc8367e6d6137d845385b6bb6352fa2e2d5c073ee16146455cb0e2d",
+        "a193cd69a67abf6de3c0eb46b7c52183a24b8e6753f35669aa51420d79987959"
+      ]
+    },
+    {
+      "path": "tests/fixtures/equipment/equipment_1(PM-3).csv",
+      "sha256": "dbc790df972fae24c0149d23f9d565b663b4e379b40d926901f52cdbf0c73426",
+      "acceptedHashes": [
+        "dbc790df972fae24c0149d23f9d565b663b4e379b40d926901f52cdbf0c73426"
+      ]
+    },
+    {
+      "path": "tests/fixtures/equipment/README.md",
+      "sha256": "c65c59512524fa492a3d592b59c905f213f37c1ad2d1f91e8bcefc664ca7b359",
+      "acceptedHashes": [
+        "c65c59512524fa492a3d592b59c905f213f37c1ad2d1f91e8bcefc664ca7b359"
+      ]
+    },
+    {
+      "path": "server/src/server.ts",
+      "sha256": "c8ec2d3055024ce9512f6628412597170bb10057d808ea71aa215e19b8b3c43b",
+      "acceptedHashes": [
+        "074e47a3f9f8b7fa4f7074b3b5ec9f740a403aba5c78a6cb92fed4295ff1cf86",
+        "c8ec2d3055024ce9512f6628412597170bb10057d808ea71aa215e19b8b3c43b"
+      ]
+    },
+    {
+      "path": "scripts/dev.mjs",
+      "sha256": "c92f8afee956050c97b9dec07702f23e46f1b1c1be2c512454b2147fb0d31a2c",
+      "acceptedHashes": [
+        "c92f8afee956050c97b9dec07702f23e46f1b1c1be2c512454b2147fb0d31a2c"
+      ]
+    }
+  ],
+  "scripts": {
+    "agent": "node --env-file-if-exists=server/.env server/src/server.ts",
+    "test:agent": "node server/src/verifyTools.ts",
+    "test:decision": "node scripts/verify-agent.ts",
+    "test:agent-integration": "node scripts/verify-model-agent-browser.mjs",
+    "dev:all": "node scripts/dev.mjs"
+  }
+}

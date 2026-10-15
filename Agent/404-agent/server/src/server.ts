@@ -19,6 +19,14 @@ async function readBody(req: IncomingMessage) {
 
 const server = createServer(async (req, res) => {
   if (req.method === 'OPTIONS') return send(res, 204, {})
+  if (req.method === 'GET' && (req.url === '/' || req.url === '/health')) {
+    return send(res, 200, {
+      status: 'ok',
+      message: '에이전트 서버가 실행 중입니다. 화면은 Vite 터미널에 표시된 주소 뒤에 /agent-demo를 붙여 접속하세요.',
+      defaultScreenUrl: 'http://localhost:5173/agent-demo',
+      endpoint: 'POST /api/agent',
+    })
+  }
   if (req.method !== 'POST' || req.url !== '/api/agent') return send(res, 404, { status: 'error', message: 'POST /api/agent만 지원합니다.' })
   try {
     const body = await readBody(req)

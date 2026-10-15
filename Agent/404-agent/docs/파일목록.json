@@ -5,17 +5,12 @@
     {
       "path": "eslint.config.js",
       "source": "404-main",
-      "sha256": "f92e01ce56db3c310a810923a9ca721e5dfdf13834cc608ac0285f3bdf9cafbe"
+      "sha256": "7ae99e628c3aa24c02fc095d09fe6719182627cb96e5b1e06def2e3188bc8bf3"
     },
     {
       "path": "package-lock.json",
       "source": "404-main",
       "sha256": "8da6d28f45f3176b655e26d5eb980b61a7f170e4899a1e6570a0becb43e22034"
-    },
-    {
-      "path": "package.json",
-      "source": "404-main",
-      "sha256": "c359e02a8afd03e22ed86f71cfc2432927a316d9d4b106a7a93a15ec20d5fd82"
     },
     {
       "path": "scripts/verify-agent.ts",
@@ -81,11 +76,6 @@
       "path": "server/src/rules.ts",
       "source": "404-main",
       "sha256": "eedbd9888ce217ddf13f07ea35deab2b4d14d0f2d393315bd38c7e8bbd5d403e"
-    },
-    {
-      "path": "server/src/server.ts",
-      "source": "404-main",
-      "sha256": "20c04e016cdb7ac820ce222cb33f821ed35dd329a32c75ecdcbad50a01177566"
     },
     {
       "path": "server/src/tools.ts",
@@ -216,6 +206,21 @@
       "path": "tests/fixtures/equipment/README.md",
       "source": "404-agent (검증용 합성 자료 및 CSV 누락 처리 보완)",
       "sha256": "c65c59512524fa492a3d592b59c905f213f37c1ad2d1f91e8bcefc664ca7b359"
+    },
+    {
+      "path": "server/src/server.ts",
+      "source": "404-main (로컬 통합 실행 보완)",
+      "sha256": "c8ec2d3055024ce9512f6628412597170bb10057d808ea71aa215e19b8b3c43b"
+    },
+    {
+      "path": "scripts/dev.mjs",
+      "source": "404-main (로컬 통합 실행 보완)",
+      "sha256": "c92f8afee956050c97b9dec07702f23e46f1b1c1be2c512454b2147fb0d31a2c"
+    },
+    {
+      "path": "package.json",
+      "source": "404-main (로컬 통합 실행 보완)",
+      "sha256": "a759153943be846b84d803549838ebc37264ee59e2a298e5878f98776db91058"
     }
   ]
 }
