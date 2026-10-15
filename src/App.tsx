@@ -1,3 +1,4 @@
+import { AgentDemoPage } from './pages/AgentDemoPage'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { Layout } from './components/layout/Layout'
 import { AlertsPage } from './pages/AlertsPage'
@@ -14,6 +15,7 @@ export default function App() {
         <Route path="/factory-layout" element={<FactoryLayoutPage />} />
         <Route path="/layout" element={<FactoryLayoutPage />} />
         <Route path="/equipment-power" element={<EquipmentPowerPage />} />
+        <Route path="/agent-demo" element={<AgentDemoPage />} />
         <Route path="/alerts" element={<AlertsPage />} />
         <Route path="/inspection-guide" element={<InspectionGuidePage />} />
         <Route path="/forecast" element={<Navigate to="/" replace />} />

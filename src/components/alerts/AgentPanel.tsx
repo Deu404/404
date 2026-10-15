@@ -1,75 +1,70 @@
-import { useState } from 'react'
+import { decideModelAnomaly } from '../../shared/modelDecision.ts'
+import type { ModelAnomalyInput } from '../../shared/modelDecision.ts'
+import { useRef, useState } from 'react'
 import type { Alert } from '../../types/alert'
-import type { AnomalyDetection } from '../../types/anomaly'
+import { decideAlert, reportText } from '../../shared/decision.ts'
+import { DecisionCard } from './DecisionCard'
 
-const API_URL = 'http://localhost:8787/api/agent'
-
+const API_URL = '/api/agent'
 const suggestions = [
-  { label: '⭐ 한 번에 다 알려줘', message: '한 번에 다 알려줘. 어떤 이상인지, 우선순위와 근거, 무엇부터 점검하고 언제 보고해야 하는지 알려줘.' },
-  { label: '어떤 이상인지', message: '선택한 설비의 이상 사례를 확인해서 어떤 이상인지 알려줘.' },
-  { label: '우선순위·근거', message: '이 이상을 어느 우선순위로 확인해야 하고, 판단 근거는 뭐야?' },
-  { label: '점검·보고 조건', message: '이 상황에서는 무엇부터 점검하고 어떤 조건에서 담당자에게 보고해야 해?' },
-]
+  { label: '쉽게 설명해줘', message: '선택한 알림을 쉽게 설명해줘.', intent: 'anomaly' },
+  { label: '우선순위·근거', message: '어느 정도로 급하고 판단 근거는 뭐야?', intent: 'anomaly' },
+  { label: '점검·보고 조건', message: '점검 순서와 보고 조건을 짧게 알려줘.', intent: 'anomaly' },
+  { label: '5월 예상 요금·탄소', message: '2025년 5월 10일~31일 예상 요금과 탄소배출량을 알려줘.', intent: 'forecast' },
+  { label: '경영진 종합 리포트', message: '경영자용 종합 리포트를 작성해줘.', intent: 'executive' },
+] as const
 
-type AgentResult = {
-  status: string
-  conversationId?: string
-  reply?: { summary?: string; detail?: string }
-  evidence?: Array<Record<string, unknown>>
-  steps?: Array<{ id?: string; label?: string }>
-  reportConditions?: string[]
-  missingFields?: string[]
-  dataSource?: string
-  demoOnly?: boolean
-  toolTrace?: Array<{ name: string; status: string; target: string }>
-  message?: string
-}
-
-export function AgentPanel({ alert, anomaly }: { alert?: Alert; anomaly?: AnomalyDetection }) {
-  const selected = anomaly ?? alert
-  const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; text: string; result?: AgentResult }>>([])
+type Message = { role: 'user' | 'assistant'; text: string; notice?: string }
+export function AgentPanel({ alert, anomaly }: { alert?: Alert; anomaly?: ModelAnomalyInput }) {
+  const decision = alert ? decideAlert(alert) : anomaly ? decideModelAnomaly(anomaly) : undefined
+  const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
-  const [conversationId, setConversationId] = useState<string>()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const busy = useRef(false)
 
-  const current = selected
-  const isModelResult = current ? 'fields' in current : false
-
-  async function ask(message: string) {
-    if (!current || !message.trim() || loading) return
-    setMessages((current) => [...current, { role: 'user', text: message }])
-    setInput('')
-    setError('')
-    setLoading(true)
+  async function ask(message: string, intent?: string) {
+    if (!message.trim() || busy.current) return
+    busy.current = true
+    setMessages(current => [...current, { role: 'user', text: message }])
+    setInput(''); setError(''); setLoading(true)
     try {
-      const response = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message, conversationId, alertId: current.id, equipmentId: current.equipmentId, alertType: isModelResult ? 'model-anomaly' : ('type' in current ? current.type : undefined) }) })
-      const result: AgentResult = await response.json()
-      if (!response.ok || result.status === 'error') throw new Error(result.message || '에이전트 요청에 실패했습니다.')
-      setConversationId(result.conversationId)
-      setMessages((current) => [...current, { role: 'assistant', text: result.reply?.detail || '응답을 받았습니다.', result }])
-    } catch (caught) {
-      const messageText = caught instanceof Error ? caught.message : '에이전트 요청에 실패했습니다.'
-      setError(`${messageText} 에이전트 연결 대기 중입니다.`)
-    } finally {
-      setLoading(false)
-    }
+      const response = await fetch(API_URL, {
+        method: 'POST', signal: AbortSignal.timeout(30000), headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message, alert, anomaly, intent }),
+      })
+      const result = await response.json()
+      if (!response.ok) throw new Error('설명 서비스에 연결하지 못했어요.')
+      setMessages(current => [...current, { role: 'assistant', text: result.reply?.detail ?? '설명을 확인하지 못했어요.', notice: result.explanationNotice }])
+    } catch {
+      setError('설명 서비스에 연결하지 못했어요. 위의 판정·할 일·보고 안내는 그대로 확인할 수 있어요.')
+    } finally { busy.current = false; setLoading(false) }
   }
-
+  function makeReport() {
+    if (!decision) return
+    setMessages(current => [...current, { role: 'assistant', text: reportText(decision), notice: '복사해서 사용할 보고 초안이에요. 실제 보고는 직접 진행해 주세요.' }])
+  }
   return <section className="panel agent-panel" aria-label="AI 점검 안내">
-    <div className="panel-heading agent-heading"><div><p className="eyebrow">AI INSPECTION AGENT</p><h2>AI 점검 안내</h2><p className="agent-context">{current ? `${current.equipmentId} · ${isModelResult && 'fields' in current ? `의심 항목 ${current.fields.join(', ')}` : 'type' in current ? current.type : '모델 결과'}` : '선택된 모델 결과 없음'}</p></div><span className="data-badge">AGENT API</span></div>
-    <p className="agent-demo-notice">에이전트가 연결되기 전에는 안내·점검 순서·보고 조건을 생성하지 않습니다. 현재 연결 대기 상태입니다.</p>
-    <div className="agent-suggestions">{suggestions.map((suggestion) => <button type="button" key={suggestion.label} onClick={() => void ask(suggestion.message)} disabled={loading || !current}>{suggestion.label}</button>)}</div>
-    <div className="agent-messages" aria-live="polite">
-      {!messages.length && <p className="agent-empty">추천 질문을 선택하면 선택된 알림의 이상 유형, 우선순위, 점검 방법을 확인합니다.</p>}
-      {messages.map((message, index) => <div className={`agent-message ${message.role}`} key={`${message.role}-${index}`}><strong>{message.role === 'user' ? '질문' : '에이전트'}</strong><p>{message.text}</p>{message.result && <AgentEvidence result={message.result} />}</div>)}
-      {loading && <p className="agent-loading">도구를 조회하고 답변을 만드는 중입니다...</p>}
-      {error && <div className="agent-error"><strong>실행 실패</strong><p>{error}</p><button type="button" onClick={() => void ask(messages.at(-1)?.text || suggestions[0].message)}>다시 시도</button></div>}
+    <div className="panel-heading agent-heading"><div>
+      <p className="eyebrow">AI INSPECTION AGENT</p><h2>AI 점검 안내</h2>
+      <p className="agent-context" style={{ lineHeight: 1.6 }}>왼쪽에서 알림을 선택한 뒤, 아래 버튼을 누르거나 궁금한 점을 입력하세요.<br />이상 유형, 얼마나 급한지, 점검 순서와 보고가 필요한 상황을 알려드려요.</p>
+    </div><span className="mock-badge">{decision?.demoOnly ? '연습용 자료' : '모델 자료'}</span></div>
+    <>{decision ? <DecisionCard decision={decision} /> : <p className="agent-empty">선택된 모델 결과가 없어 알림 점검 버튼을 사용할 수 없어요. 아래 알림 목록에서 알림을 선택해 주세요. 목록이 비어 있으면 모델 결과 연결이 필요해요.</p>}</>
+    <div className="agent-suggestions">
+      {suggestions.map(s => <button type="button" key={s.label} disabled={loading || (!decision && s.intent === 'anomaly')} onClick={() => void ask(s.message, s.intent)}>{s.label}</button>)}
+      <button type="button" disabled={!decision} onClick={makeReport}>📋 보고 문구 만들기</button>
     </div>
-    <form className="agent-input" onSubmit={(event) => { event.preventDefault(); void ask(input) }}><input value={input} onChange={(event) => setInput(event.target.value)} placeholder={current ? '선택한 사례에 대해 질문하세요' : '모델 결과 연결 대기 중'} disabled={loading || !current} /><button type="submit" disabled={loading || !current || !input.trim()}>전송</button></form>
+    <div className="agent-messages" aria-live="polite">
+      {!messages.length && <p className="agent-empty">위 안내는 룰로 판단한 결과예요. 궁금한 부분을 질문하면 쉽게 설명해 드려요.</p>}
+      {messages.map((message, index) => <div className={`agent-message ${message.role}`} key={index}>
+        <strong>{message.role === 'user' ? '질문' : '설명·보고 초안'}</strong><p>{message.text}</p>{message.notice && <p>{message.notice}</p>}
+      </div>)}
+      {loading && <p className="agent-loading">확인된 결과를 쉽게 설명하는 중이에요...</p>}
+      {error && <p className="agent-error" role="alert">{error}</p>}
+    </div>
+    <form className="agent-input" onSubmit={event => { event.preventDefault(); void ask(input) }}>
+      <input aria-label="선택한 알림에 대한 질문" value={input} onChange={event => setInput(event.target.value)} placeholder="궁금한 점을 입력하세요" disabled={loading} />
+      <button type="submit" disabled={loading || !input.trim()}>전송</button>
+    </form>
   </section>
-}
-
-function AgentEvidence({ result }: { result: AgentResult }) {
-  return <details className="agent-evidence"><summary>확인된 값·미확인 항목·근거 보기</summary><div className="agent-evidence-block"><strong>확인된 값</strong>{result.evidence?.length ? <ul>{result.evidence.map((item, index) => <li key={index}>{JSON.stringify(item)}</li>)}</ul> : <p>도구가 확인한 값이 없습니다.</p>}</div><div className="agent-evidence-block agent-missing"><strong>미확인·보류</strong>{result.missingFields?.length ? <ul>{result.missingFields.map((field) => <li key={field}>{field}</li>)}</ul> : <p>없음</p>}</div>{result.steps?.length ? <div className="agent-evidence-block"><strong>점검 순서</strong><ol>{result.steps.map((step) => <li key={step.id}>{step.label}</li>)}</ol></div> : null}{result.reportConditions?.length ? <div className="agent-evidence-block"><strong>보고 조건</strong><ul>{result.reportConditions.map((condition) => <li key={condition}>{condition}</li>)}</ul></div> : null}<div className="agent-trace"><strong>근거 보기</strong>{result.toolTrace?.map((trace, index) => <span key={`${trace.name}-${index}`}>{trace.name} · {trace.status} · {trace.target}</span>)}</div></details>
 }

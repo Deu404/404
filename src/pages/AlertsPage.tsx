@@ -59,7 +59,7 @@ export function AlertsPage() {
     const searchable = `${anomaly.id} ${anomaly.equipmentId} ${anomaly.equipmentName} ${anomaly.fields.join(' ')}`.toLowerCase()
     return isDateInRange(anomaly.occurredAt, dateValidation) && (equipmentFilter === 'all' || anomaly.equipmentId === equipmentFilter) && searchable.includes(query.toLowerCase())
   }), [modelAnomalies, equipmentFilter, query, dateValidation])
-  const selected = anomalies.find(({ id }) => id === selectedId) ?? anomalies[0]
+  const selected = requestedId ? anomalies.find(({ id }) => id === requestedId) : anomalies.find(({ id }) => id === selectedId) ?? anomalies[0]
   const selectedEquipmentId = selected?.equipmentId ?? requestedEquipment ?? equipmentOptions[0]?.id
   const selectedEquipment = equipmentOptions.find(({ id }) => id === selectedEquipmentId) ?? equipmentOptions[0]
 
@@ -87,11 +87,11 @@ export function AlertsPage() {
   return <div className="dashboard-page alerts-page">
     <section className="dashboard-intro"><div><p className="eyebrow">ANOMALY MONITORING / FIELD VIEW</p><h2>이상탐지 대시보드</h2><p>실제 모델 결과와 설비 측정 데이터를 기준으로 확인합니다.</p></div><span className="data-badge">REAL DATA ONLY</span></section>
 
-    <div className="agent-top-section"><p className="panel-description">선택한 설비의 이상 항목과 측정 근거를 바탕으로 초기 점검을 안내합니다. 모델 감지는 고장 확정이 아닙니다.</p><AgentPanel anomaly={selected} /></div>
+    <div className="agent-top-section"><Link className="detail-link" to="/agent-demo">연습용 에이전트 확인</Link><p className="panel-description">선택한 설비의 이상 항목과 측정 근거를 바탕으로 초기 점검을 안내합니다. 모델 감지는 고장 확정이 아닙니다.</p><AgentPanel key={selected?.id ?? 'no-anomaly'} anomaly={selected} /></div>
 
     <section className="alert-summary-grid" aria-label="이상 알림 요약">
-      <div className="alert-summary-card urgent"><span>긴급</span><strong>에이전트 분류 대기</strong><small>모델 결과에 심각도·우선순위가 없습니다.</small></div>
-      <div className="alert-summary-card caution"><span>주의</span><strong>에이전트 분류 대기</strong><small>임의 규칙으로 분류하지 않습니다.</small></div>
+      <div className="alert-summary-card urgent"><span>긴급</span><strong>룰 판정 자료 대기</strong><small>모델 결과에 심각도·우선순위가 없습니다.</small></div>
+      <div className="alert-summary-card caution"><span>주의</span><strong>룰 판정 자료 대기</strong><small>임의 규칙으로 분류하지 않습니다.</small></div>
       <div className="alert-summary-card resolved"><span>확인 완료</span><strong>데이터 없음</strong><small>확인 상태가 제공되지 않았습니다.</small></div>
     </section>
 

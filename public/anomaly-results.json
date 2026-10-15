@@ -1,0 +1,138 @@
+[
+{
+  "id": "model-compressor-01-1733040000000",
+  "equipment": "1(PM-3)",
+  "equipmentId": "compressor-01",
+  "equipmentName": "1(PM-3)",
+  "occurredAt": "2024-12-01 00:00:00",
+  "fields": [
+    "timestamp",
+    "localtime"
+  ],
+  "source": "model"
+},
+{
+  "id": "model-compressor-01-1733040005000",
+  "equipment": "1(PM-3)",
+  "equipmentId": "compressor-01",
+  "equipmentName": "1(PM-3)",
+  "occurredAt": "2024-12-01 00:00:05",
+  "fields": [
+    "activePower",
+    "accumActiveEnergy",
+    "timestamp",
+    "localtime"
+  ],
+  "source": "model"
+},
+{
+  "id": "model-compressor-01-1733040010000",
+  "equipment": "1(PM-3)",
+  "equipmentId": "compressor-01",
+  "equipmentName": "1(PM-3)",
+  "occurredAt": "2024-12-01 00:00:10",
+  "fields": [
+    "activePower",
+    "accumActiveEnergy",
+    "timestamp",
+    "localtime"
+  ],
+  "source": "model"
+},
+{
+  "id": "model-compressor-01-1733040015000",
+  "equipment": "1(PM-3)",
+  "equipmentId": "compressor-01",
+  "equipmentName": "1(PM-3)",
+  "occurredAt": "2024-12-01 00:00:15",
+  "fields": [
+    "activePower",
+    "accumActiveEnergy",
+    "timestamp",
+    "localtime"
+  ],
+  "source": "model"
+},
+{
+  "id": "model-compressor-01-1733040020000",
+  "equipment": "1(PM-3)",
+  "equipmentId": "compressor-01",
+  "equipmentName": "1(PM-3)",
+  "occurredAt": "2024-12-01 00:00:20",
+  "fields": [
+    "activePower",
+    "accumActiveEnergy",
+    "timestamp",
+    "localtime"
+  ],
+  "source": "model"
+},
+{
+  "id": "model-compressor-01-1733040025000",
+  "equipment": "1(PM-3)",
+  "equipmentId": "compressor-01",
+  "equipmentName": "1(PM-3)",
+  "occurredAt": "2024-12-01 00:00:25",
+  "fields": [
+    "activePower",
+    "accumActiveEnergy",
+    "timestamp",
+    "localtime"
+  ],
+  "source": "model"
+},
+{
+  "id": "model-compressor-01-1733040030000",
+  "equipment": "1(PM-3)",
+  "equipmentId": "compressor-01",
+  "equipmentName": "1(PM-3)",
+  "occurredAt": "2024-12-01 00:00:30",
+  "fields": [
+    "activePower",
+    "accumActiveEnergy",
+    "timestamp",
+    "localtime"
+  ],
+  "source": "model"
+},
+{
+  "id": "model-compressor-01-1733040035000",
+  "equipment": "1(PM-3)",
+  "equipmentId": "compressor-01",
+  "equipmentName": "1(PM-3)",
+  "occurredAt": "2024-12-01 00:00:35",
+  "fields": [
+    "activePower",
+    "accumActiveEnergy",
+    "timestamp",
+    "localtime"
+  ],
+  "source": "model"
+},
+{
+  "id": "model-compressor-01-1733040040000",
+  "equipment": "1(PM-3)",
+  "equipmentId": "compressor-01",
+  "equipmentName": "1(PM-3)",
+  "occurredAt": "2024-12-01 00:00:40",
+  "fields": [
+    "timestamp",
+    "localtime"
+  ],
+  "source": "model"
+},
+{
+  "id": "model-compressor-01-1733040045000",
+  "equipment": "1(PM-3)",
+  "equipmentId": "compressor-01",
+  "equipmentName": "1(PM-3)",
+  "occurredAt": "2024-12-01 00:00:45",
+  "fields": [
+    "activePower",
+    "accumActiveEnergy",
+    "timestamp",
+    "localtime"
+  ],
+  "source": "model"
+}
+]
