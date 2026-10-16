@@ -2,7 +2,7 @@
 
 PlantEye는 공장 설비 전력 모니터링 및 이상 탐지를 위한 React 화면입니다. 공통 레이아웃과 라우팅을 유지하면서 통합 대시보드(`/`)와 CSS 기반 공장 2D 배치도(`/layout`)를 구현했습니다.
 
-전력 상세 화면은 개발 서버의 `/api/equipment-data/<CSV 파일명>` 경계를 통해 `test_data` 루트의 장비별 혼합 JSON을 읽습니다. 이상 결과는 `VITE_ANOMALY_API_URL`이 제공하는 모델 결과 경계를 사용하며, 그 외 화면의 일부 콘텐츠는 개발용 정적 데이터입니다. `clean_reference`와 `events.json`은 브라우저 입력으로 사용하지 않습니다.
+전력 상세 화면은 개발 환경에서 `/api/equipment-data/<CSV 파일명>` 경계를 통해 `test_data` 루트의 장비별 혼합 JSON(또는 기존 CSV fallback)을 읽습니다. production/Vercel에서는 `public/equipment-data/<stable equipment ID>.json` 정적 파일을 읽습니다. 두 경계 모두 `samples`의 `time`, `powerKw`, `energyKwh` 계약을 유지합니다. 이상 결과는 `VITE_ANOMALY_API_URL`이 제공하는 모델 결과 경계를 사용하며, `clean_reference`와 `events.json`은 브라우저 입력으로 사용하지 않습니다.
 
 ## 데이터 경계
 
@@ -21,10 +21,11 @@ PlantEye는 공장 설비 전력 모니터링 및 이상 탐지를 위한 React 
 
 실제 JSON 연결 시에는 다음 경계를 유지합니다.
 
-1. 전력 JSON은 `vite.config.ts`에서 stable equipment ID의 기존 CSV 파일명 URL로 매핑합니다. 루트 `test_data`의 13개 혼합 JSON만 읽고 `localtime`/`timestamp`, `activePower`, `accumActiveEnergy`를 각각 `time`, `powerKw`, `energyKwh`로 정규화합니다. 응답은 기존 `src/adapters/csvDataAdapter.ts` 계약을 유지하며 장비별 처음 96개 유효 샘플을 반환합니다.
-2. `test_data`가 없을 때는 기존 `장비별 Data` 또는 `EQUIPMENT_DATA_DIR` CSV 경로로 fallback하므로 기존 CSV/Parquet 입력 경계를 제거하지 않습니다. JSON 입력을 CSV 산출물로 복제하지 않는 방식입니다.
-3. 분석 결과와 전력 데이터는 계속 별도 서비스 경계로 유지합니다. `src/services/equipmentService.ts`, `powerService.ts`, `alertService.ts`, `guideService.ts`는 내부 계약만 읽습니다.
-4. 앱 실행 전 `npm run test:test-data-power`로 13개 stable ID와 실제 첫 JSON 행의 시간·전력·누적에너지 매핑을 확인합니다.
+1. 전력 JSON은 stable equipment ID의 기존 CSV 파일명 매핑을 유지하면서 `localtime`/`timestamp`, `activePower`, `accumActiveEnergy`를 각각 `time`, `powerKw`, `energyKwh`로 정규화합니다. 개발 환경은 `vite.config.ts`의 `/api/equipment-data/<CSV 파일명>` 경계에서 원본 JSON/CSV를 읽고, production은 `/equipment-data/<stableId>.json` 정적 파일을 읽습니다. 두 경계 모두 시간 순서를 유지한 최대 96개 대표 샘플을 반환합니다.
+2. 배포 전 `npm run build:test-data-power`를 실행하면 루트 `test_data`의 13개 장비 JSON에서 필요한 세 값만 추려 `public/equipment-data/`에 stable ID별 13개 파일을 만듭니다. `test_data`, `clean_reference`, `events.json`은 Vercel 배포 제외 목록에 있습니다.
+3. `test_data`가 없을 때 개발 경계는 기존 `장비별 Data` 또는 `EQUIPMENT_DATA_DIR` CSV 경로로 fallback하므로 기존 CSV 입력 경계를 제거하지 않습니다.
+4. 분석 결과와 전력 데이터는 계속 별도 서비스 경계로 유지합니다. `src/services/equipmentService.ts`, `powerService.ts`, `alertService.ts`, `guideService.ts`는 내부 계약만 읽습니다.
+5. 앱 실행 전 `npm run test:test-data-power`로 13개 stable ID와 실제 첫 JSON 행의 시간·전력·누적에너지 매핑을 확인합니다.
 
 ## 요구 사항
 

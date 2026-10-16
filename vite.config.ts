@@ -58,16 +58,24 @@ function rowToPowerSample(row: DataRow): PowerSample | undefined {
   }
 }
 
+function limitPowerSamples(samples: PowerSample[]): PowerSample[] {
+  if (samples.length <= POWER_SAMPLE_LIMIT) return samples
+  return Array.from({ length: POWER_SAMPLE_LIMIT }, (_, index) => {
+    const sourceIndex = Math.round(index * (samples.length - 1) / (POWER_SAMPLE_LIMIT - 1))
+    return samples[sourceIndex]
+  })
+}
+
 async function readJsonSamples(jsonPath: string): Promise<PowerSample[]> {
   const parsed: unknown = JSON.parse(await readFile(jsonPath, 'utf8'))
   if (!Array.isArray(parsed)) throw new Error('test_data JSON must contain an array')
   const samples: PowerSample[] = []
-  for (const value of parsed.slice(0, POWER_SAMPLE_LIMIT)) {
+  for (const value of parsed) {
     if (!isRecord(value)) continue
     const sample = rowToPowerSample(value)
-    if (sample) samples.push(sample)
+    if (sample?.energyKwh !== undefined) samples.push(sample)
   }
-  return samples
+  return limitPowerSamples(samples)
 }
 
 async function readCsvSamples(csvPath: string): Promise<PowerSample[]> {

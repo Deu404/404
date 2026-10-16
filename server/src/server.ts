@@ -43,4 +43,4 @@ const server = createServer(async (req, res) => {
   }
 })
 
-server.listen(port, '127.0.0.1', () => console.log(`PlantEye agent API listening on http://localhost:${port}`))
+server.listen(port, '0.0.0.0', () => console.log(`PlantEye agent API listening on http://localhost:${port}`))

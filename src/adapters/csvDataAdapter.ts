@@ -2,7 +2,7 @@ import { EQUIPMENT_DATA_MAP } from '../config/equipmentDataMap'
 import type { EquipmentDetail } from '../types/equipment'
 import { asString, isRecord } from '../services/dataNormalization'
 
-const DATA_ENDPOINT = '/api/equipment-data/'
+const DATA_ENDPOINT = import.meta.env.PROD ? '/equipment-data/' : '/api/equipment-data/'
 
 export type EquipmentPowerSample = { time: string; powerKw: number; energyKwh?: number }
 
@@ -37,7 +37,8 @@ export async function fetchEquipmentCsvDetail(equipmentId: string): Promise<Equi
   if (!fileName || typeof fetch === 'undefined') return undefined
 
   try {
-    const response = await fetch(`${DATA_ENDPOINT}${encodeURIComponent(fileName)}`)
+    const requestName = import.meta.env.PROD ? `${equipmentId}.json` : fileName
+    const response = await fetch(`${DATA_ENDPOINT}${encodeURIComponent(requestName)}`)
     if (!response.ok) return undefined
     const payload = await response.json() as { samples?: unknown }
     const samples = normalizeSamples(payload.samples)

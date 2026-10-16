@@ -3,6 +3,9 @@ dist
 .git
 Agent
 장비별 Data
+test_data
+clean_reference
+events.json
 이상치 탐지
 .venv
 __pycache__
