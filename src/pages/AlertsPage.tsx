@@ -11,6 +11,7 @@ import type { EquipmentDetail } from '../types/equipment'
 
 type FilterValue = 'all' | string
 
+const ALERT_PAGE_SIZE = 50
 const CHART_WIDTH = 760
 const CHART_HEIGHT = 280
 const CHART_PADDING = { top: 30, right: 24, bottom: 46, left: 58 }
@@ -43,11 +44,12 @@ export function AlertsPage() {
   const requestedId = searchParams.get('anomaly')
   const requestedEquipment = searchParams.get('equipment')
   const [query, setQuery] = useState('')
+  const [pageIndex, setPageIndex] = useState(0)
   const [equipmentFilter, setEquipmentFilter] = useState<FilterValue>('all')
   const [dateRange, setDateRange] = useState<DateRange>({ startDate: '', endDate: '' })
   const [selectedId, setSelectedId] = useState(requestedId ?? '')
   const [powerDetail, setPowerDetail] = useState<EquipmentDetail>()
-  const dateValidation = getDateRangeValidation(dateRange)
+  const dateValidation = useMemo(() => getDateRangeValidation(dateRange), [dateRange])
 
   useEffect(() => {
     let cancelled = false
@@ -83,6 +85,15 @@ export function AlertsPage() {
   const filteredPowerDetail = powerDetail ? { ...powerDetail, currentPowerSeries: powerDetail.currentPowerSeries.filter(({ time }) => isDateInRange(time, dateValidation)) } : undefined
   const filteredPowerCount = filteredPowerDetail?.currentPowerSeries.length ?? 0
   const hasModelResults = anomalies.length > 0
+  const pageCount = Math.max(1, Math.ceil(anomalies.length / ALERT_PAGE_SIZE))
+  const currentPage = Math.min(pageIndex, pageCount - 1)
+  const pageAnomalies = anomalies.slice(currentPage * ALERT_PAGE_SIZE, (currentPage + 1) * ALERT_PAGE_SIZE)
+  function changePage(page: number) {
+    const next = Math.max(0, Math.min(pageCount - 1, page))
+    setPageIndex(next)
+    const first = anomalies[next * ALERT_PAGE_SIZE]
+    if (first) selectAnomaly(first)
+  }
 
   return <div className="dashboard-page alerts-page">
     <section className="dashboard-intro"><div><p className="eyebrow">ANOMALY MONITORING / FIELD VIEW</p><h2>이상탐지 대시보드</h2><p>test_data 기반 모델 결과와 설비 측정 데이터를 기준으로 확인합니다.</p></div><span className="data-badge">TEST DATA / MODEL</span></section>
@@ -90,18 +101,18 @@ export function AlertsPage() {
     <div className="agent-top-section"><Link className="detail-link" to="/agent-demo">연습용 에이전트 확인</Link><p className="panel-description">선택한 설비의 이상 항목과 측정 근거를 바탕으로 초기 점검을 안내합니다. 모델 감지는 고장 확정이 아닙니다.</p><AgentPanel key={selected?.id ?? 'no-anomaly'} anomaly={selected} /></div>
 
     <section className="alert-summary-grid" aria-label="이상 알림 요약">
-      <div className="alert-summary-card urgent"><span>긴급</span><strong>룰 판정 자료 대기</strong><small>모델 결과에 심각도·우선순위가 없습니다.</small></div>
-      <div className="alert-summary-card caution"><span>주의</span><strong>룰 판정 자료 대기</strong><small>임의 규칙으로 분류하지 않습니다.</small></div>
+      <div className="alert-summary-card urgent"><span>긴급</span><strong>현장 긴급도 별도 확인</strong><small>정상 참조 범위 이탈만으로 긴급도를 정하지 않습니다.</small></div>
+      <div className="alert-summary-card caution"><span>주의</span><strong>선택 알림에서 확인</strong><small>설비·운전상태별 정상 참조 범위와 관측값을 비교합니다.</small></div>
       <div className="alert-summary-card resolved"><span>확인 완료</span><strong>데이터 없음</strong><small>확인 상태가 제공되지 않았습니다.</small></div>
     </section>
 
-    <DateRangeFilter {...dateRange} onChange={setDateRange} error={dateValidation.error} resultCount={filteredPowerCount} />
-    <section className="alert-controls panel" aria-label="이상 알림 필터"><label>검색<input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="설비명, 의심 항목" /></label><label>설비<select value={equipmentFilter} onChange={(event) => setEquipmentFilter(event.target.value)}><option value="all">전체 설비</option>{equipmentOptions.map(({ id, name }) => <option value={id} key={id}>{name}</option>)}</select></label><span className="control-help">필터는 실제 모델 결과와 실제 측정 데이터에만 적용됩니다.</span></section>
+    <DateRangeFilter {...dateRange} onChange={range => { setDateRange(range); setPageIndex(0) }} error={dateValidation.error} resultCount={filteredPowerCount} />
+    <section className="alert-controls panel" aria-label="이상 알림 필터"><label>검색<input value={query} onChange={(event) => { setQuery(event.target.value); setPageIndex(0) }} placeholder="설비명, 의심 항목" /></label><label>설비<select value={equipmentFilter} onChange={(event) => { setEquipmentFilter(event.target.value); setPageIndex(0) }}><option value="all">전체 설비</option>{equipmentOptions.map(({ id, name }) => <option value={id} key={id}>{name}</option>)}</select></label><span className="control-help">필터는 실제 모델 결과와 실제 측정 데이터에만 적용됩니다.</span></section>
 
     <div className="alerts-wire-grid">
-      <aside className="panel alert-inbox-panel" aria-labelledby="alert-inbox-title"><div className="panel-heading"><div><p className="eyebrow">FIELD INBOX</p><h2 id="alert-inbox-title">확인할 이상 알림</h2></div><span className="equipment-count">{anomalies.length ? `${anomalies.length}건` : '데이터 없음'}</span></div>{anomalies.length ? <div className="alert-detail-list">{anomalies.map((anomaly) => <button type="button" className={`alert-detail-row ${selected?.id === anomaly.id ? 'selected' : ''}`} key={anomaly.id} onClick={() => selectAnomaly(anomaly)}><span className="status-dot-large warning" /><span className="alert-row-main"><strong>{anomaly.equipmentName}</strong><small>{anomaly.occurredAt}</small><p>{anomaly.fields.join(', ')} · 확인 상태 데이터 없음</p></span></button>)}</div> : <div className="alert-empty"><strong>표시할 모델 이상 결과가 없습니다.</strong><p>test_data 기반 모델 결과가 없거나 아직 로드되지 않았습니다.</p></div>}</aside>
+      <aside className="panel alert-inbox-panel" aria-labelledby="alert-inbox-title"><div className="panel-heading"><div><p className="eyebrow">FIELD INBOX</p><h2 id="alert-inbox-title">확인할 이상 알림</h2></div><span className="equipment-count">{anomalies.length ? `${anomalies.length}건` : '데이터 없음'}</span></div>{anomalies.length ? <><div className="alert-detail-list">{pageAnomalies.map((anomaly) => <button type="button" className={`alert-detail-row ${selected?.id === anomaly.id ? 'selected' : ''}`} key={anomaly.id} onClick={() => selectAnomaly(anomaly)}><span className="status-dot-large warning" /><span className="alert-row-main"><strong>{anomaly.equipmentName}</strong><small>{anomaly.occurredAt}</small><p>{anomaly.fields.join(', ')} · 확인 상태 데이터 없음</p></span></button>)}</div><nav className="alert-pagination" aria-label="알림 목록 페이지" style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap', paddingTop: 16 }}><button type="button" disabled={currentPage === 0} onClick={() => changePage(currentPage - 1)}>이전</button><span>{currentPage + 1} / {pageCount} 페이지 · {pageAnomalies.length}건 표시</span><button type="button" disabled={currentPage >= pageCount - 1} onClick={() => changePage(currentPage + 1)}>다음</button></nav></> : <div className="alert-empty"><strong>표시할 모델 이상 결과가 없습니다.</strong><p>test_data 기반 모델 결과가 없거나 아직 로드되지 않았습니다.</p></div>}</aside>
 
-      <main className="alert-evidence-column"><PowerTrend detail={filteredPowerDetail} equipmentName={selectedEquipment?.name ?? '선택 설비'} />{hasModelResults && <section className="panel alert-reason-panel" aria-labelledby="alert-reason-title"><div className="panel-heading"><div><p className="eyebrow">MODEL EVIDENCE</p><h2 id="alert-reason-title">왜 이상인가?</h2></div><span className="equipment-count">모델 근거</span></div><p className="selected-equipment">{selected?.equipmentName} · {selected?.occurredAt}</p><p className="selected-detail">모델이 의심 대상으로 반환한 항목: <strong>{selected?.fields.join(', ')}</strong></p><div className="alert-fact-grid"><span>발생 시각<strong>{selected?.occurredAt}</strong></span><span>측정 근거<strong>{powerDetail ? 'CSV 조회됨' : '데이터 없음'}</strong></span><span>심각도<strong>데이터 없음</strong></span><span>우선순위<strong>데이터 없음</strong></span></div></section>}</main>
+      <main className="alert-evidence-column"><PowerTrend detail={filteredPowerDetail} equipmentName={selectedEquipment?.name ?? '선택 설비'} />{hasModelResults && <section className="panel alert-reason-panel" aria-labelledby="alert-reason-title"><div className="panel-heading"><div><p className="eyebrow">MODEL EVIDENCE</p><h2 id="alert-reason-title">왜 이상인가?</h2></div><span className="equipment-count">모델 근거</span></div><p className="selected-equipment">{selected?.equipmentName} · {selected?.occurredAt}</p><p className="selected-detail">모델이 의심 대상으로 반환한 항목: <strong>{selected?.fields.join(', ')}</strong></p><div className="alert-fact-grid"><span>발생 시각<strong>{selected?.occurredAt}</strong></span><span>전력 추이용 데이터<strong>{powerDetail ? '조회됨' : '데이터 없음'}</strong></span><span>모델 제공 심각도<strong>데이터 없음</strong></span><span>모델 제공 우선순위<strong>데이터 없음</strong></span></div></section>}</main>
     </div>
 
     {hasModelResults && <section className="panel equipment-summary-panel alert-equipment-summary" aria-labelledby="alert-equipment-summary-title"><div className="panel-heading"><div><p className="eyebrow">EQUIPMENT TREND</p><h2 id="alert-equipment-summary-title">설비별 이상 건수와 추이</h2></div><span className="equipment-count">모델 결과 기준</span></div><div className="alert-detail-list">{equipmentSummary.map(({ equipment, count }) => <Link className="equipment-alert-row" to={`/alerts?anomaly=${anomalies.find(({ equipmentId }) => equipmentId === equipment?.id)?.id ?? ''}`} key={equipment?.id}><span><strong>{equipment?.name}</strong><small>{count}건 · 실제 발생 시각은 알림 목록에서 확인</small></span><b>{count}건</b></Link>)}</div></section>}

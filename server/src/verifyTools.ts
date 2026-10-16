@@ -50,3 +50,4 @@ show('get_executive_report_data()', get_executive_report_data())
 
 // 11) [신규] ML 탐지 모델 연계 사례(PM-3)
 show('get_anomaly_case(demo-pm3-005)', get_anomaly_case({ caseId: 'demo-pm3-005' }))
+

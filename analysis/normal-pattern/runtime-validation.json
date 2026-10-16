@@ -1,0 +1,746 @@
+{
+  "normalRows": 141024,
+  "normalFlags": 643,
+  "corruptedConfusion": {
+    "tp": 1988,
+    "fp": 593,
+    "fn": 9549,
+    "tn": 128894
+  },
+  "perEquipmentEndToEnd": [
+    {
+      "equipmentId": "compressor-01",
+      "occurredAt": "2025-06-17 12:25:05",
+      "status": "completed",
+      "decisionStatus": "matched",
+      "checks": [
+        {
+          "field": "phaseImbalance",
+          "label": "상별 전류 편차율",
+          "value": 105.70162239063225,
+          "lower": 0,
+          "upper": 102.68297969702078,
+          "unit": "%",
+          "result": "outside"
+        }
+      ],
+      "toolTrace": [
+        {
+          "name": "get_anomaly_case",
+          "status": "ok",
+          "trigger": "server",
+          "source": "test_data/01_PM-3.json"
+        },
+        {
+          "name": "get_anomaly_case",
+          "status": "executed",
+          "trigger": "ai"
+        },
+        {
+          "name": "classify_anomaly",
+          "status": "executed",
+          "trigger": "ai"
+        },
+        {
+          "name": "get_inspection_guide",
+          "status": "executed",
+          "trigger": "ai"
+        }
+      ],
+      "reply": "🟡 데이터 확인 · PM-3 · 2025년 6월 17일 오후 12:25\n상별 전류 편차율 정상 참조 범위 이탈\n👉 이탈 항목의 현재값·정상 참조 범위·시각을 기록하고 같은 운전상태에서 표시값을 다시 확인하세요.\n상별 전류 편차율: 105.701622 / 참조 0 ~ 102.68298 (%)\n참조 기간: 20250615000000 ~ 20250617121555\n정상 참조: test_data/clean_reference/01_PM-3.json / 운전상태 값 1\n합성 정상 참조의 단일 시점 값 범위 비교입니다. 실제 고장·허용 한계, 값 고정·시계열·전력량 정합성은 별도입니다.\n\n\nAI 설명\n정상 참조 범위에서 벗어난 값을 기록하고 같은 운전상태에서 다시 확인하세요. 고장 확정은 아닙니다."
+    },
+    {
+      "equipmentId": "compressor-02",
+      "occurredAt": "2025-06-17 12:24:40",
+      "status": "completed",
+      "decisionStatus": "matched",
+      "checks": [
+        {
+          "field": "phaseImbalance",
+          "label": "상별 전류 편차율",
+          "value": 99.99496488003827,
+          "lower": 0,
+          "upper": 99.83634535805298,
+          "unit": "%",
+          "result": "outside"
+        }
+      ],
+      "toolTrace": [
+        {
+          "name": "get_anomaly_case",
+          "status": "ok",
+          "trigger": "server",
+          "source": "test_data/02_L-1전등.json"
+        },
+        {
+          "name": "get_anomaly_case",
+          "status": "executed",
+          "trigger": "ai"
+        },
+        {
+          "name": "classify_anomaly",
+          "status": "executed",
+          "trigger": "ai"
+        },
+        {
+          "name": "get_inspection_guide",
+          "status": "executed",
+          "trigger": "ai"
+        }
+      ],
+      "reply": "🟡 데이터 확인 · L-1 전등 · 2025년 6월 17일 오후 12:24\n상별 전류 편차율 정상 참조 범위 이탈\n👉 이탈 항목의 현재값·정상 참조 범위·시각을 기록하고 같은 운전상태에서 표시값을 다시 확인하세요.\n상별 전류 편차율: 99.994965 / 참조 0 ~ 99.836345 (%)\n참조 기간: 20250615000000 ~ 20250617121555\n정상 참조: test_data/clean_reference/02_L-1전등.json / 운전상태 값 1\n합성 정상 참조의 단일 시점 값 범위 비교입니다. 실제 고장·허용 한계, 값 고정·시계열·전력량 정합성은 별도입니다.\n\n\nAI 설명\n정상 참조 범위에서 벗어난 값을 기록하고 같은 운전상태에서 다시 확인하세요. 고장 확정은 아닙니다."
+    },
+    {
+      "equipmentId": "motor-01",
+      "occurredAt": "2025-06-17 12:22:40",
+      "status": "completed",
+      "decisionStatus": "matched",
+      "checks": [
+        {
+          "field": "currentR",
+          "label": "R상 전류",
+          "value": 47.76337548957818,
+          "lower": 0,
+          "upper": 41.326571429164346,
+          "unit": "원본 값",
+          "result": "outside"
+        },
+        {
+          "field": "phaseImbalance",
+          "label": "상별 전류 편차율",
+          "value": 118.4421401324227,
+          "lower": 0,
+          "upper": 101.83818172988197,
+          "unit": "%",
+          "result": "outside"
+        }
+      ],
+      "toolTrace": [
+        {
+          "name": "get_anomaly_case",
+          "status": "ok",
+          "trigger": "server",
+          "source": "test_data/03_분쇄기(2).json"
+        },
+        {
+          "name": "get_anomaly_case",
+          "status": "executed",
+          "trigger": "ai"
+        },
+        {
+          "name": "classify_anomaly",
+          "status": "executed",
+          "trigger": "ai"
+        },
+        {
+          "name": "get_inspection_guide",
+          "status": "executed",
+          "trigger": "ai"
+        }
+      ],
+      "reply": "🟡 데이터 확인 · 분쇄기(2) · 2025년 6월 17일 오후 12:22\nR상 전류 정상 참조 범위 이탈, 상별 전류 편차율 정상 참조 범위 이탈\n👉 이탈 항목의 현재값·정상 참조 범위·시각을 기록하고 같은 운전상태에서 표시값을 다시 확인하세요.\nR상 전류: 47.763375 / 참조 0 ~ 41.326571 (원본 값)\n상별 전류 편차율: 118.44214 / 참조 0 ~ 101.838182 (%)\n참조 기간: 20250615000000 ~ 20250617121555\n정상 참조: test_data/clean_reference/03_분쇄기(2).json / 운전상태 값 1\n합성 정상 참조의 단일 시점 값 범위 비교입니다. 실제 고장·허용 한계, 값 고정·시계열·전력량 정합성은 별도입니다.\n\n\nAI 설명\n정상 참조 범위에서 벗어난 값을 기록하고 같은 운전상태에서 다시 확인하세요. 고장 확정은 아닙니다."
+    },
+    {
+      "equipmentId": "motor-02",
+      "occurredAt": "2025-06-17 12:34:40",
+      "status": "insufficient_data",
+      "decisionStatus": "matched",
+      "checks": [
+        {
+          "field": "activePower",
+          "label": "유효전력",
+          "value": 7712.58160707525,
+          "lower": 0,
+          "upper": 7179.037941478554,
+          "unit": "원본 값",
+          "result": "outside"
+        }
+      ],
+      "toolTrace": [
+        {
+          "name": "get_anomaly_case",
+          "status": "ok",
+          "trigger": "server",
+          "source": "test_data/04_분쇄기(1).json"
+        },
+        {
+          "name": "get_anomaly_case",
+          "status": "executed",
+          "trigger": "ai"
+        },
+        {
+          "name": "classify_anomaly",
+          "status": "executed",
+          "trigger": "ai"
+        },
+        {
+          "name": "get_inspection_guide",
+          "status": "executed",
+          "trigger": "ai"
+        }
+      ],
+      "reply": "🟡 데이터 확인 · 분쇄기(1) · 2025년 6월 17일 오후 12:34\n유효전력 정상 참조 범위 이탈\n👉 누락·비수치 항목과 발생 시각을 기록하고 센서 수신·필드 연결·단위 계약을 담당자에게 확인하세요.\nS상 전류: 측정값 확인 필요 / 참조 0 ~ 41.32475 (원본 값)\n유효전력: 7,712.581607 / 참조 0 ~ 7,179.037941 (원본 값)\n상별 전류 편차율: 측정값 확인 필요 / 참조 0 ~ 102.869721 (%)\n참조 기간: 20250615000000 ~ 20250617121555\n정상 참조: test_data/clean_reference/04_분쇄기(1).json / 운전상태 값 1\n합성 정상 참조의 단일 시점 값 범위 비교입니다. 실제 고장·허용 한계, 값 고정·시계열·전력량 정합성은 별도입니다.\n확인 필요: S상 전류: 측정값 누락·비수치 또는 음수, 상별 전류 편차율: 측정값 누락·비수치 또는 음수\n\nAI 설명\n정상 참조 범위에서 벗어난 값을 기록하고 같은 운전상태에서 다시 확인하세요. 고장 확정은 아닙니다."
+    },
+    {
+      "equipmentId": "conveyor-01",
+      "occurredAt": "2025-06-17 12:18:40",
+      "status": "completed",
+      "decisionStatus": "matched",
+      "checks": [
+        {
+          "field": "powerFactorS",
+          "label": "S상 역률",
+          "value": 0,
+          "lower": 79.06328423173996,
+          "upper": 105.87271576826005,
+          "unit": "원본 값",
+          "result": "outside"
+        }
+      ],
+      "toolTrace": [
+        {
+          "name": "get_anomaly_case",
+          "status": "ok",
+          "trigger": "server",
+          "source": "test_data/05_좌측분전반.json"
+        },
+        {
+          "name": "get_anomaly_case",
+          "status": "executed",
+          "trigger": "ai"
+        },
+        {
+          "name": "classify_anomaly",
+          "status": "executed",
+          "trigger": "ai"
+        },
+        {
+          "name": "get_inspection_guide",
+          "status": "executed",
+          "trigger": "ai"
+        }
+      ],
+      "reply": "🟡 데이터 확인 · 좌측분전반 · 2025년 6월 17일 오후 12:18\nS상 역률 정상 참조 범위 이탈\n👉 이탈 항목의 현재값·정상 참조 범위·시각을 기록하고 같은 운전상태에서 표시값을 다시 확인하세요.\nS상 역률: 0 / 참조 79.063284 ~ 105.872716 (원본 값)\n참조 기간: 20250615000000 ~ 20250617121555\n정상 참조: test_data/clean_reference/05_좌측분전반.json / 운전상태 값 1\n합성 정상 참조의 단일 시점 값 범위 비교입니다. 실제 고장·허용 한계, 값 고정·시계열·전력량 정합성은 별도입니다.\n\n\nAI 설명\n정상 참조 범위에서 벗어난 값을 기록하고 같은 운전상태에서 다시 확인하세요. 고장 확정은 아닙니다."
+    },
+    {
+      "equipmentId": "robot-01",
+      "occurredAt": "2025-06-17 12:38:40",
+      "status": "completed",
+      "decisionStatus": "matched",
+      "checks": [
+        {
+          "field": "voltageR",
+          "label": "R상 전압",
+          "value": 202.93228193897153,
+          "lower": 205.42221227477012,
+          "upper": 224.53478772522988,
+          "unit": "원본 값",
+          "result": "outside"
+        }
+      ],
+      "toolTrace": [
+        {
+          "name": "get_anomaly_case",
+          "status": "ok",
+          "trigger": "server",
+          "source": "test_data/11_우측분전반1.json"
+        },
+        {
+          "name": "get_anomaly_case",
+          "status": "executed",
+          "trigger": "ai"
+        },
+        {
+          "name": "classify_anomaly",
+          "status": "executed",
+          "trigger": "ai"
+        },
+        {
+          "name": "get_inspection_guide",
+          "status": "executed",
+          "trigger": "ai"
+        }
+      ],
+      "reply": "🟡 데이터 확인 · 우측분전반1 · 2025년 6월 17일 오후 12:38\nR상 전압 정상 참조 범위 이탈\n👉 이탈 항목의 현재값·정상 참조 범위·시각을 기록하고 같은 운전상태에서 표시값을 다시 확인하세요.\nR상 전압: 202.932282 / 참조 205.422212 ~ 224.534788 (원본 값)\n참조 기간: 20250615000000 ~ 20250617121555\n정상 참조: test_data/clean_reference/11_우측분전반1.json / 운전상태 값 1\n합성 정상 참조의 단일 시점 값 범위 비교입니다. 실제 고장·허용 한계, 값 고정·시계열·전력량 정합성은 별도입니다.\n\n\nAI 설명\n정상 참조 범위에서 벗어난 값을 기록하고 같은 운전상태에서 다시 확인하세요. 고장 확정은 아닙니다."
+    },
+    {
+      "equipmentId": "robot-02",
+      "occurredAt": "2025-06-17 12:18:40",
+      "status": "insufficient_data",
+      "decisionStatus": "matched",
+      "checks": [
+        {
+          "field": "voltageS",
+          "label": "S상 전압",
+          "value": 203.3397710518154,
+          "lower": 205.09751427535602,
+          "upper": 224.940485724644,
+          "unit": "원본 값",
+          "result": "outside"
+        }
+      ],
+      "toolTrace": [
+        {
+          "name": "get_anomaly_case",
+          "status": "ok",
+          "trigger": "server",
+          "source": "test_data/12_4호기.json"
+        },
+        {
+          "name": "get_anomaly_case",
+          "status": "executed",
+          "trigger": "ai"
+        },
+        {
+          "name": "classify_anomaly",
+          "status": "executed",
+          "trigger": "ai"
+        },
+        {
+          "name": "get_inspection_guide",
+          "status": "executed",
+          "trigger": "ai"
+        }
+      ],
+      "reply": "🟡 데이터 확인 · 4호기 · 2025년 6월 17일 오후 12:18\nS상 전압 정상 참조 범위 이탈\n👉 누락·비수치 항목과 발생 시각을 기록하고 센서 수신·필드 연결·단위 계약을 담당자에게 확인하세요.\nS상 전압: 203.339771 / 참조 205.097514 ~ 224.940486 (원본 값)\nR상 전류: 측정값 확인 필요 / 참조 0 ~ 42.396203 (원본 값)\n상별 전류 편차율: 측정값 확인 필요 / 참조 0 ~ 104.941694 (%)\n참조 기간: 20250615000000 ~ 20250617121555\n정상 참조: test_data/clean_reference/12_4호기.json / 운전상태 값 1\n합성 정상 참조의 단일 시점 값 범위 비교입니다. 실제 고장·허용 한계, 값 고정·시계열·전력량 정합성은 별도입니다.\n확인 필요: R상 전류: 측정값 누락·비수치 또는 음수, 상별 전류 편차율: 측정값 누락·비수치 또는 음수\n\nAI 설명\n정상 참조 범위에서 벗어난 값을 기록하고 같은 운전상태에서 다시 확인하세요. 고장 확정은 아닙니다."
+    },
+    {
+      "equipmentId": "robot-03",
+      "occurredAt": "2025-06-17 12:18:40",
+      "status": "completed",
+      "decisionStatus": "matched",
+      "checks": [
+        {
+          "field": "currentT",
+          "label": "T상 전류",
+          "value": 46.914706680047445,
+          "lower": 0,
+          "upper": 41.41501926932991,
+          "unit": "원본 값",
+          "result": "outside"
+        }
+      ],
+      "toolTrace": [
+        {
+          "name": "get_anomaly_case",
+          "status": "ok",
+          "trigger": "server",
+          "source": "test_data/13_3호기.json"
+        },
+        {
+          "name": "get_anomaly_case",
+          "status": "executed",
+          "trigger": "ai"
+        },
+        {
+          "name": "classify_anomaly",
+          "status": "executed",
+          "trigger": "ai"
+        },
+        {
+          "name": "get_inspection_guide",
+          "status": "executed",
+          "trigger": "ai"
+        }
+      ],
+      "reply": "🟡 데이터 확인 · 3호기 · 2025년 6월 17일 오후 12:18\nT상 전류 정상 참조 범위 이탈\n👉 이탈 항목의 현재값·정상 참조 범위·시각을 기록하고 같은 운전상태에서 표시값을 다시 확인하세요.\nT상 전류: 46.914707 / 참조 0 ~ 41.415019 (원본 값)\n참조 기간: 20250615000000 ~ 20250617121555\n정상 참조: test_data/clean_reference/13_3호기.json / 운전상태 값 1\n합성 정상 참조의 단일 시점 값 범위 비교입니다. 실제 고장·허용 한계, 값 고정·시계열·전력량 정합성은 별도입니다.\n\n\nAI 설명\n정상 참조 범위에서 벗어난 값을 기록하고 같은 운전상태에서 다시 확인하세요. 고장 확정은 아닙니다."
+    },
+    {
+      "equipmentId": "cooling-01",
+      "occurredAt": "2025-06-17 12:30:40",
+      "status": "completed",
+      "decisionStatus": "matched",
+      "checks": [
+        {
+          "field": "powerFactorR",
+          "label": "R상 역률",
+          "value": 73.0948942046266,
+          "lower": 77.91353236016616,
+          "upper": 106.98046763983385,
+          "unit": "원본 값",
+          "result": "outside"
+        }
+      ],
+      "toolTrace": [
+        {
+          "name": "get_anomaly_case",
+          "status": "ok",
+          "trigger": "server",
+          "source": "test_data/14_2호기.json"
+        },
+        {
+          "name": "get_anomaly_case",
+          "status": "executed",
+          "trigger": "ai"
+        },
+        {
+          "name": "classify_anomaly",
+          "status": "executed",
+          "trigger": "ai"
+        },
+        {
+          "name": "get_inspection_guide",
+          "status": "executed",
+          "trigger": "ai"
+        }
+      ],
+      "reply": "🟡 데이터 확인 · 2호기 · 2025년 6월 17일 오후 12:30\nR상 역률 정상 참조 범위 이탈\n👉 이탈 항목의 현재값·정상 참조 범위·시각을 기록하고 같은 운전상태에서 표시값을 다시 확인하세요.\nR상 역률: 73.094894 / 참조 77.913532 ~ 106.980468 (원본 값)\n참조 기간: 20250615000000 ~ 20250617121555\n정상 참조: test_data/clean_reference/14_2호기.json / 운전상태 값 1\n합성 정상 참조의 단일 시점 값 범위 비교입니다. 실제 고장·허용 한계, 값 고정·시계열·전력량 정합성은 별도입니다.\n\n\nAI 설명\n정상 참조 범위에서 벗어난 값을 기록하고 같은 운전상태에서 다시 확인하세요. 고장 확정은 아닙니다."
+    },
+    {
+      "equipmentId": "cooling-02",
+      "occurredAt": "2025-06-17 12:22:40",
+      "status": "completed",
+      "decisionStatus": "matched",
+      "checks": [
+        {
+          "field": "voltageRS",
+          "label": "RS 선간전압",
+          "value": 389.45514047808945,
+          "lower": 357.6689739828257,
+          "upper": 387.1080260171743,
+          "unit": "원본 값",
+          "result": "outside"
+        }
+      ],
+      "toolTrace": [
+        {
+          "name": "get_anomaly_case",
+          "status": "ok",
+          "trigger": "server",
+          "source": "test_data/15_예비건조기.json"
+        },
+        {
+          "name": "get_anomaly_case",
+          "status": "executed",
+          "trigger": "ai"
+        },
+        {
+          "name": "classify_anomaly",
+          "status": "executed",
+          "trigger": "ai"
+        },
+        {
+          "name": "get_inspection_guide",
+          "status": "executed",
+          "trigger": "ai"
+        }
+      ],
+      "reply": "🟡 데이터 확인 · 예비건조기 · 2025년 6월 17일 오후 12:22\nRS 선간전압 정상 참조 범위 이탈\n👉 이탈 항목의 현재값·정상 참조 범위·시각을 기록하고 같은 운전상태에서 표시값을 다시 확인하세요.\nRS 선간전압: 389.45514 / 참조 357.668974 ~ 387.108026 (원본 값)\n참조 기간: 20250615000000 ~ 20250617121555\n정상 참조: test_data/clean_reference/15_예비건조기.json / 운전상태 값 1\n합성 정상 참조의 단일 시점 값 범위 비교입니다. 실제 고장·허용 한계, 값 고정·시계열·전력량 정합성은 별도입니다.\n\n\nAI 설명\n정상 참조 범위에서 벗어난 값을 기록하고 같은 운전상태에서 다시 확인하세요. 고장 확정은 아닙니다."
+    },
+    {
+      "equipmentId": "pump-01",
+      "occurredAt": "2025-06-17 12:34:40",
+      "status": "completed",
+      "decisionStatus": "matched",
+      "checks": [
+        {
+          "field": "voltageTR",
+          "label": "TR 선간전압",
+          "value": 390.1129066577707,
+          "lower": 355.88558438929726,
+          "upper": 388.87841561070275,
+          "unit": "원본 값",
+          "result": "outside"
+        }
+      ],
+      "toolTrace": [
+        {
+          "name": "get_anomaly_case",
+          "status": "ok",
+          "trigger": "server",
+          "source": "test_data/16_호이스트.json"
+        },
+        {
+          "name": "get_anomaly_case",
+          "status": "executed",
+          "trigger": "ai"
+        },
+        {
+          "name": "classify_anomaly",
+          "status": "executed",
+          "trigger": "ai"
+        },
+        {
+          "name": "get_inspection_guide",
+          "status": "executed",
+          "trigger": "ai"
+        }
+      ],
+      "reply": "🟡 데이터 확인 · 호이스트 · 2025년 6월 17일 오후 12:34\nTR 선간전압 정상 참조 범위 이탈\n👉 이탈 항목의 현재값·정상 참조 범위·시각을 기록하고 같은 운전상태에서 표시값을 다시 확인하세요.\nTR 선간전압: 390.112907 / 참조 355.885584 ~ 388.878416 (원본 값)\n참조 기간: 20250615000000 ~ 20250617121555\n정상 참조: test_data/clean_reference/16_호이스트.json / 운전상태 값 1\n합성 정상 참조의 단일 시점 값 범위 비교입니다. 실제 고장·허용 한계, 값 고정·시계열·전력량 정합성은 별도입니다.\n\n\nAI 설명\n정상 참조 범위에서 벗어난 값을 기록하고 같은 운전상태에서 다시 확인하세요. 고장 확정은 아닙니다."
+    },
+    {
+      "equipmentId": "pump-02",
+      "occurredAt": "2025-06-17 12:26:30",
+      "status": "completed",
+      "decisionStatus": "matched",
+      "checks": [
+        {
+          "field": "phaseImbalance",
+          "label": "상별 전류 편차율",
+          "value": 107.78174037089876,
+          "lower": 0,
+          "upper": 105.68793235972325,
+          "unit": "%",
+          "result": "outside"
+        }
+      ],
+      "toolTrace": [
+        {
+          "name": "get_anomaly_case",
+          "status": "ok",
+          "trigger": "server",
+          "source": "test_data/17_6호기.json"
+        },
+        {
+          "name": "get_anomaly_case",
+          "status": "executed",
+          "trigger": "ai"
+        },
+        {
+          "name": "classify_anomaly",
+          "status": "executed",
+          "trigger": "ai"
+        },
+        {
+          "name": "get_inspection_guide",
+          "status": "executed",
+          "trigger": "ai"
+        }
+      ],
+      "reply": "🟡 데이터 확인 · 6호기 · 2025년 6월 17일 오후 12:26\n상별 전류 편차율 정상 참조 범위 이탈\n👉 이탈 항목의 현재값·정상 참조 범위·시각을 기록하고 같은 운전상태에서 표시값을 다시 확인하세요.\n상별 전류 편차율: 107.78174 / 참조 0 ~ 105.687932 (%)\n참조 기간: 20250615000000 ~ 20250617121555\n정상 참조: test_data/clean_reference/17_6호기.json / 운전상태 값 1\n합성 정상 참조의 단일 시점 값 범위 비교입니다. 실제 고장·허용 한계, 값 고정·시계열·전력량 정합성은 별도입니다.\n\n\nAI 설명\n정상 참조 범위에서 벗어난 값을 기록하고 같은 운전상태에서 다시 확인하세요. 고장 확정은 아닙니다."
+    },
+    {
+      "equipmentId": "transformer-01",
+      "occurredAt": "2025-06-17 12:26:40",
+      "status": "completed",
+      "decisionStatus": "matched",
+      "checks": [
+        {
+          "field": "voltageR",
+          "label": "R상 전압",
+          "value": 224.623435828451,
+          "lower": 205.72476369269202,
+          "upper": 224.233236307308,
+          "unit": "원본 값",
+          "result": "outside"
+        }
+      ],
+      "toolTrace": [
+        {
+          "name": "get_anomaly_case",
+          "status": "ok",
+          "trigger": "server",
+          "source": "test_data/18_우측분전반2.json"
+        },
+        {
+          "name": "get_anomaly_case",
+          "status": "executed",
+          "trigger": "ai"
+        },
+        {
+          "name": "classify_anomaly",
+          "status": "executed",
+          "trigger": "ai"
+        },
+        {
+          "name": "get_inspection_guide",
+          "status": "executed",
+          "trigger": "ai"
+        }
+      ],
+      "reply": "🟡 데이터 확인 · 우측분전반2 · 2025년 6월 17일 오후 12:26\nR상 전압 정상 참조 범위 이탈\n👉 이탈 항목의 현재값·정상 참조 범위·시각을 기록하고 같은 운전상태에서 표시값을 다시 확인하세요.\nR상 전압: 224.623436 / 참조 205.724764 ~ 224.233236 (원본 값)\n참조 기간: 20250615000000 ~ 20250617121555\n정상 참조: test_data/clean_reference/18_우측분전반2.json / 운전상태 값 1\n합성 정상 참조의 단일 시점 값 범위 비교입니다. 실제 고장·허용 한계, 값 고정·시계열·전력량 정합성은 별도입니다.\n\n\nAI 설명\n정상 참조 범위에서 벗어난 값을 기록하고 같은 운전상태에서 다시 확인하세요. 고장 확정은 아닙니다."
+    }
+  ],
+  "actualModelAlert": {
+    "input": {
+      "id": "model-compressor-01-1749913600000",
+      "equipment": "1(PM-3)",
+      "equipmentId": "compressor-01",
+      "equipmentName": "PM-3",
+      "occurredAt": "2025-06-15 00:06:40",
+      "fields": [
+        "activePower"
+      ],
+      "source": "model"
+    },
+    "decision": {
+      "inputId": "model-compressor-01-1749913600000",
+      "equipmentId": "compressor-01",
+      "equipmentName": "PM-3",
+      "observedAt": "2025-06-15 00:06:40",
+      "source": "모델 알림 / test_data/clean_reference/01_PM-3.json / normal-pattern-v1 / 관측: test_data/01_PM-3.json",
+      "ruleVersion": "normal-pattern-v1",
+      "demoOnly": false,
+      "approvalStatus": "configured",
+      "status": "within_threshold",
+      "priority": null,
+      "evaluations": [],
+      "anomalyTypes": [],
+      "actions": [
+        "검사한 단일 시점 값은 참조 범위 안입니다. 모델의 의심 항목과 전후 추이를 함께 확인하세요."
+      ],
+      "steps": [
+        "모델 의심 항목 확인",
+        "같은 값 반복·시간·전력량 정합성 등 전후 추이 확인 요청"
+      ],
+      "reportConditions": [
+        "모델 알림의 근거가 해소되지 않으면 해당 알림과 시각을 담당자에게 전달하세요."
+      ],
+      "missingFields": [],
+      "reportStatus": "needs_confirmation",
+      "reportReason": "데이터 확인을 위한 안내입니다. 반복 여부·현장 징후와 담당자 보고 절차를 확인하세요. 고장이나 긴급성을 확정하지 않습니다.",
+      "pattern": {
+        "version": "normal-pattern-v1",
+        "referenceSource": "test_data/clean_reference/01_PM-3.json",
+        "referencePeriod": [
+          "20250615000000",
+          "20250617121555"
+        ],
+        "referenceTiming": "overlaps-observation",
+        "operation": "1",
+        "checks": [
+          {
+            "field": "voltageR",
+            "label": "R상 전압",
+            "value": 217.78,
+            "lower": 205.29541032112618,
+            "upper": 224.69858967887384,
+            "unit": "원본 값",
+            "result": "inside"
+          },
+          {
+            "field": "voltageS",
+            "label": "S상 전압",
+            "value": 213.577,
+            "lower": 205.40752236689863,
+            "upper": 224.6324776331014,
+            "unit": "원본 값",
+            "result": "inside"
+          },
+          {
+            "field": "voltageT",
+            "label": "T상 전압",
+            "value": 213.849,
+            "lower": 205.3348407807851,
+            "upper": 224.6411592192149,
+            "unit": "원본 값",
+            "result": "inside"
+          },
+          {
+            "field": "voltageRS",
+            "label": "RS 선간전압",
+            "value": 370.626,
+            "lower": 355.49055427424867,
+            "upper": 389.1274457257514,
+            "unit": "원본 값",
+            "result": "inside"
+          },
+          {
+            "field": "voltageST",
+            "label": "ST 선간전압",
+            "value": 377.874,
+            "lower": 355.54048923972584,
+            "upper": 389.14251076027415,
+            "unit": "원본 값",
+            "result": "inside"
+          },
+          {
+            "field": "voltageTR",
+            "label": "TR 선간전압",
+            "value": 367.489,
+            "lower": 355.5398412223677,
+            "upper": 389.0401587776323,
+            "unit": "원본 값",
+            "result": "inside"
+          },
+          {
+            "field": "currentR",
+            "label": "R상 전류",
+            "value": 11.406,
+            "lower": 0,
+            "upper": 41.55145189297492,
+            "unit": "원본 값",
+            "result": "inside"
+          },
+          {
+            "field": "currentS",
+            "label": "S상 전류",
+            "value": 12.503,
+            "lower": 0,
+            "upper": 41.886727501587636,
+            "unit": "원본 값",
+            "result": "inside"
+          },
+          {
+            "field": "currentT",
+            "label": "T상 전류",
+            "value": 15.378,
+            "lower": 0,
+            "upper": 41.60521413405398,
+            "unit": "원본 값",
+            "result": "inside"
+          },
+          {
+            "field": "activePower",
+            "label": "유효전력",
+            "value": 0,
+            "lower": 0,
+            "upper": 7192.726851862283,
+            "unit": "원본 값",
+            "result": "inside"
+          },
+          {
+            "field": "powerFactorR",
+            "label": "R상 역률",
+            "value": 87.211,
+            "lower": 77.8718621772862,
+            "upper": 107.1461378227138,
+            "unit": "원본 값",
+            "result": "inside"
+          },
+          {
+            "field": "powerFactorS",
+            "label": "S상 역률",
+            "value": 88.26,
+            "lower": 77.8690617117122,
+            "upper": 107.09393828828779,
+            "unit": "원본 값",
+            "result": "inside"
+          },
+          {
+            "field": "powerFactorT",
+            "label": "T상 역률",
+            "value": 96.817,
+            "lower": 77.85398999342263,
+            "upper": 107.16701000657739,
+            "unit": "원본 값",
+            "result": "inside"
+          },
+          {
+            "field": "reactivePowerLagging",
+            "label": "무효전력",
+            "value": 1166.629,
+            "lower": 0,
+            "upper": 2207.8685919625336,
+            "unit": "원본 값",
+            "result": "inside"
+          },
+          {
+            "field": "phaseImbalance",
+            "label": "상별 전류 편차율",
+            "value": 17.428156896683387,
+            "lower": 0,
+            "upper": 102.68297969702078,
+            "unit": "%",
+            "result": "inside"
+          }
+        ],
+        "unassessedModelFields": [],
+        "limitation": "합성 정상 참조의 단일 시점 값 범위 비교입니다. 실제 고장·허용 한계, 값 고정·시계열·전력량 정합성은 별도입니다."
+      }
+    }
+  },
+  "missingAndUnknownPassed": true,
+  "aiMode": "mocked-no-external-transmission",
+  "groups": 4
+}

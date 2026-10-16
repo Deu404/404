@@ -28,15 +28,16 @@ function expectedTime(value) {
   return `${text.slice(0, 4)}-${text.slice(4, 6)}-${text.slice(6, 8)} ${text.slice(8, 10)}:${text.slice(10, 12)}`
 }
 
-const rootJsonFiles = (await readdir('test_data', { withFileTypes: true }))
+const dataRoot = resolve(process.env.TEST_DATA_DIR || 'test_data')
+const rootJsonFiles = (await readdir(dataRoot, { withFileTypes: true }))
   .filter((entry) => entry.isFile() && entry.name.endsWith('.json'))
   .map((entry) => entry.name)
   .sort()
 assert.deepEqual(rootJsonFiles, [...equipmentFiles.map(([, , json]) => json), 'events.json'].sort(), 'only the 13 mixed files and events.json may be at the test_data root')
 
-const server = spawn(process.execPath, [vitePath, '--host', '127.0.0.1', '--port', String(port)], {
-  stdio: 'ignore',
-  env: { ...process.env, TEST_DATA_DIR: resolve('test_data') },
+const server = spawn(process.execPath, [vitePath, '--configLoader', 'runner', '--host', '127.0.0.1', '--port', String(port)], {
+  stdio: 'inherit',
+  env: { ...process.env, TEST_DATA_DIR: dataRoot },
 })
 try {
   const deadline = Date.now() + 15_000
@@ -48,7 +49,7 @@ try {
   }
 
   for (const [equipmentId, csvFile, jsonFile] of equipmentFiles) {
-    const source = JSON.parse(await readFile(resolve('test_data', jsonFile), 'utf8'))
+    const source = JSON.parse(await readFile(resolve(dataRoot, jsonFile), 'utf8'))
     const response = await fetch(`${baseUrl}/api/equipment-data/${encodeURIComponent(csvFile)}`)
     assert.equal(response.status, 200, `${equipmentId} did not resolve ${csvFile}`)
     const payload = await response.json()

@@ -28,7 +28,7 @@ PlantEye는 공장 설비 전력 모니터링 및 이상 탐지를 위한 React 
 
 ## 요구 사항
 
-- Node.js 18 이상
+- Node.js 24 이상
 - npm
 
 ## 설치 및 실행
@@ -41,18 +41,20 @@ npm run dev
 
 개발 서버가 시작되면 브라우저에서 `http://localhost:5173`을 엽니다.
 
-## 에이전트 서버(선택)
+## 통합 에이전트 실행
 
-에이전트 서버는 아직 루트 프로젝트에 통합되어 있지 않으며 `Agent/404-전달용/server`에 있습니다. React 화면의 AI 점검 패널은 서버가 없거나 키가 없을 때 안내를 표시합니다. 키는 파일에 저장하지 말고 PowerShell 세션에서만 설정합니다.
+에이전트는 루트 `server/`에 통합되어 있습니다. 전체 설정·데이터 연결은 [AGENT-SETUP.md](AGENT-SETUP.md)를 참고하세요.
 
 ```powershell
-cd "C:\Github\404\Agent\404-전달용\server"
-$env:OPENAI_API_KEY = "여기에-실제-키-입력"
-$env:OPENAI_MODEL = "gpt-50-mini"
-node src/server.ts
+npm ci
+Copy-Item .env.example .env.local
+Copy-Item server/.env.example server/.env
+npm run dev:all
 ```
 
-서버를 실행하지 않고 도구만 확인하려면 같은 폴더에서 `node src/verifyTools.ts`를 실행합니다. 실제 키를 설정하지 않은 상태에서는 `/api/agent`를 호출하지 마세요.
+설정 파일이 이미 있으면 덮어쓰지 마세요. API 키는 개인 `server/.env`에만 입력하고 커밋하지 않습니다. 관측 데이터는 별도로 받은 `test_data`를 루트에 두거나 `.env.local`에서 경로를 설정합니다. 화면은 http://127.0.0.1:5173/alerts 입니다.
+
+`Agent/404-agent`는 과거 전달용 기록입니다. 현재 서버·화면 실행은 프로젝트 루트에서 합니다.
 
 ## 검사 및 빌드
 

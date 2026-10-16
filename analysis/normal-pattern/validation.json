@@ -1,0 +1,488 @@
+{
+  "version": "normal-pattern-v1",
+  "method": "median/IQR scale; calibration quantile of row maximum absolute score",
+  "validationScope": "held-out final 20% of each supplied synthetic clean/error series; not RF evaluation",
+  "equipment": [
+    {
+      "equipmentId": "compressor-01",
+      "file": "01_PM-3.json",
+      "sourceSha256": "91e8009e025af9a8cdee41be530c040a835be9e897184e5fe1109d1ac984fc3b",
+      "errorSourceSha256": "a6463913510c99962f1f64202eedfe7d48f9d68014a90c2a2c8383e0760d65d0",
+      "fitRows": 32544,
+      "calibrationRows": 10848,
+      "validationRows": 10848,
+      "cleanFalsePositives": 65,
+      "cleanFalsePositiveRate": 0.00599188790560472,
+      "injectedErrorEvaluation": {
+        "rows": 10848,
+        "tp": 146,
+        "fp": 54,
+        "fn": 952,
+        "tn": 9696,
+        "precision": 0.73,
+        "recall": 0.13296903460837886,
+        "falsePositiveRate": 0.005538461538461538
+      }
+    },
+    {
+      "equipmentId": "compressor-02",
+      "file": "02_L-1전등.json",
+      "sourceSha256": "9899837ea92bfcc675964af7ae86f6fb3eb114c5e6d416e6123361eee6eb53b4",
+      "errorSourceSha256": "f75770f25f18cbdf47157f86912fa4ca088b493cd385ce9949875493adc12930",
+      "fitRows": 32544,
+      "calibrationRows": 10848,
+      "validationRows": 10848,
+      "cleanFalsePositives": 65,
+      "cleanFalsePositiveRate": 0.00599188790560472,
+      "injectedErrorEvaluation": {
+        "rows": 10848,
+        "tp": 156,
+        "fp": 59,
+        "fn": 703,
+        "tn": 9930,
+        "precision": 0.7255813953488373,
+        "recall": 0.18160651920838183,
+        "falsePositiveRate": 0.005906497146861547
+      }
+    },
+    {
+      "equipmentId": "motor-01",
+      "file": "03_분쇄기(2).json",
+      "sourceSha256": "d1b76f32c91965f80d49d6d9db28583ff3fd711812ce4ff9abfdee2cbd26c618",
+      "errorSourceSha256": "51ab7c22d933894d55567d7ab74f76939cd5c64cc3e2d5e243ab39738e9b363a",
+      "fitRows": 32544,
+      "calibrationRows": 10848,
+      "validationRows": 10848,
+      "cleanFalsePositives": 35,
+      "cleanFalsePositiveRate": 0.003226401179941003,
+      "injectedErrorEvaluation": {
+        "rows": 10848,
+        "tp": 171,
+        "fp": 32,
+        "fn": 664,
+        "tn": 9981,
+        "precision": 0.8423645320197044,
+        "recall": 0.20479041916167665,
+        "falsePositiveRate": 0.0031958454009787278
+      }
+    },
+    {
+      "equipmentId": "motor-02",
+      "file": "04_분쇄기(1).json",
+      "sourceSha256": "9432a623a9a3ab91bb0d4d69723475d111f536adaeecccd6f9f233a458b4c3df",
+      "errorSourceSha256": "9cee123cbf5e37ab014bb8f7f989dc869ee0f96184d523714fb64c6d28b28aef",
+      "fitRows": 32544,
+      "calibrationRows": 10848,
+      "validationRows": 10848,
+      "cleanFalsePositives": 64,
+      "cleanFalsePositiveRate": 0.0058997050147492625,
+      "injectedErrorEvaluation": {
+        "rows": 10848,
+        "tp": 146,
+        "fp": 64,
+        "fn": 660,
+        "tn": 9978,
+        "precision": 0.6952380952380952,
+        "recall": 0.18114143920595532,
+        "falsePositiveRate": 0.006373232423819956
+      }
+    },
+    {
+      "equipmentId": "conveyor-01",
+      "file": "05_좌측분전반.json",
+      "sourceSha256": "304daa4c17261d95766f4019f2f2a6dd5b4f89075c48e65ee1f2bf22d233a7da",
+      "errorSourceSha256": "cb305abb5a85c2dff77e11ea0907319623aa90dacb0689d90df4a04dc89f203e",
+      "fitRows": 32544,
+      "calibrationRows": 10848,
+      "validationRows": 10848,
+      "cleanFalsePositives": 102,
+      "cleanFalsePositiveRate": 0.009402654867256638,
+      "injectedErrorEvaluation": {
+        "rows": 10848,
+        "tp": 163,
+        "fp": 96,
+        "fn": 877,
+        "tn": 9712,
+        "precision": 0.6293436293436293,
+        "recall": 0.15673076923076923,
+        "falsePositiveRate": 0.009787928221859706
+      }
+    },
+    {
+      "equipmentId": "robot-01",
+      "file": "11_우측분전반1.json",
+      "sourceSha256": "370757d10400a71b5c6852570688ff0460576cd6481861f52df641272d01b64c",
+      "errorSourceSha256": "6943b9d89b03f83232a3b807c79af2b67eb565b1f1cca5663da7e40d1f2be0ec",
+      "fitRows": 32544,
+      "calibrationRows": 10848,
+      "validationRows": 10848,
+      "cleanFalsePositives": 60,
+      "cleanFalsePositiveRate": 0.0055309734513274336,
+      "injectedErrorEvaluation": {
+        "rows": 10848,
+        "tp": 148,
+        "fp": 57,
+        "fn": 708,
+        "tn": 9935,
+        "precision": 0.7219512195121951,
+        "recall": 0.17289719626168223,
+        "falsePositiveRate": 0.005704563650920737
+      }
+    },
+    {
+      "equipmentId": "robot-02",
+      "file": "12_4호기.json",
+      "sourceSha256": "dfdc20338d511c361cbc523354ff5679145d6b4ad16649504c75df4f30bdf44d",
+      "errorSourceSha256": "81cd54450da83bd419d7b9a31878b94c745a9a5ab10a0452047a2fb445a37ea5",
+      "fitRows": 32544,
+      "calibrationRows": 10848,
+      "validationRows": 10848,
+      "cleanFalsePositives": 22,
+      "cleanFalsePositiveRate": 0.002028023598820059,
+      "injectedErrorEvaluation": {
+        "rows": 10848,
+        "tp": 142,
+        "fp": 21,
+        "fn": 734,
+        "tn": 9951,
+        "precision": 0.8711656441717791,
+        "recall": 0.16210045662100456,
+        "falsePositiveRate": 0.00210589651022864
+      }
+    },
+    {
+      "equipmentId": "robot-03",
+      "file": "13_3호기.json",
+      "sourceSha256": "036f9e6c6dfd2412ed28d591c5e6e5721dd9739f71d9a6a6bbdc78f0f00eda30",
+      "errorSourceSha256": "989f3d4af3a2b9b6b51756bcd15598e66e89070f44aff87a12923a9d9d26bf76",
+      "fitRows": 32544,
+      "calibrationRows": 10848,
+      "validationRows": 10848,
+      "cleanFalsePositives": 37,
+      "cleanFalsePositiveRate": 0.0034107669616519174,
+      "injectedErrorEvaluation": {
+        "rows": 10848,
+        "tp": 152,
+        "fp": 35,
+        "fn": 725,
+        "tn": 9936,
+        "precision": 0.8128342245989305,
+        "recall": 0.1733181299885975,
+        "falsePositiveRate": 0.0035101795206097684
+      }
+    },
+    {
+      "equipmentId": "cooling-01",
+      "file": "14_2호기.json",
+      "sourceSha256": "364efbf626f8f0d717208e581d640789442c64a8ba33032d28798e9a00a41bb6",
+      "errorSourceSha256": "03a6fee3a98e2d6481facdccab255ce4b24ca75f88dde99fe51409ec1212c4d4",
+      "fitRows": 32544,
+      "calibrationRows": 10848,
+      "validationRows": 10848,
+      "cleanFalsePositives": 44,
+      "cleanFalsePositiveRate": 0.004056047197640118,
+      "injectedErrorEvaluation": {
+        "rows": 10848,
+        "tp": 147,
+        "fp": 34,
+        "fn": 795,
+        "tn": 9872,
+        "precision": 0.8121546961325967,
+        "recall": 0.15605095541401273,
+        "falsePositiveRate": 0.00343226327478296
+      }
+    },
+    {
+      "equipmentId": "cooling-02",
+      "file": "15_예비건조기.json",
+      "sourceSha256": "2d3a700c8a45fff13377a47d7a045e4b02730c6dcf96bed6bc5a45b345f4b4f6",
+      "errorSourceSha256": "19cc1a5ef903bc2e80b9e847d2caf4eb633a46078321b884add8f03940226213",
+      "fitRows": 32544,
+      "calibrationRows": 10848,
+      "validationRows": 10848,
+      "cleanFalsePositives": 86,
+      "cleanFalsePositiveRate": 0.007927728613569322,
+      "injectedErrorEvaluation": {
+        "rows": 10848,
+        "tp": 170,
+        "fp": 81,
+        "fn": 556,
+        "tn": 10041,
+        "precision": 0.6772908366533864,
+        "recall": 0.23415977961432508,
+        "falsePositiveRate": 0.008002371072910491
+      }
+    },
+    {
+      "equipmentId": "pump-01",
+      "file": "16_호이스트.json",
+      "sourceSha256": "64dcdd76421ded65d6b6a47a5950cf07a905ba783cb9263ffd8a295ada4d1c45",
+      "errorSourceSha256": "ec7c0686c184a001f3f3c4e1a926ab8e2744ccc71e0e11659d9e8a65df46f3d1",
+      "fitRows": 32544,
+      "calibrationRows": 10848,
+      "validationRows": 10848,
+      "cleanFalsePositives": 11,
+      "cleanFalsePositiveRate": 0.0010140117994100295,
+      "injectedErrorEvaluation": {
+        "rows": 10848,
+        "tp": 156,
+        "fp": 11,
+        "fn": 599,
+        "tn": 10082,
+        "precision": 0.9341317365269461,
+        "recall": 0.20662251655629138,
+        "falsePositiveRate": 0.0010898642623600515
+      }
+    },
+    {
+      "equipmentId": "pump-02",
+      "file": "17_6호기.json",
+      "sourceSha256": "2ddd17e934314a1c29f1af736aba6237d426bdffd6e9574c9bade8e1e309398b",
+      "errorSourceSha256": "59150c345dce3bb06e0c4f59a54411b0e4f137e2fe564afbe1e5fba2eda65fd7",
+      "fitRows": 32544,
+      "calibrationRows": 10848,
+      "validationRows": 10848,
+      "cleanFalsePositives": 11,
+      "cleanFalsePositiveRate": 0.0010140117994100295,
+      "injectedErrorEvaluation": {
+        "rows": 10848,
+        "tp": 147,
+        "fp": 11,
+        "fn": 764,
+        "tn": 9926,
+        "precision": 0.930379746835443,
+        "recall": 0.16136114160263446,
+        "falsePositiveRate": 0.0011069739357955116
+      }
+    },
+    {
+      "equipmentId": "transformer-01",
+      "file": "18_우측분전반2.json",
+      "sourceSha256": "47579fbe12e00be45a523fbc4f87a5b9e1040b998f5eda3a87c0635ff93ead3c",
+      "errorSourceSha256": "072b303279b9645650f5b7fe21712e0011481cb574ef3e3d5599efa50bf8b046",
+      "fitRows": 32544,
+      "calibrationRows": 10848,
+      "validationRows": 10848,
+      "cleanFalsePositives": 41,
+      "cleanFalsePositiveRate": 0.0037794985250737463,
+      "injectedErrorEvaluation": {
+        "rows": 10848,
+        "tp": 144,
+        "fp": 38,
+        "fn": 812,
+        "tn": 9854,
+        "precision": 0.7912087912087912,
+        "recall": 0.1506276150627615,
+        "falsePositiveRate": 0.003841488071168621
+      }
+    }
+  ],
+  "limitations": [
+    "Same-family synthetic data, not real equipment faults or safety limits.",
+    "Single-observation value ranges do not cover frozen sensors, clock/energy consistency, or absent telemetry.",
+    "Calibration fixes ranges before validation; validation labels are never used for fitting.",
+    "Raw measurement units are preserved; power is not silently converted to W or kW."
+  ],
+  "cleanValidation": {
+    "rows": 141024,
+    "falsePositives": 643,
+    "falsePositiveRate": 0.004559507601542999
+  },
+  "injectedErrorEvaluation": {
+    "rows": 141024,
+    "tp": 1988,
+    "fp": 593,
+    "fn": 9549,
+    "tn": 128894
+  },
+  "anomalyTypeBreakdown": {
+    "normal": {
+      "rows": 129487,
+      "flagged": 593
+    },
+    "low": {
+      "rows": 99,
+      "flagged": 33
+    },
+    "both_clocks_duplicate": {
+      "rows": 8,
+      "flagged": 0
+    },
+    "drift_high": {
+      "rows": 330,
+      "flagged": 17
+    },
+    "pair_high_high": {
+      "rows": 206,
+      "flagged": 136
+    },
+    "pair_low_low": {
+      "rows": 252,
+      "flagged": 201
+    },
+    "pair_high_low": {
+      "rows": 220,
+      "flagged": 168
+    },
+    "energy_reverse": {
+      "rows": 54,
+      "flagged": 7
+    },
+    "stuck_group": {
+      "rows": 5680,
+      "flagged": 8
+    },
+    "pair_low_high": {
+      "rows": 228,
+      "flagged": 163
+    },
+    "pair_missing": {
+      "rows": 444,
+      "flagged": 422
+    },
+    "pos_inf": {
+      "rows": 94,
+      "flagged": 94
+    },
+    "missing": {
+      "rows": 106,
+      "flagged": 106
+    },
+    "zero": {
+      "rows": 103,
+      "flagged": 74
+    },
+    "non_numeric": {
+      "rows": 102,
+      "flagged": 102
+    },
+    "equipment_missing": {
+      "rows": 6,
+      "flagged": 0
+    },
+    "stuck_subset": {
+      "rows": 1904,
+      "flagged": 4
+    },
+    "neg_inf": {
+      "rows": 114,
+      "flagged": 114
+    },
+    "negative": {
+      "rows": 105,
+      "flagged": 105
+    },
+    "stuck": {
+      "rows": 576,
+      "flagged": 2
+    },
+    "multiple": {
+      "rows": 124,
+      "flagged": 124
+    },
+    "high": {
+      "rows": 115,
+      "flagged": 31
+    },
+    "drift_low": {
+      "rows": 360,
+      "flagged": 59
+    },
+    "clock_non_numeric": {
+      "rows": 5,
+      "flagged": 0
+    },
+    "operation_negative": {
+      "rows": 6,
+      "flagged": 6
+    },
+    "all_stuck": {
+      "rows": 72,
+      "flagged": 0
+    },
+    "clock_duplicate": {
+      "rows": 14,
+      "flagged": 1
+    },
+    "operation_nonbinary": {
+      "rows": 1,
+      "flagged": 1
+    },
+    "clock_forward": {
+      "rows": 7,
+      "flagged": 0
+    },
+    "energy_neg_inf": {
+      "rows": 1,
+      "flagged": 0
+    },
+    "energy_non_numeric": {
+      "rows": 2,
+      "flagged": 0
+    },
+    "energy_rate_high": {
+      "rows": 72,
+      "flagged": 0
+    },
+    "energy_frozen": {
+      "rows": 72,
+      "flagged": 0
+    },
+    "energy_missing": {
+      "rows": 1,
+      "flagged": 0
+    },
+    "operation_false_off": {
+      "rows": 3,
+      "flagged": 3
+    },
+    "energy_pos_inf": {
+      "rows": 2,
+      "flagged": 0
+    },
+    "energy_jump": {
+      "rows": 1,
+      "flagged": 0
+    },
+    "clock_missing": {
+      "rows": 1,
+      "flagged": 0
+    },
+    "both_clocks_backward": {
+      "rows": 4,
+      "flagged": 0
+    },
+    "operation_missing": {
+      "rows": 2,
+      "flagged": 2
+    },
+    "clock_backward": {
+      "rows": 9,
+      "flagged": 0
+    },
+    "operation_pos_inf": {
+      "rows": 2,
+      "flagged": 2
+    },
+    "operation_non_numeric": {
+      "rows": 3,
+      "flagged": 3
+    },
+    "energy_reset": {
+      "rows": 5,
+      "flagged": 0
+    },
+    "both_clocks_gap": {
+      "rows": 4,
+      "flagged": 0
+    },
+    "energy_rate_low": {
+      "rows": 18,
+      "flagged": 0
+    }
+  },
+  "acceptance": {
+    "rule": "Each held-out clean false-positive rate <= 1%; not a required error recall claim",
+    "passed": true
+  }
+}

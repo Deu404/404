@@ -9,8 +9,8 @@ if (!existsSync(new URL('../index.html', import.meta.url))) {
 }
 
 const children = [
-  spawn(process.execPath, ['--env-file-if-exists=server/.env', 'server/src/server.ts'], { cwd: projectRoot, stdio: 'inherit' }),
-  spawn(process.execPath, ['node_modules/vite/bin/vite.js', '--configLoader', 'runner', '--host', '127.0.0.1', '--strictPort', ...process.argv.slice(2)], { cwd: projectRoot, stdio: 'inherit' }),
+  spawn(process.execPath, ['--env-file-if-exists=.env.local', '--env-file-if-exists=server/.env', 'server/src/server.ts'], { cwd: projectRoot, stdio: 'inherit' }),
+  spawn(process.execPath, ['--env-file-if-exists=.env.local', 'node_modules/vite/bin/vite.js', '--configLoader', 'runner', '--host', '127.0.0.1', '--strictPort', ...process.argv.slice(2)], { cwd: projectRoot, stdio: 'inherit' }),
 ]
 let stopping = false
 function stop(code = 0) {

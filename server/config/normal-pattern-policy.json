@@ -1,0 +1,3199 @@
+{
+  "version": "normal-pattern-v1",
+  "kind": "empirical-normal-range",
+  "scope": "synthetic-reference-patterns-not-fault-or-safety-limits",
+  "method": "median/IQR scale; calibration quantile of row maximum absolute score",
+  "targetCalibrationFalsePositiveRate": 0.005,
+  "splitFractions": [
+    0.6,
+    0.2,
+    0.2
+  ],
+  "equipment": {
+    "compressor-01": {
+      "source": "test_data/clean_reference/01_PM-3.json",
+      "sha256": "91e8009e025af9a8cdee41be530c040a835be9e897184e5fe1109d1ac984fc3b",
+      "fitRows": 32544,
+      "calibrationRows": 10848,
+      "validationRows": 10848,
+      "fitPeriod": [
+        "20250615000000",
+        "20250616211155"
+      ],
+      "calibrationPeriod": [
+        "20250616211200",
+        "20250617121555"
+      ],
+      "validationPeriod": [
+        "20250617121600",
+        "20250618031955"
+      ],
+      "states": {
+        "0": {
+          "fitRows": 582,
+          "calibrationRows": 192,
+          "cutoff": 1.3835743780376255,
+          "bounds": {
+            "voltageR": {
+              "lower": 0.0,
+              "upper": 220.46319262913252,
+              "median": 0.0,
+              "scale": 159.3432171979244,
+              "unit": "원본 값"
+            },
+            "voltageS": {
+              "lower": 0.0,
+              "upper": 220.48703851815355,
+              "median": 0.0,
+              "scale": 159.36045218680505,
+              "unit": "원본 값"
+            },
+            "voltageT": {
+              "lower": 0.0,
+              "upper": 220.49755122191553,
+              "median": 0.0,
+              "scale": 159.36805040770943,
+              "unit": "원본 값"
+            },
+            "voltageRS": {
+              "lower": 0.0,
+              "upper": 380.955,
+              "median": 0.0,
+              "scale": 275.3411786508525,
+              "unit": "원본 값"
+            },
+            "voltageST": {
+              "lower": 0.0,
+              "upper": 381.34089315028655,
+              "median": 0.0,
+              "scale": 275.6200889547813,
+              "unit": "원본 값"
+            },
+            "voltageTR": {
+              "lower": 0.0,
+              "upper": 381.29166292779155,
+              "median": 0.0,
+              "scale": 275.5845070422535,
+              "unit": "원본 값"
+            },
+            "currentR": {
+              "lower": 0.0,
+              "upper": 1.3835743780376254e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "currentS": {
+              "lower": 0.0,
+              "upper": 1.3835743780376254e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "currentT": {
+              "lower": 0.0,
+              "upper": 1.3835743780376254e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "activePower": {
+              "lower": 0.0,
+              "upper": 1.3835743780376254e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorR": {
+              "lower": 0.0,
+              "upper": 1.3835743780376254e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorS": {
+              "lower": 0.0,
+              "upper": 1.3835743780376254e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorT": {
+              "lower": 0.0,
+              "upper": 1.3835743780376254e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "reactivePowerLagging": {
+              "lower": 0.0,
+              "upper": 1.3835743780376254e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "phaseImbalance": {
+              "lower": 0.0,
+              "upper": 1.3835743780376254e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "%"
+            }
+          }
+        },
+        "1": {
+          "fitRows": 31962,
+          "calibrationRows": 10656,
+          "cutoff": 2.6133076031950426,
+          "bounds": {
+            "voltageR": {
+              "lower": 205.29541032112618,
+              "upper": 224.69858967887384,
+              "median": 214.997,
+              "scale": 3.712379540400304,
+              "unit": "원본 값"
+            },
+            "voltageS": {
+              "lower": 205.40752236689863,
+              "upper": 224.6324776331014,
+              "median": 215.02,
+              "scale": 3.6782802075611483,
+              "unit": "원본 값"
+            },
+            "voltageT": {
+              "lower": 205.3348407807851,
+              "upper": 224.6411592192149,
+              "median": 214.988,
+              "scale": 3.6938472942920715,
+              "unit": "원본 값"
+            },
+            "voltageRS": {
+              "lower": 355.49055427424867,
+              "upper": 389.1274457257514,
+              "median": 372.309,
+              "scale": 6.435693106004464,
+              "unit": "원본 값"
+            },
+            "voltageST": {
+              "lower": 355.54048923972584,
+              "upper": 389.14251076027415,
+              "median": 372.3415,
+              "scale": 6.429021497405492,
+              "unit": "원본 값"
+            },
+            "voltageTR": {
+              "lower": 355.5398412223677,
+              "upper": 389.0401587776323,
+              "median": 372.29,
+              "scale": 6.409562638991848,
+              "unit": "원본 값"
+            },
+            "currentR": {
+              "lower": 0.0,
+              "upper": 41.55145189297492,
+              "median": 17.4665,
+              "scale": 9.216271312083023,
+              "unit": "원본 값"
+            },
+            "currentS": {
+              "lower": 0.0,
+              "upper": 41.886727501587636,
+              "median": 17.548000000000002,
+              "scale": 9.313380281690142,
+              "unit": "원본 값"
+            },
+            "currentT": {
+              "lower": 0.0,
+              "upper": 41.60521413405398,
+              "median": 17.389499999999998,
+              "scale": 9.266308376575239,
+              "unit": "원본 값"
+            },
+            "activePower": {
+              "lower": 0.0,
+              "upper": 7192.726851862283,
+              "median": 3025.295,
+              "scale": 1594.696256486286,
+              "unit": "원본 값"
+            },
+            "powerFactorR": {
+              "lower": 77.8718621772862,
+              "upper": 107.1461378227138,
+              "median": 92.509,
+              "scale": 5.601000741289837,
+              "unit": "원본 값"
+            },
+            "powerFactorS": {
+              "lower": 77.8690617117122,
+              "upper": 107.09393828828779,
+              "median": 92.4815,
+              "scale": 5.591549295774652,
+              "unit": "원본 값"
+            },
+            "powerFactorT": {
+              "lower": 77.85398999342263,
+              "upper": 107.16701000657739,
+              "median": 92.51050000000001,
+              "scale": 5.608413639733132,
+              "unit": "원본 값"
+            },
+            "reactivePowerLagging": {
+              "lower": 0.0,
+              "upper": 2207.8685919625336,
+              "median": 812.3879999999999,
+              "scale": 533.9901779095627,
+              "unit": "원본 값"
+            },
+            "phaseImbalance": {
+              "lower": 0.0,
+              "upper": 102.68297969702078,
+              "median": 39.34537921269825,
+              "scale": 24.236565342283352,
+              "unit": "%"
+            }
+          }
+        }
+      }
+    },
+    "compressor-02": {
+      "source": "test_data/clean_reference/02_L-1전등.json",
+      "sha256": "9899837ea92bfcc675964af7ae86f6fb3eb114c5e6d416e6123361eee6eb53b4",
+      "fitRows": 32544,
+      "calibrationRows": 10848,
+      "validationRows": 10848,
+      "fitPeriod": [
+        "20250615000000",
+        "20250616211155"
+      ],
+      "calibrationPeriod": [
+        "20250616211200",
+        "20250617121555"
+      ],
+      "validationPeriod": [
+        "20250617121600",
+        "20250618031955"
+      ],
+      "states": {
+        "0": {
+          "fitRows": 582,
+          "calibrationRows": 192,
+          "cutoff": 1.3814230405286636,
+          "bounds": {
+            "voltageR": {
+              "lower": 0.0,
+              "upper": 220.20513047472357,
+              "median": 0.0,
+              "scale": 159.4045589325426,
+              "unit": "원본 값"
+            },
+            "voltageS": {
+              "lower": 0.0,
+              "upper": 220.10195896150395,
+              "median": 0.0,
+              "scale": 159.32987398072646,
+              "unit": "원본 값"
+            },
+            "voltageT": {
+              "lower": 0.0,
+              "upper": 220.03232459029866,
+              "median": 0.0,
+              "scale": 159.2794662713121,
+              "unit": "원본 값"
+            },
+            "voltageRS": {
+              "lower": 0.0,
+              "upper": 380.122,
+              "median": 0.0,
+              "scale": 275.1669755374351,
+              "unit": "원본 값"
+            },
+            "voltageST": {
+              "lower": 0.0,
+              "upper": 381.81908178941154,
+              "median": 0.0,
+              "scale": 276.3954781319496,
+              "unit": "원본 값"
+            },
+            "voltageTR": {
+              "lower": 0.0,
+              "upper": 381.37004249862446,
+              "median": 0.0,
+              "scale": 276.07042253521126,
+              "unit": "원본 값"
+            },
+            "currentR": {
+              "lower": 0.0,
+              "upper": 1.3814230405286635e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "currentS": {
+              "lower": 0.0,
+              "upper": 1.3814230405286635e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "currentT": {
+              "lower": 0.0,
+              "upper": 1.3814230405286635e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "activePower": {
+              "lower": 0.0,
+              "upper": 1.3814230405286635e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorR": {
+              "lower": 0.0,
+              "upper": 1.3814230405286635e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorS": {
+              "lower": 0.0,
+              "upper": 1.3814230405286635e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorT": {
+              "lower": 0.0,
+              "upper": 1.3814230405286635e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "reactivePowerLagging": {
+              "lower": 0.0,
+              "upper": 1.3814230405286635e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "phaseImbalance": {
+              "lower": 0.0,
+              "upper": 1.3814230405286635e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "%"
+            }
+          }
+        },
+        "1": {
+          "fitRows": 31962,
+          "calibrationRows": 10656,
+          "cutoff": 2.5023365035474594,
+          "bounds": {
+            "voltageR": {
+              "lower": 205.6525967240866,
+              "upper": 224.3014032759134,
+              "median": 214.977,
+              "scale": 3.7262787249814626,
+              "unit": "원본 값"
+            },
+            "voltageS": {
+              "lower": 205.6179194159006,
+              "upper": 224.3900805840994,
+              "median": 215.004,
+              "scale": 3.750926612305392,
+              "unit": "원본 값"
+            },
+            "voltageT": {
+              "lower": 205.73860237784774,
+              "upper": 224.3363976221523,
+              "median": 215.03750000000002,
+              "scale": 3.7160859896219463,
+              "unit": "원본 값"
+            },
+            "voltageRS": {
+              "lower": 356.3075183039333,
+              "upper": 388.45948169606675,
+              "median": 372.3835,
+              "scale": 6.424388435878417,
+              "unit": "원본 값"
+            },
+            "voltageST": {
+              "lower": 356.24618264685336,
+              "upper": 388.55581735314667,
+              "median": 372.401,
+              "scale": 6.455893254262419,
+              "unit": "원본 값"
+            },
+            "voltageTR": {
+              "lower": 355.866017666985,
+              "upper": 388.92598233301504,
+              "median": 372.396,
+              "scale": 6.60581912527798,
+              "unit": "원본 값"
+            },
+            "currentR": {
+              "lower": 0.0,
+              "upper": 40.72906674719465,
+              "median": 17.5435,
+              "scale": 9.265567086730913,
+              "unit": "원본 값"
+            },
+            "currentS": {
+              "lower": 0.0,
+              "upper": 40.82296927219481,
+              "median": 17.585,
+              "scale": 9.28650852483321,
+              "unit": "원본 값"
+            },
+            "currentT": {
+              "lower": 0.0,
+              "upper": 40.901795279496056,
+              "median": 17.5465,
+              "scale": 9.333395107487027,
+              "unit": "원본 값"
+            },
+            "activePower": {
+              "lower": 0.0,
+              "upper": 7008.122773685002,
+              "median": 3005.636,
+              "scale": 1599.499814677539,
+              "unit": "원본 값"
+            },
+            "powerFactorR": {
+              "lower": 78.67150452739128,
+              "upper": 106.43649547260873,
+              "median": 92.554,
+              "scale": 5.547813194959225,
+              "unit": "원본 값"
+            },
+            "powerFactorS": {
+              "lower": 78.44529895039953,
+              "upper": 106.58870104960046,
+              "median": 92.517,
+              "scale": 5.6234247590808,
+              "unit": "원본 값"
+            },
+            "powerFactorT": {
+              "lower": 78.5063062619043,
+              "upper": 106.41969373809569,
+              "median": 92.463,
+              "scale": 5.577464788732395,
+              "unit": "원본 값"
+            },
+            "reactivePowerLagging": {
+              "lower": 0.0,
+              "upper": 2138.6229971062667,
+              "median": 810.1485,
+              "scale": 530.8936249073388,
+              "unit": "원본 값"
+            },
+            "phaseImbalance": {
+              "lower": 0.0,
+              "upper": 99.83634535805298,
+              "median": 38.089711885508905,
+              "scale": 24.67559154614434,
+              "unit": "%"
+            }
+          }
+        }
+      }
+    },
+    "motor-01": {
+      "source": "test_data/clean_reference/03_분쇄기(2).json",
+      "sha256": "d1b76f32c91965f80d49d6d9db28583ff3fd711812ce4ff9abfdee2cbd26c618",
+      "fitRows": 32544,
+      "calibrationRows": 10848,
+      "validationRows": 10848,
+      "fitPeriod": [
+        "20250615000000",
+        "20250616211155"
+      ],
+      "calibrationPeriod": [
+        "20250616211200",
+        "20250617121555"
+      ],
+      "validationPeriod": [
+        "20250617121600",
+        "20250618031955"
+      ],
+      "states": {
+        "0": {
+          "fitRows": 582,
+          "calibrationRows": 192,
+          "cutoff": 1.3805355734332356,
+          "bounds": {
+            "voltageR": {
+              "lower": 0.0,
+              "upper": 220.05777975605787,
+              "median": 0.0,
+              "scale": 159.40029651593773,
+              "unit": "원본 값"
+            },
+            "voltageS": {
+              "lower": 0.0,
+              "upper": 220.1652343410916,
+              "median": 0.0,
+              "scale": 159.4781319495923,
+              "unit": "원본 값"
+            },
+            "voltageT": {
+              "lower": 0.0,
+              "upper": 220.24454605861652,
+              "median": 0.0,
+              "scale": 159.53558191252782,
+              "unit": "원본 값"
+            },
+            "voltageRS": {
+              "lower": 0.0,
+              "upper": 381.65668343427035,
+              "median": 0.0,
+              "scale": 276.4555226093402,
+              "unit": "원본 값"
+            },
+            "voltageST": {
+              "lower": 0.0,
+              "upper": 380.94185459954605,
+              "median": 0.0,
+              "scale": 275.93773165307636,
+              "unit": "원본 값"
+            },
+            "voltageTR": {
+              "lower": 0.0,
+              "upper": 380.795,
+              "median": 0.0,
+              "scale": 275.83135656041514,
+              "unit": "원본 값"
+            },
+            "currentR": {
+              "lower": 0.0,
+              "upper": 1.3805355734332355e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "currentS": {
+              "lower": 0.0,
+              "upper": 1.3805355734332355e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "currentT": {
+              "lower": 0.0,
+              "upper": 1.3805355734332355e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "activePower": {
+              "lower": 0.0,
+              "upper": 1.3805355734332355e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorR": {
+              "lower": 0.0,
+              "upper": 1.3805355734332355e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorS": {
+              "lower": 0.0,
+              "upper": 1.3805355734332355e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorT": {
+              "lower": 0.0,
+              "upper": 1.3805355734332355e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "reactivePowerLagging": {
+              "lower": 0.0,
+              "upper": 1.3805355734332355e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "phaseImbalance": {
+              "lower": 0.0,
+              "upper": 1.3805355734332355e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "%"
+            }
+          }
+        },
+        "1": {
+          "fitRows": 31962,
+          "calibrationRows": 10656,
+          "cutoff": 2.570581332423048,
+          "bounds": {
+            "voltageR": {
+              "lower": 205.41804183684343,
+              "upper": 224.54495816315654,
+              "median": 214.98149999999998,
+              "scale": 3.7203484062268433,
+              "unit": "원본 값"
+            },
+            "voltageS": {
+              "lower": 205.45601518794973,
+              "upper": 224.48098481205028,
+              "median": 214.9685,
+              "scale": 3.700518902891023,
+              "unit": "원본 값"
+            },
+            "voltageT": {
+              "lower": 205.4252933545198,
+              "upper": 224.60270664548023,
+              "median": 215.014,
+              "scale": 3.7301704966642037,
+              "unit": "원본 값"
+            },
+            "voltageRS": {
+              "lower": 355.82014962384426,
+              "upper": 388.89185037615573,
+              "median": 372.356,
+              "scale": 6.432727946627134,
+              "unit": "원본 값"
+            },
+            "voltageST": {
+              "lower": 355.9906312062258,
+              "upper": 388.92036879377423,
+              "median": 372.45550000000003,
+              "scale": 6.405114899925894,
+              "unit": "원본 값"
+            },
+            "voltageTR": {
+              "lower": 355.77938359868483,
+              "upper": 389.1026164013151,
+              "median": 372.441,
+              "scale": 6.481653076352879,
+              "unit": "원본 값"
+            },
+            "currentR": {
+              "lower": 0.0,
+              "upper": 41.326571429164346,
+              "median": 17.482,
+              "scale": 9.27594514455152,
+              "unit": "원본 값"
+            },
+            "currentS": {
+              "lower": 0.0,
+              "upper": 41.47935587194208,
+              "median": 17.58,
+              "scale": 9.297257227575983,
+              "unit": "원본 값"
+            },
+            "currentT": {
+              "lower": 0.0,
+              "upper": 41.42356535845896,
+              "median": 17.478,
+              "scale": 9.315233506300965,
+              "unit": "원본 값"
+            },
+            "activePower": {
+              "lower": 0.0,
+              "upper": 7130.872339383519,
+              "median": 3039.8355,
+              "scale": 1591.483135656042,
+              "unit": "원본 값"
+            },
+            "powerFactorR": {
+              "lower": 78.29585596946076,
+              "upper": 106.77614403053924,
+              "median": 92.536,
+              "scale": 5.539659006671608,
+              "unit": "원본 값"
+            },
+            "powerFactorS": {
+              "lower": 78.41683148113691,
+              "upper": 106.55316851886309,
+              "median": 92.485,
+              "scale": 5.472757598220916,
+              "unit": "원본 값"
+            },
+            "powerFactorT": {
+              "lower": 78.0103793774996,
+              "upper": 106.9556206225004,
+              "median": 92.483,
+              "scale": 5.630096367679762,
+              "unit": "원본 값"
+            },
+            "reactivePowerLagging": {
+              "lower": 0.0,
+              "upper": 2162.0333346576763,
+              "median": 802.4845,
+              "scale": 528.887694588584,
+              "unit": "원본 값"
+            },
+            "phaseImbalance": {
+              "lower": 0.0,
+              "upper": 101.83818172988197,
+              "median": 38.75052460416051,
+              "scale": 24.5421750831181,
+              "unit": "%"
+            }
+          }
+        }
+      }
+    },
+    "motor-02": {
+      "source": "test_data/clean_reference/04_분쇄기(1).json",
+      "sha256": "9432a623a9a3ab91bb0d4d69723475d111f536adaeecccd6f9f233a458b4c3df",
+      "fitRows": 32544,
+      "calibrationRows": 10848,
+      "validationRows": 10848,
+      "fitPeriod": [
+        "20250615000000",
+        "20250616211155"
+      ],
+      "calibrationPeriod": [
+        "20250616211200",
+        "20250617121555"
+      ],
+      "validationPeriod": [
+        "20250617121600",
+        "20250618031955"
+      ],
+      "states": {
+        "0": {
+          "fitRows": 582,
+          "calibrationRows": 192,
+          "cutoff": 1.3820222735715817,
+          "bounds": {
+            "voltageR": {
+              "lower": 0.0,
+              "upper": 220.28989392332937,
+              "median": 0.0,
+              "scale": 159.39677538917718,
+              "unit": "원본 값"
+            },
+            "voltageS": {
+              "lower": 0.0,
+              "upper": 220.55984415986467,
+              "median": 0.0,
+              "scale": 159.5921052631579,
+              "unit": "원본 값"
+            },
+            "voltageT": {
+              "lower": 0.0,
+              "upper": 220.40361110076927,
+              "median": 0.0,
+              "scale": 159.4790585618977,
+              "unit": "원본 값"
+            },
+            "voltageRS": {
+              "lower": 0.0,
+              "upper": 379.737,
+              "median": 0.0,
+              "scale": 274.7690882134915,
+              "unit": "원본 값"
+            },
+            "voltageST": {
+              "lower": 0.0,
+              "upper": 381.160513676151,
+              "median": 0.0,
+              "scale": 275.7991104521868,
+              "unit": "원본 값"
+            },
+            "voltageTR": {
+              "lower": 0.0,
+              "upper": 381.58387965432263,
+              "median": 0.0,
+              "scale": 276.10544848035585,
+              "unit": "원본 값"
+            },
+            "currentR": {
+              "lower": 0.0,
+              "upper": 1.3820222735715817e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "currentS": {
+              "lower": 0.0,
+              "upper": 1.3820222735715817e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "currentT": {
+              "lower": 0.0,
+              "upper": 1.3820222735715817e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "activePower": {
+              "lower": 0.0,
+              "upper": 1.3820222735715817e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorR": {
+              "lower": 0.0,
+              "upper": 1.3820222735715817e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorS": {
+              "lower": 0.0,
+              "upper": 1.3820222735715817e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorT": {
+              "lower": 0.0,
+              "upper": 1.3820222735715817e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "reactivePowerLagging": {
+              "lower": 0.0,
+              "upper": 1.3820222735715817e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "phaseImbalance": {
+              "lower": 0.0,
+              "upper": 1.3820222735715817e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "%"
+            }
+          }
+        },
+        "1": {
+          "fitRows": 31962,
+          "calibrationRows": 10656,
+          "cutoff": 2.578694257783441,
+          "bounds": {
+            "voltageR": {
+              "lower": 205.37105791821295,
+              "upper": 224.56694208178703,
+              "median": 214.969,
+              "scale": 3.7220163083765865,
+              "unit": "원본 값"
+            },
+            "voltageS": {
+              "lower": 205.51167003456595,
+              "upper": 224.60432996543403,
+              "median": 215.058,
+              "scale": 3.7020014825796888,
+              "unit": "원본 값"
+            },
+            "voltageT": {
+              "lower": 205.48004747132418,
+              "upper": 224.48095252867583,
+              "median": 214.9805,
+              "scale": 3.6842105263157885,
+              "unit": "원본 값"
+            },
+            "voltageRS": {
+              "lower": 355.8045432076201,
+              "upper": 389.13545679237996,
+              "median": 372.47,
+              "scale": 6.46275018532247,
+              "unit": "원본 값"
+            },
+            "voltageST": {
+              "lower": 355.779192579448,
+              "upper": 388.878807420552,
+              "median": 372.329,
+              "scale": 6.417902149740565,
+              "unit": "원본 값"
+            },
+            "voltageTR": {
+              "lower": 355.7732879841757,
+              "upper": 389.0067120158243,
+              "median": 372.39,
+              "scale": 6.443847294292061,
+              "unit": "원본 값"
+            },
+            "currentR": {
+              "lower": 0.0,
+              "upper": 41.55101815555251,
+              "median": 17.43,
+              "scale": 9.35396590066716,
+              "unit": "원본 값"
+            },
+            "currentS": {
+              "lower": 0.0,
+              "upper": 41.324750052707074,
+              "median": 17.4465,
+              "scale": 9.25982209043736,
+              "unit": "원본 값"
+            },
+            "currentT": {
+              "lower": 0.0,
+              "upper": 41.62311356028015,
+              "median": 17.569,
+              "scale": 9.328020756115642,
+              "unit": "원본 값"
+            },
+            "activePower": {
+              "lower": 0.0,
+              "upper": 7179.037941478554,
+              "median": 3040.745,
+              "scale": 1604.8017049666416,
+              "unit": "원본 값"
+            },
+            "powerFactorR": {
+              "lower": 78.10132503921056,
+              "upper": 106.94867496078945,
+              "median": 92.525,
+              "scale": 5.593402520385474,
+              "unit": "원본 값"
+            },
+            "powerFactorS": {
+              "lower": 78.11498834022363,
+              "upper": 106.99101165977636,
+              "median": 92.553,
+              "scale": 5.598962194217937,
+              "unit": "원본 값"
+            },
+            "powerFactorT": {
+              "lower": 78.12409192579993,
+              "upper": 106.87490807420006,
+              "median": 92.4995,
+              "scale": 5.5746849518161525,
+              "unit": "원본 값"
+            },
+            "reactivePowerLagging": {
+              "lower": 0.0,
+              "upper": 2197.1725190857637,
+              "median": 813.207,
+              "scale": 536.6923647146034,
+              "unit": "원본 값"
+            },
+            "phaseImbalance": {
+              "lower": 0.0,
+              "upper": 102.86972079664767,
+              "median": 39.20281255148886,
+              "scale": 24.689591661744632,
+              "unit": "%"
+            }
+          }
+        }
+      }
+    },
+    "conveyor-01": {
+      "source": "test_data/clean_reference/05_좌측분전반.json",
+      "sha256": "304daa4c17261d95766f4019f2f2a6dd5b4f89075c48e65ee1f2bf22d233a7da",
+      "fitRows": 32544,
+      "calibrationRows": 10848,
+      "validationRows": 10848,
+      "fitPeriod": [
+        "20250615000000",
+        "20250616211155"
+      ],
+      "calibrationPeriod": [
+        "20250616211200",
+        "20250617121555"
+      ],
+      "validationPeriod": [
+        "20250617121600",
+        "20250618031955"
+      ],
+      "states": {
+        "0": {
+          "fitRows": 582,
+          "calibrationRows": 192,
+          "cutoff": 1.3816866589134407,
+          "bounds": {
+            "voltageR": {
+              "lower": 0.0,
+              "upper": 220.11349039445264,
+              "median": 0.0,
+              "scale": 159.30782060785768,
+              "unit": "원본 값"
+            },
+            "voltageS": {
+              "lower": 0.0,
+              "upper": 220.26584464983694,
+              "median": 0.0,
+              "scale": 159.41808747220165,
+              "unit": "원본 값"
+            },
+            "voltageT": {
+              "lower": 0.0,
+              "upper": 219.41445322268953,
+              "median": 0.0,
+              "scale": 158.80189028910303,
+              "unit": "원본 값"
+            },
+            "voltageRS": {
+              "lower": 0.0,
+              "upper": 381.57059246596305,
+              "median": 0.0,
+              "scale": 276.16289844329134,
+              "unit": "원본 값"
+            },
+            "voltageST": {
+              "lower": 0.0,
+              "upper": 380.679,
+              "median": 0.0,
+              "scale": 275.5176056338028,
+              "unit": "원본 값"
+            },
+            "voltageTR": {
+              "lower": 0.0,
+              "upper": 381.6320462832609,
+              "median": 0.0,
+              "scale": 276.20737583395106,
+              "unit": "원본 값"
+            },
+            "currentR": {
+              "lower": 0.0,
+              "upper": 1.3816866589134407e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "currentS": {
+              "lower": 0.0,
+              "upper": 1.3816866589134407e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "currentT": {
+              "lower": 0.0,
+              "upper": 1.3816866589134407e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "activePower": {
+              "lower": 0.0,
+              "upper": 1.3816866589134407e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorR": {
+              "lower": 0.0,
+              "upper": 1.3816866589134407e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorS": {
+              "lower": 0.0,
+              "upper": 1.3816866589134407e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorT": {
+              "lower": 0.0,
+              "upper": 1.3816866589134407e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "reactivePowerLagging": {
+              "lower": 0.0,
+              "upper": 1.3816866589134407e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "phaseImbalance": {
+              "lower": 0.0,
+              "upper": 1.3816866589134407e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "%"
+            }
+          }
+        },
+        "1": {
+          "fitRows": 31962,
+          "calibrationRows": 10656,
+          "cutoff": 2.40377010686023,
+          "bounds": {
+            "voltageR": {
+              "lower": 206.0068085644306,
+              "upper": 223.98519143556942,
+              "median": 214.996,
+              "scale": 3.7396219421793875,
+              "unit": "원본 값"
+            },
+            "voltageS": {
+              "lower": 206.04631881032367,
+              "upper": 223.96768118967634,
+              "median": 215.007,
+              "scale": 3.727761304670128,
+              "unit": "원본 값"
+            },
+            "voltageT": {
+              "lower": 206.13305840430587,
+              "upper": 223.89494159569415,
+              "median": 215.014,
+              "scale": 3.694588584136404,
+              "unit": "원본 값"
+            },
+            "voltageRS": {
+              "lower": 357.0768426339571,
+              "upper": 387.7351573660429,
+              "median": 372.406,
+              "scale": 6.377131208302457,
+              "unit": "원본 값"
+            },
+            "voltageST": {
+              "lower": 356.9758181719134,
+              "upper": 387.9441818280866,
+              "median": 372.46,
+              "scale": 6.4416234247591255,
+              "unit": "원본 값"
+            },
+            "voltageTR": {
+              "lower": 356.80064037353924,
+              "upper": 388.0193596264608,
+              "median": 372.41,
+              "scale": 6.4936990363231955,
+              "unit": "원본 값"
+            },
+            "currentR": {
+              "lower": 0.0,
+              "upper": 39.66752483965908,
+              "median": 17.511499999999998,
+              "scale": 9.217197924388437,
+              "unit": "원본 값"
+            },
+            "currentS": {
+              "lower": 0.0,
+              "upper": 40.1613113725998,
+              "median": 17.6645,
+              "scale": 9.358969607116382,
+              "unit": "원본 값"
+            },
+            "currentT": {
+              "lower": 0.0,
+              "upper": 39.75525716544131,
+              "median": 17.4745,
+              "scale": 9.269088213491475,
+              "unit": "원본 값"
+            },
+            "activePower": {
+              "lower": 0.0,
+              "upper": 6819.005199190134,
+              "median": 2991.3509999999997,
+              "scale": 1592.3545218680504,
+              "unit": "원본 값"
+            },
+            "powerFactorR": {
+              "lower": 79.16672144356767,
+              "upper": 105.93427855643233,
+              "median": 92.5505,
+              "scale": 5.5678280207561235,
+              "unit": "원본 값"
+            },
+            "powerFactorS": {
+              "lower": 79.06328423173996,
+              "upper": 105.87271576826005,
+              "median": 92.468,
+              "scale": 5.576538176426984,
+              "unit": "원본 값"
+            },
+            "powerFactorT": {
+              "lower": 79.11688502579143,
+              "upper": 105.88711497420856,
+              "median": 92.502,
+              "scale": 5.5683839881393675,
+              "unit": "원본 값"
+            },
+            "reactivePowerLagging": {
+              "lower": 0.0,
+              "upper": 2105.8772029281154,
+              "median": 810.3154999999999,
+              "scale": 538.970719051149,
+              "unit": "원본 값"
+            },
+            "phaseImbalance": {
+              "lower": 0.0,
+              "upper": 98.96987745935655,
+              "median": 39.28000198756861,
+              "scale": 24.831773762988504,
+              "unit": "%"
+            }
+          }
+        }
+      }
+    },
+    "robot-01": {
+      "source": "test_data/clean_reference/11_우측분전반1.json",
+      "sha256": "370757d10400a71b5c6852570688ff0460576cd6481861f52df641272d01b64c",
+      "fitRows": 32544,
+      "calibrationRows": 10848,
+      "validationRows": 10848,
+      "fitPeriod": [
+        "20250615000000",
+        "20250616211155"
+      ],
+      "calibrationPeriod": [
+        "20250616211200",
+        "20250617121555"
+      ],
+      "validationPeriod": [
+        "20250617121600",
+        "20250618031955"
+      ],
+      "states": {
+        "0": {
+          "fitRows": 582,
+          "calibrationRows": 192,
+          "cutoff": 1.3790289430788443,
+          "bounds": {
+            "voltageR": {
+              "lower": 0.0,
+              "upper": 219.96150554701657,
+              "median": 0.0,
+              "scale": 159.50463306152707,
+              "unit": "원본 값"
+            },
+            "voltageS": {
+              "lower": 0.0,
+              "upper": 219.812,
+              "median": 0.0,
+              "scale": 159.39621942179392,
+              "unit": "원본 값"
+            },
+            "voltageT": {
+              "lower": 0.0,
+              "upper": 220.2630722914259,
+              "median": 0.0,
+              "scale": 159.72331356560414,
+              "unit": "원본 값"
+            },
+            "voltageRS": {
+              "lower": 0.0,
+              "upper": 380.5079733194436,
+              "median": 0.0,
+              "scale": 275.92457375833953,
+              "unit": "원본 값"
+            },
+            "voltageST": {
+              "lower": 0.0,
+              "upper": 383.343211846967,
+              "median": 0.0,
+              "scale": 277.98054114158634,
+              "unit": "원본 값"
+            },
+            "voltageTR": {
+              "lower": 0.0,
+              "upper": 380.15376017728136,
+              "median": 0.0,
+              "scale": 275.6677168272795,
+              "unit": "원본 값"
+            },
+            "currentR": {
+              "lower": 0.0,
+              "upper": 1.3790289430788443e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "currentS": {
+              "lower": 0.0,
+              "upper": 1.3790289430788443e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "currentT": {
+              "lower": 0.0,
+              "upper": 1.3790289430788443e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "activePower": {
+              "lower": 0.0,
+              "upper": 1.3790289430788443e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorR": {
+              "lower": 0.0,
+              "upper": 1.3790289430788443e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorS": {
+              "lower": 0.0,
+              "upper": 1.3790289430788443e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorT": {
+              "lower": 0.0,
+              "upper": 1.3790289430788443e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "reactivePowerLagging": {
+              "lower": 0.0,
+              "upper": 1.3790289430788443e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "phaseImbalance": {
+              "lower": 0.0,
+              "upper": 1.3790289430788443e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "%"
+            }
+          }
+        },
+        "1": {
+          "fitRows": 31962,
+          "calibrationRows": 10656,
+          "cutoff": 2.5584583758541446,
+          "bounds": {
+            "voltageR": {
+              "lower": 205.42221227477012,
+              "upper": 224.53478772522988,
+              "median": 214.9785,
+              "scale": 3.7351742031134334,
+              "unit": "원본 값"
+            },
+            "voltageS": {
+              "lower": 205.51690238665083,
+              "upper": 224.39809761334914,
+              "median": 214.95749999999998,
+              "scale": 3.6899555226093512,
+              "unit": "원본 값"
+            },
+            "voltageT": {
+              "lower": 205.520772977103,
+              "upper": 224.45222702289695,
+              "median": 214.98649999999998,
+              "scale": 3.6997776130466904,
+              "unit": "원본 값"
+            },
+            "voltageRS": {
+              "lower": 355.54640878559167,
+              "upper": 388.65559121440833,
+              "median": 372.101,
+              "scale": 6.4705337286879105,
+              "unit": "원본 값"
+            },
+            "voltageST": {
+              "lower": 355.99990110639493,
+              "upper": 388.632098893605,
+              "median": 372.316,
+              "scale": 6.377316530763535,
+              "unit": "원본 값"
+            },
+            "voltageTR": {
+              "lower": 355.99899545668353,
+              "upper": 388.8730045433164,
+              "median": 372.436,
+              "scale": 6.424573758339496,
+              "unit": "원본 값"
+            },
+            "currentR": {
+              "lower": 0.0,
+              "upper": 41.22634374312511,
+              "median": 17.48,
+              "scale": 9.281504818383988,
+              "unit": "원본 값"
+            },
+            "currentS": {
+              "lower": 0.0,
+              "upper": 41.34214551780044,
+              "median": 17.583,
+              "scale": 9.28650852483321,
+              "unit": "원본 값"
+            },
+            "currentT": {
+              "lower": 0.0,
+              "upper": 40.984360078574824,
+              "median": 17.4675,
+              "scale": 9.191808747220163,
+              "unit": "원본 값"
+            },
+            "activePower": {
+              "lower": 0.0,
+              "upper": 7149.230479981661,
+              "median": 3051.069,
+              "scale": 1601.8089325426236,
+              "unit": "원본 값"
+            },
+            "powerFactorR": {
+              "lower": 78.25565919425,
+              "upper": 106.79034080574999,
+              "median": 92.523,
+              "scale": 5.576538176426974,
+              "unit": "원본 값"
+            },
+            "powerFactorS": {
+              "lower": 78.06281381262419,
+              "upper": 106.87818618737582,
+              "median": 92.4705,
+              "scale": 5.631393624907339,
+              "unit": "원본 값"
+            },
+            "powerFactorT": {
+              "lower": 78.23747817286952,
+              "upper": 106.76552182713047,
+              "median": 92.5015,
+              "scale": 5.575240919199407,
+              "unit": "원본 값"
+            },
+            "reactivePowerLagging": {
+              "lower": 0.0,
+              "upper": 2167.6605554824714,
+              "median": 806.2435,
+              "scale": 532.1239807264641,
+              "unit": "원본 값"
+            },
+            "phaseImbalance": {
+              "lower": 0.0,
+              "upper": 102.35834609494641,
+              "median": 39.08029148450595,
+              "scale": 24.732884149156817,
+              "unit": "%"
+            }
+          }
+        }
+      }
+    },
+    "robot-02": {
+      "source": "test_data/clean_reference/12_4호기.json",
+      "sha256": "dfdc20338d511c361cbc523354ff5679145d6b4ad16649504c75df4f30bdf44d",
+      "fitRows": 32544,
+      "calibrationRows": 10848,
+      "validationRows": 10848,
+      "fitPeriod": [
+        "20250615000000",
+        "20250616211155"
+      ],
+      "calibrationPeriod": [
+        "20250616211200",
+        "20250617121555"
+      ],
+      "validationPeriod": [
+        "20250617121600",
+        "20250618031955"
+      ],
+      "states": {
+        "0": {
+          "fitRows": 582,
+          "calibrationRows": 192,
+          "cutoff": 1.3802255221259148,
+          "bounds": {
+            "voltageR": {
+              "lower": 0.0,
+              "upper": 219.8661400301572,
+              "median": 0.0,
+              "scale": 159.29725722757598,
+              "unit": "원본 값"
+            },
+            "voltageS": {
+              "lower": 0.0,
+              "upper": 220.47619152575956,
+              "median": 0.0,
+              "scale": 159.73925129725723,
+              "unit": "원본 값"
+            },
+            "voltageT": {
+              "lower": 0.0,
+              "upper": 220.04519078358348,
+              "median": 0.0,
+              "scale": 159.42698295033358,
+              "unit": "원본 값"
+            },
+            "voltageRS": {
+              "lower": 0.0,
+              "upper": 384.22859279249633,
+              "median": 0.0,
+              "scale": 278.3810229799852,
+              "unit": "원본 값"
+            },
+            "voltageST": {
+              "lower": 0.0,
+              "upper": 381.7584597555857,
+              "median": 0.0,
+              "scale": 276.5913639733136,
+              "unit": "원본 값"
+            },
+            "voltageTR": {
+              "lower": 0.0,
+              "upper": 380.832,
+              "median": 0.0,
+              "scale": 275.92012601927354,
+              "unit": "원본 값"
+            },
+            "currentR": {
+              "lower": 0.0,
+              "upper": 1.3802255221259146e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "currentS": {
+              "lower": 0.0,
+              "upper": 1.3802255221259146e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "currentT": {
+              "lower": 0.0,
+              "upper": 1.3802255221259146e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "activePower": {
+              "lower": 0.0,
+              "upper": 1.3802255221259146e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorR": {
+              "lower": 0.0,
+              "upper": 1.3802255221259146e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorS": {
+              "lower": 0.0,
+              "upper": 1.3802255221259146e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorT": {
+              "lower": 0.0,
+              "upper": 1.3802255221259146e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "reactivePowerLagging": {
+              "lower": 0.0,
+              "upper": 1.3802255221259146e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "phaseImbalance": {
+              "lower": 0.0,
+              "upper": 1.3802255221259146e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "%"
+            }
+          }
+        },
+        "1": {
+          "fitRows": 31962,
+          "calibrationRows": 10656,
+          "cutoff": 2.6640295068759454,
+          "bounds": {
+            "voltageR": {
+              "lower": 205.06448014201482,
+              "upper": 224.98051985798514,
+              "median": 215.02249999999998,
+              "scale": 3.737954040029665,
+              "unit": "원본 값"
+            },
+            "voltageS": {
+              "lower": 205.09751427535602,
+              "upper": 224.940485724644,
+              "median": 215.019,
+              "scale": 3.7242401779095635,
+              "unit": "원본 값"
+            },
+            "voltageT": {
+              "lower": 205.06301791498723,
+              "upper": 224.98498208501277,
+              "median": 215.024,
+              "scale": 3.7390659747961323,
+              "unit": "원본 값"
+            },
+            "voltageRS": {
+              "lower": 355.3763357477152,
+              "upper": 389.38566425228476,
+              "median": 372.381,
+              "scale": 6.3830615270571185,
+              "unit": "원본 값"
+            },
+            "voltageST": {
+              "lower": 355.25655077832556,
+              "upper": 389.4564492216744,
+              "median": 372.3565,
+              "scale": 6.418828762045954,
+              "unit": "원본 값"
+            },
+            "voltageTR": {
+              "lower": 355.3458897513095,
+              "upper": 389.4421102486905,
+              "median": 372.394,
+              "scale": 6.399369903632353,
+              "unit": "원본 값"
+            },
+            "currentR": {
+              "lower": 0.0,
+              "upper": 42.39620339271641,
+              "median": 17.474,
+              "scale": 9.355077835433656,
+              "unit": "원본 값"
+            },
+            "currentS": {
+              "lower": 0.0,
+              "upper": 42.4127699873015,
+              "median": 17.535,
+              "scale": 9.33839881393625,
+              "unit": "원본 값"
+            },
+            "currentT": {
+              "lower": 0.0,
+              "upper": 42.239406816102886,
+              "median": 17.490000000000002,
+              "scale": 9.290214974054857,
+              "unit": "원본 값"
+            },
+            "activePower": {
+              "lower": 0.0,
+              "upper": 7332.594992294467,
+              "median": 3039.899,
+              "scale": 1611.3545218680506,
+              "unit": "원본 값"
+            },
+            "powerFactorR": {
+              "lower": 77.59272468870208,
+              "upper": 107.42827531129794,
+              "median": 92.51050000000001,
+              "scale": 5.59970348406227,
+              "unit": "원본 값"
+            },
+            "powerFactorS": {
+              "lower": 77.68838109231984,
+              "upper": 107.39161890768017,
+              "median": 92.54,
+              "scale": 5.574870274277242,
+              "unit": "원본 값"
+            },
+            "powerFactorT": {
+              "lower": 77.60150965809183,
+              "upper": 107.24649034190818,
+              "median": 92.424,
+              "scale": 5.563936249073392,
+              "unit": "원본 값"
+            },
+            "reactivePowerLagging": {
+              "lower": 0.0,
+              "upper": 2212.946482935098,
+              "median": 805.9000000000001,
+              "scale": 528.1647516679022,
+              "unit": "원본 값"
+            },
+            "phaseImbalance": {
+              "lower": 0.0,
+              "upper": 104.94169374880519,
+              "median": 38.85156400288953,
+              "scale": 24.80833248105358,
+              "unit": "%"
+            }
+          }
+        }
+      }
+    },
+    "robot-03": {
+      "source": "test_data/clean_reference/13_3호기.json",
+      "sha256": "036f9e6c6dfd2412ed28d591c5e6e5721dd9739f71d9a6a6bbdc78f0f00eda30",
+      "fitRows": 32544,
+      "calibrationRows": 10848,
+      "validationRows": 10848,
+      "fitPeriod": [
+        "20250615000000",
+        "20250616211155"
+      ],
+      "calibrationPeriod": [
+        "20250616211200",
+        "20250617121555"
+      ],
+      "validationPeriod": [
+        "20250617121600",
+        "20250618031955"
+      ],
+      "states": {
+        "0": {
+          "fitRows": 582,
+          "calibrationRows": 192,
+          "cutoff": 1.3802956813396923,
+          "bounds": {
+            "voltageR": {
+              "lower": 0.0,
+              "upper": 220.3717771997454,
+              "median": 0.0,
+              "scale": 159.65548554484803,
+              "unit": "원본 값"
+            },
+            "voltageS": {
+              "lower": 0.0,
+              "upper": 220.06353844955743,
+              "median": 0.0,
+              "scale": 159.4321719792439,
+              "unit": "원본 값"
+            },
+            "voltageT": {
+              "lower": 0.0,
+              "upper": 220.00368129806867,
+              "median": 0.0,
+              "scale": 159.38880652335064,
+              "unit": "원본 값"
+            },
+            "voltageRS": {
+              "lower": 0.0,
+              "upper": 381.023,
+              "median": 0.0,
+              "scale": 276.0444773906598,
+              "unit": "원본 값"
+            },
+            "voltageST": {
+              "lower": 0.0,
+              "upper": 381.99017901614997,
+              "median": 0.0,
+              "scale": 276.74518161601185,
+              "unit": "원본 값"
+            },
+            "voltageTR": {
+              "lower": 0.0,
+              "upper": 381.95743664268605,
+              "median": 0.0,
+              "scale": 276.72146034099336,
+              "unit": "원본 값"
+            },
+            "currentR": {
+              "lower": 0.0,
+              "upper": 1.3802956813396922e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "currentS": {
+              "lower": 0.0,
+              "upper": 1.3802956813396922e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "currentT": {
+              "lower": 0.0,
+              "upper": 1.3802956813396922e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "activePower": {
+              "lower": 0.0,
+              "upper": 1.3802956813396922e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorR": {
+              "lower": 0.0,
+              "upper": 1.3802956813396922e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorS": {
+              "lower": 0.0,
+              "upper": 1.3802956813396922e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorT": {
+              "lower": 0.0,
+              "upper": 1.3802956813396922e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "reactivePowerLagging": {
+              "lower": 0.0,
+              "upper": 1.3802956813396922e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "phaseImbalance": {
+              "lower": 0.0,
+              "upper": 1.3802956813396922e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "%"
+            }
+          }
+        },
+        "1": {
+          "fitRows": 31962,
+          "calibrationRows": 10656,
+          "cutoff": 2.5840523075458934,
+          "bounds": {
+            "voltageR": {
+              "lower": 205.32461448135882,
+              "upper": 224.62838551864115,
+              "median": 214.9765,
+              "scale": 3.7351742031134334,
+              "unit": "원본 값"
+            },
+            "voltageS": {
+              "lower": 205.42473575067083,
+              "upper": 224.57526424932917,
+              "median": 215.0,
+              "scale": 3.705522609340253,
+              "unit": "원본 값"
+            },
+            "voltageT": {
+              "lower": 205.61207155896807,
+              "upper": 224.98192844103193,
+              "median": 215.297,
+              "scale": 3.7479614529281036,
+              "unit": "원본 값"
+            },
+            "voltageRS": {
+              "lower": 355.694605524126,
+              "upper": 389.103394475874,
+              "median": 372.399,
+              "scale": 6.464418087472213,
+              "unit": "원본 값"
+            },
+            "voltageST": {
+              "lower": 355.80719343367906,
+              "upper": 388.87980656632095,
+              "median": 372.3435,
+              "scale": 6.399369903632353,
+              "unit": "원본 값"
+            },
+            "voltageTR": {
+              "lower": 355.76903742809395,
+              "upper": 388.94796257190603,
+              "median": 372.3585,
+              "scale": 6.419940696812463,
+              "unit": "원본 값"
+            },
+            "currentR": {
+              "lower": 0.0,
+              "upper": 41.63071345247421,
+              "median": 17.518,
+              "scale": 9.331356560415124,
+              "unit": "원본 값"
+            },
+            "currentS": {
+              "lower": 0.0,
+              "upper": 41.44609080664788,
+              "median": 17.478,
+              "scale": 9.275389177168272,
+              "unit": "원본 값"
+            },
+            "currentT": {
+              "lower": 0.0,
+              "upper": 41.41501926932991,
+              "median": 17.502,
+              "scale": 9.254077094143812,
+              "unit": "원본 값"
+            },
+            "activePower": {
+              "lower": 0.0,
+              "upper": 7244.966837146014,
+              "median": 3058.09,
+              "scale": 1620.2755744996289,
+              "unit": "원본 값"
+            },
+            "powerFactorR": {
+              "lower": 78.3082688500948,
+              "upper": 106.71273114990521,
+              "median": 92.51050000000001,
+              "scale": 5.496108228317269,
+              "unit": "원본 값"
+            },
+            "powerFactorS": {
+              "lower": 78.2566053466492,
+              "upper": 106.81239465335082,
+              "median": 92.53450000000001,
+              "scale": 5.525389177168283,
+              "unit": "원본 값"
+            },
+            "powerFactorT": {
+              "lower": 78.22071705332924,
+              "upper": 106.87228294667078,
+              "median": 92.54650000000001,
+              "scale": 5.543921423276505,
+              "unit": "원본 값"
+            },
+            "reactivePowerLagging": {
+              "lower": 0.0,
+              "upper": 2186.355753511435,
+              "median": 807.6469999999999,
+              "scale": 533.5452186805041,
+              "unit": "원본 값"
+            },
+            "phaseImbalance": {
+              "lower": 0.0,
+              "upper": 101.89976041238108,
+              "median": 38.81176832834723,
+              "scale": 24.41436340116091,
+              "unit": "%"
+            }
+          }
+        }
+      }
+    },
+    "cooling-01": {
+      "source": "test_data/clean_reference/14_2호기.json",
+      "sha256": "364efbf626f8f0d717208e581d640789442c64a8ba33032d28798e9a00a41bb6",
+      "fitRows": 32544,
+      "calibrationRows": 10848,
+      "validationRows": 10848,
+      "fitPeriod": [
+        "20250615000000",
+        "20250616211155"
+      ],
+      "calibrationPeriod": [
+        "20250616211200",
+        "20250617121555"
+      ],
+      "validationPeriod": [
+        "20250617121600",
+        "20250618031955"
+      ],
+      "states": {
+        "0": {
+          "fitRows": 582,
+          "calibrationRows": 192,
+          "cutoff": 1.382364046243044,
+          "bounds": {
+            "voltageR": {
+              "lower": 0.0,
+              "upper": 219.9557416115127,
+              "median": 0.0,
+              "scale": 159.11564121571533,
+              "unit": "원본 값"
+            },
+            "voltageS": {
+              "lower": 0.0,
+              "upper": 219.78,
+              "median": 0.0,
+              "scale": 158.9885100074129,
+              "unit": "원본 값"
+            },
+            "voltageT": {
+              "lower": 0.0,
+              "upper": 220.47169438933585,
+              "median": 0.0,
+              "scale": 159.48888065233507,
+              "unit": "원본 값"
+            },
+            "voltageRS": {
+              "lower": 0.0,
+              "upper": 382.5233930215805,
+              "median": 0.0,
+              "scale": 276.71682727946626,
+              "unit": "원본 값"
+            },
+            "voltageST": {
+              "lower": 0.0,
+              "upper": 382.28001906977715,
+              "median": 0.0,
+              "scale": 276.5407709414381,
+              "unit": "원본 값"
+            },
+            "voltageTR": {
+              "lower": 0.0,
+              "upper": 381.47073663425425,
+              "median": 0.0,
+              "scale": 275.95533728687917,
+              "unit": "원본 값"
+            },
+            "currentR": {
+              "lower": 0.0,
+              "upper": 1.382364046243044e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "currentS": {
+              "lower": 0.0,
+              "upper": 1.382364046243044e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "currentT": {
+              "lower": 0.0,
+              "upper": 1.382364046243044e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "activePower": {
+              "lower": 0.0,
+              "upper": 1.382364046243044e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorR": {
+              "lower": 0.0,
+              "upper": 1.382364046243044e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorS": {
+              "lower": 0.0,
+              "upper": 1.382364046243044e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorT": {
+              "lower": 0.0,
+              "upper": 1.382364046243044e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "reactivePowerLagging": {
+              "lower": 0.0,
+              "upper": 1.382364046243044e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "phaseImbalance": {
+              "lower": 0.0,
+              "upper": 1.382364046243044e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "%"
+            }
+          }
+        },
+        "1": {
+          "fitRows": 31962,
+          "calibrationRows": 10656,
+          "cutoff": 2.6075674608327013,
+          "bounds": {
+            "voltageR": {
+              "lower": 205.28698805508265,
+              "upper": 224.66301194491734,
+              "median": 214.975,
+              "scale": 3.7153446997776136,
+              "unit": "원본 값"
+            },
+            "voltageS": {
+              "lower": 205.30567240607058,
+              "upper": 224.6923275939294,
+              "median": 214.999,
+              "scale": 3.7173832468495127,
+              "unit": "원본 값"
+            },
+            "voltageT": {
+              "lower": 205.2084321200462,
+              "upper": 224.69656787995376,
+              "median": 214.9525,
+              "scale": 3.7368421052631557,
+              "unit": "원본 값"
+            },
+            "voltageRS": {
+              "lower": 355.7546302489742,
+              "upper": 389.15236975102573,
+              "median": 372.45349999999996,
+              "scale": 6.404002965159385,
+              "unit": "원본 값"
+            },
+            "voltageST": {
+              "lower": 355.51356577437093,
+              "upper": 389.2824342256291,
+              "median": 372.398,
+              "scale": 6.475166790214984,
+              "unit": "원본 값"
+            },
+            "voltageTR": {
+              "lower": 355.6848871875282,
+              "upper": 389.1551128124717,
+              "median": 372.41999999999996,
+              "scale": 6.417902149740565,
+              "unit": "원본 값"
+            },
+            "currentR": {
+              "lower": 0.0,
+              "upper": 41.82334850002915,
+              "median": 17.439500000000002,
+              "scale": 9.351186063750927,
+              "unit": "원본 값"
+            },
+            "currentS": {
+              "lower": 0.0,
+              "upper": 41.63445449930565,
+              "median": 17.369,
+              "scale": 9.305782060785766,
+              "unit": "원본 값"
+            },
+            "currentT": {
+              "lower": 0.0,
+              "upper": 41.65973940537789,
+              "median": 17.4025,
+              "scale": 9.30263157894737,
+              "unit": "원본 값"
+            },
+            "activePower": {
+              "lower": 0.0,
+              "upper": 7199.407627033323,
+              "median": 3038.8244999999997,
+              "scale": 1595.5802446256487,
+              "unit": "원본 값"
+            },
+            "powerFactorR": {
+              "lower": 77.91353236016616,
+              "upper": 106.98046763983385,
+              "median": 92.447,
+              "scale": 5.5735730170496645,
+              "unit": "원본 값"
+            },
+            "powerFactorS": {
+              "lower": 77.77817198445514,
+              "upper": 106.91082801554485,
+              "median": 92.3445,
+              "scale": 5.586174944403257,
+              "unit": "원본 값"
+            },
+            "powerFactorT": {
+              "lower": 77.97661615606975,
+              "upper": 107.04838384393025,
+              "median": 92.5125,
+              "scale": 5.574499629355075,
+              "unit": "원본 값"
+            },
+            "reactivePowerLagging": {
+              "lower": 0.0,
+              "upper": 2221.963840038661,
+              "median": 815.6769999999999,
+              "scale": 539.3098591549295,
+              "unit": "원본 값"
+            },
+            "phaseImbalance": {
+              "lower": 0.0,
+              "upper": 103.17445001929758,
+              "median": 39.23666753917088,
+              "scale": 24.5200875683994,
+              "unit": "%"
+            }
+          }
+        }
+      }
+    },
+    "cooling-02": {
+      "source": "test_data/clean_reference/15_예비건조기.json",
+      "sha256": "2d3a700c8a45fff13377a47d7a045e4b02730c6dcf96bed6bc5a45b345f4b4f6",
+      "fitRows": 32544,
+      "calibrationRows": 10848,
+      "validationRows": 10848,
+      "fitPeriod": [
+        "20250615000000",
+        "20250616211155"
+      ],
+      "calibrationPeriod": [
+        "20250616211200",
+        "20250617121555"
+      ],
+      "validationPeriod": [
+        "20250617121600",
+        "20250618031955"
+      ],
+      "states": {
+        "0": {
+          "fitRows": 582,
+          "calibrationRows": 192,
+          "cutoff": 1.3823006683045191,
+          "bounds": {
+            "voltageR": {
+              "lower": 0.0,
+              "upper": 220.372438678954,
+              "median": 0.0,
+              "scale": 159.42438843587843,
+              "unit": "원본 값"
+            },
+            "voltageS": {
+              "lower": 0.0,
+              "upper": 220.41880569544088,
+              "median": 0.0,
+              "scale": 159.45793180133433,
+              "unit": "원본 값"
+            },
+            "voltageT": {
+              "lower": 0.0,
+              "upper": 219.90799999999996,
+              "median": 0.0,
+              "scale": 159.08839881393627,
+              "unit": "원본 값"
+            },
+            "voltageRS": {
+              "lower": 0.0,
+              "upper": 381.21782567235243,
+              "median": 0.0,
+              "scale": 275.7850259451445,
+              "unit": "원본 값"
+            },
+            "voltageST": {
+              "lower": 0.0,
+              "upper": 381.9691762765291,
+              "median": 0.0,
+              "scale": 276.3285767234989,
+              "unit": "원본 값"
+            },
+            "voltageTR": {
+              "lower": 0.0,
+              "upper": 381.1622364868406,
+              "median": 0.0,
+              "scale": 275.7448109710897,
+              "unit": "원본 값"
+            },
+            "currentR": {
+              "lower": 0.0,
+              "upper": 1.3823006683045191e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "currentS": {
+              "lower": 0.0,
+              "upper": 1.3823006683045191e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "currentT": {
+              "lower": 0.0,
+              "upper": 1.3823006683045191e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "activePower": {
+              "lower": 0.0,
+              "upper": 1.3823006683045191e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorR": {
+              "lower": 0.0,
+              "upper": 1.3823006683045191e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorS": {
+              "lower": 0.0,
+              "upper": 1.3823006683045191e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorT": {
+              "lower": 0.0,
+              "upper": 1.3823006683045191e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "reactivePowerLagging": {
+              "lower": 0.0,
+              "upper": 1.3823006683045191e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "phaseImbalance": {
+              "lower": 0.0,
+              "upper": 1.3823006683045191e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "%"
+            }
+          }
+        },
+        "1": {
+          "fitRows": 31962,
+          "calibrationRows": 10656,
+          "cutoff": 2.284276045804625,
+          "bounds": {
+            "voltageR": {
+              "lower": 206.42989793457664,
+              "upper": 223.52810206542338,
+              "median": 214.979,
+              "scale": 3.742587101556718,
+              "unit": "원본 값"
+            },
+            "voltageS": {
+              "lower": 206.56094682800358,
+              "upper": 223.49405317199637,
+              "median": 215.02749999999997,
+              "scale": 3.7064492216456637,
+              "unit": "원본 값"
+            },
+            "voltageT": {
+              "lower": 206.49905368761117,
+              "upper": 223.4609463123888,
+              "median": 214.98,
+              "scale": 3.7127501853224807,
+              "unit": "원본 값"
+            },
+            "voltageRS": {
+              "lower": 357.6689739828257,
+              "upper": 387.1080260171743,
+              "median": 372.3885,
+              "scale": 6.443847294292061,
+              "unit": "원본 값"
+            },
+            "voltageST": {
+              "lower": 357.5025686553961,
+              "upper": 387.1414313446039,
+              "median": 372.322,
+              "scale": 6.487583395107499,
+              "unit": "원본 값"
+            },
+            "voltageTR": {
+              "lower": 357.63551479998733,
+              "upper": 387.19648520001266,
+              "median": 372.416,
+              "scale": 6.4705337286879105,
+              "unit": "원본 값"
+            },
+            "currentR": {
+              "lower": 0.0,
+              "upper": 38.79926132971612,
+              "median": 17.5135,
+              "scale": 9.318383988139361,
+              "unit": "원본 값"
+            },
+            "currentS": {
+              "lower": 0.0,
+              "upper": 39.02675310817247,
+              "median": 17.625,
+              "scale": 9.369162342475908,
+              "unit": "원본 값"
+            },
+            "currentT": {
+              "lower": 0.0,
+              "upper": 38.77241708275069,
+              "median": 17.4185,
+              "scale": 9.348220904373612,
+              "unit": "원본 값"
+            },
+            "activePower": {
+              "lower": 0.0,
+              "upper": 6747.472266097991,
+              "median": 3060.2655,
+              "scale": 1614.168643439585,
+              "unit": "원본 값"
+            },
+            "powerFactorR": {
+              "lower": 79.80539699946783,
+              "upper": 105.21860300053217,
+              "median": 92.512,
+              "scale": 5.562638991845805,
+              "unit": "원본 값"
+            },
+            "powerFactorS": {
+              "lower": 79.7920168973226,
+              "upper": 105.1899831026774,
+              "median": 92.491,
+              "scale": 5.559303187546339,
+              "unit": "원본 값"
+            },
+            "powerFactorT": {
+              "lower": 79.95475173105038,
+              "upper": 105.07924826894961,
+              "median": 92.517,
+              "scale": 5.499444032616744,
+              "unit": "원본 값"
+            },
+            "reactivePowerLagging": {
+              "lower": 0.0,
+              "upper": 2050.6099861919383,
+              "median": 825.4155000000001,
+              "scale": 536.3600815418829,
+              "unit": "원본 값"
+            },
+            "phaseImbalance": {
+              "lower": 0.0,
+              "upper": 97.63203747607758,
+              "median": 39.11571169050265,
+              "scale": 25.61701152233676,
+              "unit": "%"
+            }
+          }
+        }
+      }
+    },
+    "pump-01": {
+      "source": "test_data/clean_reference/16_호이스트.json",
+      "sha256": "64dcdd76421ded65d6b6a47a5950cf07a905ba783cb9263ffd8a295ada4d1c45",
+      "fitRows": 32544,
+      "calibrationRows": 10848,
+      "validationRows": 10848,
+      "fitPeriod": [
+        "20250615000000",
+        "20250616211155"
+      ],
+      "calibrationPeriod": [
+        "20250616211200",
+        "20250617121555"
+      ],
+      "validationPeriod": [
+        "20250617121600",
+        "20250618031955"
+      ],
+      "states": {
+        "0": {
+          "fitRows": 582,
+          "calibrationRows": 192,
+          "cutoff": 1.3817154326255336,
+          "bounds": {
+            "voltageR": {
+              "lower": 0.0,
+              "upper": 220.69549612144087,
+              "median": 0.0,
+              "scale": 159.72572275759822,
+              "unit": "원본 값"
+            },
+            "voltageS": {
+              "lower": 0.0,
+              "upper": 219.94600000000003,
+              "median": 0.0,
+              "scale": 159.1832839140104,
+              "unit": "원본 값"
+            },
+            "voltageT": {
+              "lower": 0.0,
+              "upper": 220.01360060678525,
+              "median": 0.0,
+              "scale": 159.2322090437361,
+              "unit": "원본 값"
+            },
+            "voltageRS": {
+              "lower": 0.0,
+              "upper": 382.1795183345305,
+              "median": 0.0,
+              "scale": 276.59785025945143,
+              "unit": "원본 값"
+            },
+            "voltageST": {
+              "lower": 0.0,
+              "upper": 382.2914178237925,
+              "median": 0.0,
+              "scale": 276.6788361749444,
+              "unit": "원본 값"
+            },
+            "voltageTR": {
+              "lower": 0.0,
+              "upper": 382.891629271916,
+              "median": 0.0,
+              "scale": 277.1132320237213,
+              "unit": "원본 값"
+            },
+            "currentR": {
+              "lower": 0.0,
+              "upper": 1.3817154326255335e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "currentS": {
+              "lower": 0.0,
+              "upper": 1.3817154326255335e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "currentT": {
+              "lower": 0.0,
+              "upper": 1.3817154326255335e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "activePower": {
+              "lower": 0.0,
+              "upper": 1.3817154326255335e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorR": {
+              "lower": 0.0,
+              "upper": 1.3817154326255335e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorS": {
+              "lower": 0.0,
+              "upper": 1.3817154326255335e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorT": {
+              "lower": 0.0,
+              "upper": 1.3817154326255335e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "reactivePowerLagging": {
+              "lower": 0.0,
+              "upper": 1.3817154326255335e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "phaseImbalance": {
+              "lower": 0.0,
+              "upper": 1.3817154326255335e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "%"
+            }
+          }
+        },
+        "1": {
+          "fitRows": 31962,
+          "calibrationRows": 10656,
+          "cutoff": 2.55554256532362,
+          "bounds": {
+            "voltageR": {
+              "lower": 205.50822245237305,
+              "upper": 224.45977754762697,
+              "median": 214.984,
+              "scale": 3.707931801334329,
+              "unit": "원본 값"
+            },
+            "voltageS": {
+              "lower": 205.54769444112523,
+              "upper": 224.4803055588748,
+              "median": 215.014,
+              "scale": 3.7042253521126653,
+              "unit": "원본 값"
+            },
+            "voltageT": {
+              "lower": 205.59614486137136,
+              "upper": 224.56285513862863,
+              "median": 215.0795,
+              "scale": 3.7108969607116387,
+              "unit": "원본 값"
+            },
+            "voltageRS": {
+              "lower": 355.9362282965023,
+              "upper": 388.77277170349777,
+              "median": 372.35450000000003,
+              "scale": 6.424573758339496,
+              "unit": "원본 값"
+            },
+            "voltageST": {
+              "lower": 355.9748570779432,
+              "upper": 388.78014292205677,
+              "median": 372.3775,
+              "scale": 6.418458117123798,
+              "unit": "원본 값"
+            },
+            "voltageTR": {
+              "lower": 355.88558438929726,
+              "upper": 388.87841561070275,
+              "median": 372.382,
+              "scale": 6.455151964418065,
+              "unit": "원본 값"
+            },
+            "currentR": {
+              "lower": 0.0,
+              "upper": 41.209998910472336,
+              "median": 17.387,
+              "scale": 9.322090437361009,
+              "unit": "원본 값"
+            },
+            "currentS": {
+              "lower": 0.0,
+              "upper": 41.27453175377664,
+              "median": 17.488,
+              "scale": 9.30782060785767,
+              "unit": "원본 값"
+            },
+            "currentT": {
+              "lower": 0.0,
+              "upper": 41.33347895265186,
+              "median": 17.546,
+              "scale": 9.308191252779837,
+              "unit": "원본 값"
+            },
+            "activePower": {
+              "lower": 0.0,
+              "upper": 7131.611509576238,
+              "median": 3046.3295,
+              "scale": 1598.5967383246855,
+              "unit": "원본 값"
+            },
+            "powerFactorR": {
+              "lower": 78.23201848249633,
+              "upper": 106.66598151750367,
+              "median": 92.449,
+              "scale": 5.56319495922906,
+              "unit": "원본 값"
+            },
+            "powerFactorS": {
+              "lower": 78.36279439251336,
+              "upper": 106.64520560748664,
+              "median": 92.504,
+              "scale": 5.533543365455889,
+              "unit": "원본 값"
+            },
+            "powerFactorT": {
+              "lower": 78.21474320207403,
+              "upper": 106.51325679792598,
+              "median": 92.364,
+              "scale": 5.536693847294298,
+              "unit": "원본 값"
+            },
+            "reactivePowerLagging": {
+              "lower": 0.0,
+              "upper": 2170.8052881300982,
+              "median": 802.6485,
+              "scale": 535.3684210526317,
+              "unit": "원본 값"
+            },
+            "phaseImbalance": {
+              "lower": 0.0,
+              "upper": 102.84901028881812,
+              "median": 39.638204349538626,
+              "scale": 24.7347889238835,
+              "unit": "%"
+            }
+          }
+        }
+      }
+    },
+    "pump-02": {
+      "source": "test_data/clean_reference/17_6호기.json",
+      "sha256": "2ddd17e934314a1c29f1af736aba6237d426bdffd6e9574c9bade8e1e309398b",
+      "fitRows": 32544,
+      "calibrationRows": 10848,
+      "validationRows": 10848,
+      "fitPeriod": [
+        "20250615000000",
+        "20250616211155"
+      ],
+      "calibrationPeriod": [
+        "20250616211200",
+        "20250617121555"
+      ],
+      "validationPeriod": [
+        "20250617121600",
+        "20250618031955"
+      ],
+      "states": {
+        "0": {
+          "fitRows": 582,
+          "calibrationRows": 192,
+          "cutoff": 1.3814298094616253,
+          "bounds": {
+            "voltageR": {
+              "lower": 0.0,
+              "upper": 221.450929957856,
+              "median": 0.0,
+              "scale": 160.30559673832468,
+              "unit": "원본 값"
+            },
+            "voltageS": {
+              "lower": 0.0,
+              "upper": 219.96300000000002,
+              "median": 0.0,
+              "scale": 159.22850259451445,
+              "unit": "원본 값"
+            },
+            "voltageT": {
+              "lower": 0.0,
+              "upper": 219.72414269602896,
+              "median": 0.0,
+              "scale": 159.05559673832468,
+              "unit": "원본 값"
+            },
+            "voltageRS": {
+              "lower": 0.0,
+              "upper": 381.40928865673425,
+              "median": 0.0,
+              "scale": 276.09747961452933,
+              "unit": "원본 값"
+            },
+            "voltageST": {
+              "lower": 0.0,
+              "upper": 381.64712192081674,
+              "median": 0.0,
+              "scale": 276.2696441808747,
+              "unit": "원본 값"
+            },
+            "voltageTR": {
+              "lower": 0.0,
+              "upper": 384.7763318098178,
+              "median": 0.0,
+              "scale": 278.5348406226835,
+              "unit": "원본 값"
+            },
+            "currentR": {
+              "lower": 0.0,
+              "upper": 1.3814298094616252e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "currentS": {
+              "lower": 0.0,
+              "upper": 1.3814298094616252e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "currentT": {
+              "lower": 0.0,
+              "upper": 1.3814298094616252e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "activePower": {
+              "lower": 0.0,
+              "upper": 1.3814298094616252e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorR": {
+              "lower": 0.0,
+              "upper": 1.3814298094616252e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorS": {
+              "lower": 0.0,
+              "upper": 1.3814298094616252e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorT": {
+              "lower": 0.0,
+              "upper": 1.3814298094616252e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "reactivePowerLagging": {
+              "lower": 0.0,
+              "upper": 1.3814298094616252e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "phaseImbalance": {
+              "lower": 0.0,
+              "upper": 1.3814298094616252e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "%"
+            }
+          }
+        },
+        "1": {
+          "fitRows": 31962,
+          "calibrationRows": 10656,
+          "cutoff": 2.6845906808828706,
+          "bounds": {
+            "voltageR": {
+              "lower": 205.0325389269352,
+              "upper": 225.0684610730648,
+              "median": 215.0505,
+              "scale": 3.731653076352869,
+              "unit": "원본 값"
+            },
+            "voltageS": {
+              "lower": 205.1291313790599,
+              "upper": 225.00186862094006,
+              "median": 215.0655,
+              "scale": 3.7012601927353557,
+              "unit": "원본 값"
+            },
+            "voltageT": {
+              "lower": 204.98959608303971,
+              "upper": 225.0484039169603,
+              "median": 215.019,
+              "scale": 3.735915492957745,
+              "unit": "원본 값"
+            },
+            "voltageRS": {
+              "lower": 355.0880343421602,
+              "upper": 389.73696565783985,
+              "median": 372.4125,
+              "scale": 6.453298739807287,
+              "unit": "원본 값"
+            },
+            "voltageST": {
+              "lower": 355.254525412664,
+              "upper": 389.4994745873359,
+              "median": 372.37699999999995,
+              "scale": 6.378057820607847,
+              "unit": "원본 값"
+            },
+            "voltageTR": {
+              "lower": 355.27061537974066,
+              "upper": 389.3513846202593,
+              "median": 372.311,
+              "scale": 6.347479614529277,
+              "unit": "원본 값"
+            },
+            "currentR": {
+              "lower": 0.0,
+              "upper": 42.38272274850859,
+              "median": 17.502,
+              "scale": 9.267976278724982,
+              "unit": "원본 값"
+            },
+            "currentS": {
+              "lower": 0.0,
+              "upper": 42.327421552350216,
+              "median": 17.4865,
+              "scale": 9.2531504818384,
+              "unit": "원본 값"
+            },
+            "currentT": {
+              "lower": 0.0,
+              "upper": 42.458778430260914,
+              "median": 17.389000000000003,
+              "scale": 9.338398813936251,
+              "unit": "원본 값"
+            },
+            "activePower": {
+              "lower": 0.0,
+              "upper": 7286.296613564411,
+              "median": 3011.277,
+              "scale": 1592.4288361749443,
+              "unit": "원본 값"
+            },
+            "powerFactorR": {
+              "lower": 77.54840928752164,
+              "upper": 107.54259071247837,
+              "median": 92.5455,
+              "scale": 5.586360266864345,
+              "unit": "원본 값"
+            },
+            "powerFactorS": {
+              "lower": 77.29747587847024,
+              "upper": 107.51852412152977,
+              "median": 92.408,
+              "scale": 5.628613787991108,
+              "unit": "원본 값"
+            },
+            "powerFactorT": {
+              "lower": 77.5945588957508,
+              "upper": 107.44844110424921,
+              "median": 92.5215,
+              "scale": 5.560229799851739,
+              "unit": "원본 값"
+            },
+            "reactivePowerLagging": {
+              "lower": 0.0,
+              "upper": 2225.0155067906444,
+              "median": 806.9765,
+              "scale": 528.214232765011,
+              "unit": "원본 값"
+            },
+            "phaseImbalance": {
+              "lower": 0.0,
+              "upper": 105.68793235972325,
+              "median": 39.16384303805459,
+              "scale": 24.779974763151287,
+              "unit": "%"
+            }
+          }
+        }
+      }
+    },
+    "transformer-01": {
+      "source": "test_data/clean_reference/18_우측분전반2.json",
+      "sha256": "47579fbe12e00be45a523fbc4f87a5b9e1040b998f5eda3a87c0635ff93ead3c",
+      "fitRows": 32544,
+      "calibrationRows": 10848,
+      "validationRows": 10848,
+      "fitPeriod": [
+        "20250615000000",
+        "20250616211155"
+      ],
+      "calibrationPeriod": [
+        "20250616211200",
+        "20250617121555"
+      ],
+      "validationPeriod": [
+        "20250617121600",
+        "20250618031955"
+      ],
+      "states": {
+        "0": {
+          "fitRows": 582,
+          "calibrationRows": 192,
+          "cutoff": 1.387212398802755,
+          "bounds": {
+            "voltageR": {
+              "lower": 0.0,
+              "upper": 220.9498230171651,
+              "median": 0.0,
+              "scale": 159.2761304670126,
+              "unit": "원본 값"
+            },
+            "voltageS": {
+              "lower": 0.0,
+              "upper": 221.39560253894493,
+              "median": 0.0,
+              "scale": 159.59747961452928,
+              "unit": "원본 값"
+            },
+            "voltageT": {
+              "lower": 0.0,
+              "upper": 219.96699999999998,
+              "median": 0.0,
+              "scale": 158.56764269829503,
+              "unit": "원본 값"
+            },
+            "voltageRS": {
+              "lower": 0.0,
+              "upper": 382.53718721388077,
+              "median": 0.0,
+              "scale": 275.7596367679763,
+              "unit": "원본 값"
+            },
+            "voltageST": {
+              "lower": 0.0,
+              "upper": 383.3333689779824,
+              "median": 0.0,
+              "scale": 276.33358042994814,
+              "unit": "원본 값"
+            },
+            "voltageTR": {
+              "lower": 0.0,
+              "upper": 383.1495556226925,
+              "median": 0.0,
+              "scale": 276.2010748702743,
+              "unit": "원본 값"
+            },
+            "currentR": {
+              "lower": 0.0,
+              "upper": 1.3872123988027548e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "currentS": {
+              "lower": 0.0,
+              "upper": 1.3872123988027548e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "currentT": {
+              "lower": 0.0,
+              "upper": 1.3872123988027548e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "activePower": {
+              "lower": 0.0,
+              "upper": 1.3872123988027548e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorR": {
+              "lower": 0.0,
+              "upper": 1.3872123988027548e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorS": {
+              "lower": 0.0,
+              "upper": 1.3872123988027548e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "powerFactorT": {
+              "lower": 0.0,
+              "upper": 1.3872123988027548e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "reactivePowerLagging": {
+              "lower": 0.0,
+              "upper": 1.3872123988027548e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "원본 값"
+            },
+            "phaseImbalance": {
+              "lower": 0.0,
+              "upper": 1.3872123988027548e-06,
+              "median": 0.0,
+              "scale": 1e-06,
+              "unit": "%"
+            }
+          }
+        },
+        "1": {
+          "fitRows": 31962,
+          "calibrationRows": 10656,
+          "cutoff": 2.5207399855746466,
+          "bounds": {
+            "voltageR": {
+              "lower": 205.72476369269202,
+              "upper": 224.233236307308,
+              "median": 214.979,
+              "scale": 3.671237954040041,
+              "unit": "원본 값"
+            },
+            "voltageS": {
+              "lower": 205.60988881949464,
+              "upper": 224.39211118050537,
+              "median": 215.001,
+              "scale": 3.7255374351371295,
+              "unit": "원본 값"
+            },
+            "voltageT": {
+              "lower": 205.60066224773826,
+              "upper": 224.30533775226175,
+              "median": 214.953,
+              "scale": 3.710155670867306,
+              "unit": "원본 값"
+            },
+            "voltageRS": {
+              "lower": 356.19913066748643,
+              "upper": 388.69686933251353,
+              "median": 372.448,
+              "scale": 6.44607116382508,
+              "unit": "원본 값"
+            },
+            "voltageST": {
+              "lower": 356.25406061506146,
+              "upper": 388.5649393849385,
+              "median": 372.4095,
+              "scale": 6.409006671608615,
+              "unit": "원본 값"
+            },
+            "voltageTR": {
+              "lower": 356.1286635177487,
+              "upper": 388.6273364822514,
+              "median": 372.37800000000004,
+              "scale": 6.446256486286115,
+              "unit": "원본 값"
+            },
+            "currentR": {
+              "lower": 0.0,
+              "upper": 41.12379944651233,
+              "median": 17.593,
+              "scale": 9.334877687175686,
+              "unit": "원본 값"
+            },
+            "currentS": {
+              "lower": 0.0,
+              "upper": 41.111018286289465,
+              "median": 17.562,
+              "scale": 9.342105263157894,
+              "unit": "원본 값"
+            },
+            "currentT": {
+              "lower": 0.0,
+              "upper": 40.99809896486107,
+              "median": 17.5,
+              "scale": 9.321905114899927,
+              "unit": "원본 값"
+            },
+            "activePower": {
+              "lower": 0.0,
+              "upper": 7078.252428930123,
+              "median": 3008.464,
+              "scale": 1614.5213120830244,
+              "unit": "원본 값"
+            },
+            "powerFactorR": {
+              "lower": 78.31008951413743,
+              "upper": 106.69691048586257,
+              "median": 92.5035,
+              "scale": 5.630652335063006,
+              "unit": "원본 값"
+            },
+            "powerFactorS": {
+              "lower": 78.57566776315353,
+              "upper": 106.42433223684647,
+              "median": 92.5,
+              "scale": 5.523906597479618,
+              "unit": "원본 값"
+            },
+            "powerFactorT": {
+              "lower": 78.31915424283946,
+              "upper": 106.45184575716056,
+              "median": 92.38550000000001,
+              "scale": 5.580244625648637,
+              "unit": "원본 값"
+            },
+            "reactivePowerLagging": {
+              "lower": 0.0,
+              "upper": 2127.0194664856785,
+              "median": 806.944,
+              "scale": 523.6856931060045,
+              "unit": "원본 값"
+            },
+            "phaseImbalance": {
+              "lower": 0.0,
+              "upper": 102.77141710535633,
+              "median": 39.70493828692467,
+              "scale": 25.019033767600018,
+              "unit": "%"
+            }
+          }
+        }
+      }
+    }
+  }
+}

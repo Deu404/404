@@ -25,7 +25,7 @@ export type ToolMeta = {
   caseId?: string
   caseVersion?: string
   ruleVersion?: string
-  dataSource: 'synthetic' | 'forecast_model_v1'
+  dataSource: 'synthetic' | 'forecast_model_v1' | 'forecast_csv'
   demoOnly: boolean
   missingFields: string[]
   message: string

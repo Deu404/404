@@ -2,17 +2,20 @@ import { DEMO_THRESHOLDS, DEMO_PRIORITY, RULE_VERSION, evaluateAll, ruleId, thre
 import { findDemoGuide } from './demoGuides.ts'
 import { EQUIPMENT_LAYOUT } from '../config/equipmentDataMap.ts'
 import type { AlertType, DemoCase, Evaluation } from './types.ts'
+import type { PatternAssessment } from './normalPattern.ts'
+import { patternEvidenceText } from './normalPattern.ts'
 
 export const LABELS: Record<AlertType, string> = { overcurrent: '과전류 의심', 'low-power-factor': '역률 저하', 'power-consumption-increase': '전력 소비 증가', 'phase-current-imbalance': '상별 전류 차이 증가' }
 export type AlertInput = { id: string; equipmentId: string; occurredAt: string; type: string; sourceType?: string; measurement?: number; reference?: number; change?: number }
 export type Decision = {
   inputId: string; equipmentId: string; equipmentName: string; observedAt: string
-  ruleVersion: string; demoOnly: boolean; approvalStatus: 'demo'; source: string
+  ruleVersion: string; demoOnly: boolean; approvalStatus: 'demo' | 'configured'; source: string
   status: 'matched' | 'within_threshold' | 'insufficient_data' | 'no_applicable_rule'
   priority: 'high' | 'medium' | 'low' | null
   evaluations: Evaluation[]; anomalyTypes: string[]; actions: string[]
   steps: string[]; reportConditions: string[]; missingFields: string[]
   reportStatus: 'required' | 'needs_confirmation'; reportReason: string
+  pattern?: PatternAssessment
 }
 
 export function evaluateValue(type: string, value: unknown): Evaluation | undefined {
@@ -73,10 +76,11 @@ export function formatObservedAt(value: string): string {
 }
 
 export function decisionSummary(d: Decision): string {
-  const priority = d.priority === 'high' ? '🔴 우선 확인' : d.priority === 'medium' ? '🟡 주의' : d.priority === 'low' ? '기준 이내' : '확인 필요'
-  return `${priority} · ${d.equipmentName} · ${formatObservedAt(d.observedAt)}\n${d.anomalyTypes.join(', ') || (d.status === 'within_threshold' ? '적용한 룰의 기준 이내예요. 실제 안전을 보증하지는 않아요.' : '자료가 부족하거나 적용할 룰이 없어 확인이 필요해요.')}\n👉 ${d.actions[0] ?? '측정 자료와 등록된 기준을 담당자에게 확인하세요.'}`
+  const priority = d.pattern ? d.priority === 'medium' ? '🟡 데이터 확인' : '확인 필요' : d.priority === 'high' ? '🔴 우선 확인' : d.priority === 'medium' ? '🟡 주의' : d.priority === 'low' ? '기준 이내' : '확인 필요'
+  const summary = d.pattern && d.status === 'within_threshold' ? '검사한 단일 시점 값은 정상 참조 범위 안입니다. 모델의 시계열 의심은 별도 확인이 필요해요.' : d.anomalyTypes.join(', ') || (d.status === 'within_threshold' ? '적용한 룰의 기준 이내예요. 실제 안전을 보증하지는 않아요.' : '자료가 부족하거나 적용할 룰이 없어 확인이 필요해요.')
+  return `${priority} · ${d.equipmentName} · ${formatObservedAt(d.observedAt)}\n${summary}\n👉 ${d.actions[0] ?? '측정 자료와 등록된 기준을 담당자에게 확인하세요.'}`
 }
 
 export function reportText(d: Decision): string {
-  return `[${d.demoOnly ? '연습용 사례 ' : ''}보고 초안]\n${decisionSummary(d)}\n${d.actions.slice(1).join("\n")}\n보고 안내: ${d.reportReason}\n${d.reportConditions.join('\n')}\n${d.missingFields.length ? '미확인 정보가 있어 추가 확인이 필요합니다.' : '현장 증상과 조치 수행 여부는 확인되지 않았습니다.'}`
+  return `[${d.demoOnly ? '연습용 사례 ' : ''}보고 초안]\n${decisionSummary(d)}\n${d.pattern ? patternEvidenceText(d.pattern) + '\n' : ''}${d.actions.slice(1).join("\n")}\n보고 안내: ${d.reportReason}\n${d.reportConditions.join('\n')}\n${d.missingFields.length ? '미확인 정보가 있어 추가 확인이 필요합니다.' : '현장 증상과 조치 수행 여부는 확인되지 않았습니다.'}`
 }

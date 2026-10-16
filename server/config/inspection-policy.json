@@ -1,0 +1,6 @@
+{
+  "version": "inspection-normal-pattern-v1",
+  "normalPatternFile": "normal-pattern-policy.json",
+  "units": {},
+  "rules": []
+}

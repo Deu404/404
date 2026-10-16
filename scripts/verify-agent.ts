@@ -82,8 +82,9 @@ try {
   process.env.OPENAI_API_KEY = 'test-placeholder'
   globalThis.fetch = async (_url, options) => {
     const body = JSON.parse(String(options?.body))
-    assert.equal(body.tools, undefined)
+    assert.equal(body.tools.length, 6)
     assert.match(body.messages[1].content, /confirmedResult/)
+    if (body.messages.at(-1).role !== 'tool') return new Response(JSON.stringify({ choices: [{ message: { tool_calls: [{ id: 'test-call', type: 'function', function: { name: 'classify_anomaly', arguments: '{}' } }] } }] }), { status: 200 })
     return new Response(JSON.stringify({ choices: [{ message: { content: '측정 전류가 기준을 넘었어요.' } }] }), { status: 200 })
   }
   const explained = await runAgent({ message: '쉽게 설명', alert: input })
