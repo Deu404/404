@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
-import { AgentPanel } from '../components/alerts/AgentPanel'
-import { DateRangeFilter } from '../components/common/DateRangeFilter'
+import { useSearchParams } from 'react-router-dom'
+import { AgentDock } from '../components/alerts/AgentDock'
+import { EquipmentOverview } from '../components/alerts/EquipmentOverview'
+import { summarizeEquipment, type EquipmentSummary } from '../services/equipmentOverview'
+import { AlertFilterBar } from '../components/alerts/AlertFilterBar'
 import { listModelAnomalies } from '../services/anomalyService'
 import { listEquipment } from '../services/equipmentService'
 import { getEquipmentCsvDetailById } from '../services/powerService'
@@ -41,11 +43,13 @@ export function AlertsPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const equipmentOptions = useMemo(() => listEquipment(), [])
   const [modelAnomalies, setModelAnomalies] = useState<AnomalyDetection[]>([])
+  const [dockExpanded, setDockExpanded] = useState(false)
+  const [loadingAnomalies, setLoadingAnomalies] = useState(true)
   const requestedId = searchParams.get('anomaly')
   const requestedEquipment = searchParams.get('equipment')
   const [query, setQuery] = useState('')
   const [pageIndex, setPageIndex] = useState(0)
-  const [equipmentFilter, setEquipmentFilter] = useState<FilterValue>('all')
+  const [equipmentFilter, setEquipmentFilter] = useState<FilterValue>(() => equipmentOptions.some(item => item.id === requestedEquipment) ? requestedEquipment! : 'all')
   const [dateRange, setDateRange] = useState<DateRange>({ startDate: '', endDate: '' })
   const [selectedId, setSelectedId] = useState(requestedId ?? '')
   const [powerDetail, setPowerDetail] = useState<EquipmentDetail>()
@@ -53,14 +57,14 @@ export function AlertsPage() {
 
   useEffect(() => {
     let cancelled = false
-    listModelAnomalies().then((results) => { if (!cancelled) setModelAnomalies(results) })
+    listModelAnomalies().then((results) => { if (!cancelled) { setModelAnomalies(results); setLoadingAnomalies(false) } })
     return () => { cancelled = true }
   }, [])
 
   const anomalies = useMemo(() => modelAnomalies.filter((anomaly) => {
     const searchable = `${anomaly.id} ${anomaly.equipmentId} ${anomaly.equipmentName} ${anomaly.fields.join(' ')}`.toLowerCase()
     return isDateInRange(anomaly.occurredAt, dateValidation) && (equipmentFilter === 'all' || anomaly.equipmentId === equipmentFilter) && searchable.includes(query.toLowerCase())
-  }), [modelAnomalies, equipmentFilter, query, dateValidation])
+  }).sort((a, b) => b.occurredAt.localeCompare(a.occurredAt)), [modelAnomalies, equipmentFilter, query, dateValidation])
   const selected = requestedId ? anomalies.find(({ id }) => id === requestedId) : anomalies.find(({ id }) => id === selectedId) ?? anomalies[0]
   const selectedEquipmentId = selected?.equipmentId ?? requestedEquipment ?? equipmentOptions[0]?.id
   const selectedEquipment = equipmentOptions.find(({ id }) => id === selectedEquipmentId) ?? equipmentOptions[0]
@@ -72,18 +76,36 @@ export function AlertsPage() {
     return () => { cancelled = true }
   }, [selectedEquipmentId])
 
-  const equipmentSummary = useMemo(() => {
-    const counts = new Map<string, number>()
-    anomalies.forEach(({ equipmentId }) => counts.set(equipmentId, (counts.get(equipmentId) ?? 0) + 1))
-    return [...counts.entries()].map(([id, count]) => ({ equipment: equipmentOptions.find(({ id: itemId }) => itemId === id), count })).filter(({ equipment }) => equipment)
-  }, [anomalies, equipmentOptions])
+  const latestDataDate = useMemo(() => modelAnomalies.reduce((latest, item) => { const day = item.occurredAt.slice(0, 10); return /^\d{4}-\d{2}-\d{2}$/.test(day) && day > latest ? day : latest }, ''), [modelAnomalies])
+
+  const overview = useMemo(() => summarizeEquipment(equipmentOptions,
+    modelAnomalies.filter(anomaly => isDateInRange(anomaly.occurredAt, dateValidation))),
+  [equipmentOptions, modelAnomalies, dateValidation])
 
   const selectAnomaly = (anomaly: AnomalyDetection) => {
     setSelectedId(anomaly.id)
     setSearchParams({ anomaly: anomaly.id })
   }
+  function selectEquipment(item: EquipmentSummary) {
+    setEquipmentFilter(item.id)
+    setQuery('')
+    setPageIndex(0)
+    setSelectedId(item.latest?.id ?? '')
+    setSearchParams(item.latest ? { anomaly: item.latest.id } : { equipment: item.id })
+  }
+  function showAllEquipment() {
+    setEquipmentFilter('all')
+    setQuery('')
+    setPageIndex(0)
+    setSelectedId('')
+    setSearchParams({})
+  }
+  function resetSelection(equipment = equipmentFilter) {
+    setPageIndex(0)
+    setSelectedId('')
+    setSearchParams(equipment === 'all' ? {} : { equipment })
+  }
   const filteredPowerDetail = powerDetail ? { ...powerDetail, currentPowerSeries: powerDetail.currentPowerSeries.filter(({ time }) => isDateInRange(time, dateValidation)) } : undefined
-  const filteredPowerCount = filteredPowerDetail?.currentPowerSeries.length ?? 0
   const hasModelResults = anomalies.length > 0
   const pageCount = Math.max(1, Math.ceil(anomalies.length / ALERT_PAGE_SIZE))
   const currentPage = Math.min(pageIndex, pageCount - 1)
@@ -95,26 +117,25 @@ export function AlertsPage() {
     if (first) selectAnomaly(first)
   }
 
-  return <div className="dashboard-page alerts-page">
-    <section className="dashboard-intro"><div><p className="eyebrow">ANOMALY MONITORING / FIELD VIEW</p><h2>이상탐지 대시보드</h2><p>test_data 기반 모델 결과와 설비 측정 데이터를 기준으로 확인합니다.</p></div><span className="data-badge">TEST DATA / MODEL</span></section>
+  return <div className={`dashboard-page alerts-page ${dockExpanded ? 'dock-expanded' : 'dock-collapsed'}`}>
+    
 
-    <div className="agent-top-section"><Link className="detail-link" to="/agent-demo">연습용 에이전트 확인</Link><p className="panel-description">선택한 설비의 이상 항목과 측정 근거를 바탕으로 초기 점검을 안내합니다. 모델 감지는 고장 확정이 아닙니다.</p><AgentPanel key={selected?.id ?? 'no-anomaly'} anomaly={selected} /></div>
-
-    <section className="alert-summary-grid" aria-label="이상 알림 요약">
-      <div className="alert-summary-card urgent"><span>긴급</span><strong>현장 긴급도 별도 확인</strong><small>정상 참조 범위 이탈만으로 긴급도를 정하지 않습니다.</small></div>
-      <div className="alert-summary-card caution"><span>주의</span><strong>선택 알림에서 확인</strong><small>설비·운전상태별 정상 참조 범위와 관측값을 비교합니다.</small></div>
-      <div className="alert-summary-card resolved"><span>확인 완료</span><strong>데이터 없음</strong><small>확인 상태가 제공되지 않았습니다.</small></div>
-    </section>
-
-    <DateRangeFilter {...dateRange} onChange={range => { setDateRange(range); setPageIndex(0) }} error={dateValidation.error} resultCount={filteredPowerCount} />
-    <section className="alert-controls panel" aria-label="이상 알림 필터"><label>검색<input value={query} onChange={(event) => { setQuery(event.target.value); setPageIndex(0) }} placeholder="설비명, 의심 항목" /></label><label>설비<select value={equipmentFilter} onChange={(event) => { setEquipmentFilter(event.target.value); setPageIndex(0) }}><option value="all">전체 설비</option>{equipmentOptions.map(({ id, name }) => <option value={id} key={id}>{name}</option>)}</select></label><span className="control-help">필터는 실제 모델 결과와 실제 측정 데이터에만 적용됩니다.</span></section>
-
+    <AlertFilterBar query={query} onQueryChange={value => { setQuery(value); resetSelection() }}
+      equipment={equipmentFilter} equipmentOptions={equipmentOptions}
+      onEquipmentChange={value => { setEquipmentFilter(value); resetSelection(value) }}
+      dateRange={dateRange} onDateChange={range => { setDateRange(range); resetSelection() }}
+      latestDate={latestDataDate} error={dateValidation.error} resultCount={anomalies.length}
+      loading={loadingAnomalies} onReset={() => { setDateRange({ startDate: '', endDate: '' }); showAllEquipment() }} />
     <div className="alerts-wire-grid">
-      <aside className="panel alert-inbox-panel" aria-labelledby="alert-inbox-title"><div className="panel-heading"><div><p className="eyebrow">FIELD INBOX</p><h2 id="alert-inbox-title">확인할 이상 알림</h2></div><span className="equipment-count">{anomalies.length ? `${anomalies.length}건` : '데이터 없음'}</span></div>{anomalies.length ? <><div className="alert-detail-list">{pageAnomalies.map((anomaly) => <button type="button" className={`alert-detail-row ${selected?.id === anomaly.id ? 'selected' : ''}`} key={anomaly.id} onClick={() => selectAnomaly(anomaly)}><span className="status-dot-large warning" /><span className="alert-row-main"><strong>{anomaly.equipmentName}</strong><small>{anomaly.occurredAt}</small><p>{anomaly.fields.join(', ')} · 확인 상태 데이터 없음</p></span></button>)}</div><nav className="alert-pagination" aria-label="알림 목록 페이지" style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap', paddingTop: 16 }}><button type="button" disabled={currentPage === 0} onClick={() => changePage(currentPage - 1)}>이전</button><span>{currentPage + 1} / {pageCount} 페이지 · {pageAnomalies.length}건 표시</span><button type="button" disabled={currentPage >= pageCount - 1} onClick={() => changePage(currentPage + 1)}>다음</button></nav></> : <div className="alert-empty"><strong>표시할 모델 이상 결과가 없습니다.</strong><p>test_data 기반 모델 결과가 없거나 아직 로드되지 않았습니다.</p></div>}</aside>
-
+      <aside className="panel alert-inbox-panel" aria-labelledby="alert-inbox-title"><div className="panel-heading"><div><p className="eyebrow">FIELD INBOX</p><h2 id="alert-inbox-title">확인할 이상 알림</h2></div><span className="equipment-count">{anomalies.length ? `${anomalies.length}건` : '데이터 없음'}</span></div>
+      {anomalies.length ? <><div className="alert-detail-list">{pageAnomalies.map((anomaly) => <button type="button" className={`alert-detail-row ${selected?.id === anomaly.id ? 'selected' : ''}`} key={anomaly.id} onClick={() => selectAnomaly(anomaly)}><span className="status-dot-large warning" /><span className="alert-row-main"><strong>{anomaly.equipmentName}</strong><small>{anomaly.occurredAt}</small><p>{anomaly.fields.join(', ')} · 확인 상태 데이터 없음</p></span></button>)}</div><nav className="alert-pagination" aria-label="알림 목록 페이지" style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap', paddingTop: 16 }}><button type="button" disabled={currentPage === 0} onClick={() => changePage(currentPage - 1)}>이전</button><span>{currentPage + 1} / {pageCount} 페이지 · {pageAnomalies.length}건 표시</span><button type="button" disabled={currentPage >= pageCount - 1} onClick={() => changePage(currentPage + 1)}>다음</button></nav></> : <div className="alert-empty"><strong>표시할 모델 이상 결과가 없습니다.</strong><p>test_data 기반 모델 결과가 없거나 아직 로드되지 않았습니다.</p></div>}</aside>
       <main className="alert-evidence-column"><PowerTrend detail={filteredPowerDetail} equipmentName={selectedEquipment?.name ?? '선택 설비'} />{hasModelResults && <section className="panel alert-reason-panel" aria-labelledby="alert-reason-title"><div className="panel-heading"><div><p className="eyebrow">MODEL EVIDENCE</p><h2 id="alert-reason-title">왜 이상인가?</h2></div><span className="equipment-count">모델 근거</span></div><p className="selected-equipment">{selected?.equipmentName} · {selected?.occurredAt}</p><p className="selected-detail">모델이 의심 대상으로 반환한 항목: <strong>{selected?.fields.join(', ')}</strong></p><div className="alert-fact-grid"><span>발생 시각<strong>{selected?.occurredAt}</strong></span><span>전력 추이용 데이터<strong>{powerDetail ? '조회됨' : '데이터 없음'}</strong></span><span>모델 제공 심각도<strong>데이터 없음</strong></span><span>모델 제공 우선순위<strong>데이터 없음</strong></span></div></section>}</main>
+      <EquipmentOverview equipment={overview} loading={loadingAnomalies} hasSourceData={modelAnomalies.length > 0}
+        activeEquipment={equipmentFilter} onSelect={selectEquipment} onShowAll={showAllEquipment} />
     </div>
 
-    {hasModelResults && <section className="panel equipment-summary-panel alert-equipment-summary" aria-labelledby="alert-equipment-summary-title"><div className="panel-heading"><div><p className="eyebrow">EQUIPMENT TREND</p><h2 id="alert-equipment-summary-title">설비별 이상 건수와 추이</h2></div><span className="equipment-count">모델 결과 기준</span></div><div className="alert-detail-list">{equipmentSummary.map(({ equipment, count }) => <Link className="equipment-alert-row" to={`/alerts?anomaly=${anomalies.find(({ equipmentId }) => equipmentId === equipment?.id)?.id ?? ''}`} key={equipment?.id}><span><strong>{equipment?.name}</strong><small>{count}건 · 실제 발생 시각은 알림 목록에서 확인</small></span><b>{count}건</b></Link>)}</div></section>}
+    <footer className="page-source-note">test_data 기반 모델 결과와 설비 측정 데이터를 기준으로 확인합니다.</footer>
+
+    <AgentDock anomaly={selected} expanded={dockExpanded} onToggle={() => setDockExpanded(value => !value)} onExpand={() => setDockExpanded(true)} />
   </div>
 }

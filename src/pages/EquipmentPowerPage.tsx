@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { DateRangeFilter } from '../components/common/DateRangeFilter'
+import { RecentModelResults } from '../components/equipment/RecentModelResults'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { EQUIPMENT_LAYOUT } from '../config/equipmentDataMap'
 import { getEquipmentCsvDetailById } from '../services/powerService'
@@ -38,6 +39,7 @@ export function EquipmentPowerPage() {
   const equipmentSelector = <label className="equipment-selector">분석 설비<select value={equipmentId ?? ''} onChange={(event) => navigate(`/equipment-power?equipment=${event.target.value}`)}>{layoutEquipment.map(({ id, name }) => <option value={id} key={id}>{name}</option>)}</select></label>
   const [csvDetail, setCsvDetail] = useState<Awaited<ReturnType<typeof getEquipmentCsvDetailById>>>()
   const [modelAnomalies, setModelAnomalies] = useState<Awaited<ReturnType<typeof getModelAnomaliesByEquipmentId>>>([])
+  const [loadedModelEquipmentId, setLoadedModelEquipmentId] = useState<string>()
   const [dateRange, setDateRange] = useState<DateRange>({ startDate: '', endDate: '' })
   const dateValidation = getDateRangeValidation(dateRange)
   useEffect(() => {
@@ -49,7 +51,7 @@ export function EquipmentPowerPage() {
   useEffect(() => {
     let cancelled = false
     setModelAnomalies([])
-    getModelAnomaliesByEquipmentId(equipmentId).then((results) => { if (!cancelled) setModelAnomalies(results) })
+    getModelAnomaliesByEquipmentId(equipmentId).then((results) => { if (!cancelled) { setModelAnomalies(results); setLoadedModelEquipmentId(equipmentId) } })
     return () => { cancelled = true }
   }, [equipmentId])
   const detail = csvDetail
@@ -59,7 +61,10 @@ export function EquipmentPowerPage() {
     lastMonthPowerSeries: detail.lastMonthPowerSeries.filter(({ time }) => isDateInRange(time, dateValidation)),
   } : undefined
   // Legacy alert fixture boundary is intentionally not rendered: getAlertsByEquipmentId and alerts?alert= remain only for verification compatibility.
-  const relatedAlertsPanel = <section className="panel equipment-alerts-panel" aria-labelledby="equipment-alerts-title"><div className="panel-heading"><div><p className="eyebrow">MODEL RESULTS / TEST DATA</p><h2 id="equipment-alerts-title">관련 모델 결과</h2><p className="panel-description">test_data 기반 모델 출력 · source: model</p></div><span className="equipment-count">{modelAnomalies.length}건</span></div>{modelAnomalies.length ? <div className="equipment-alert-list">{modelAnomalies.map((anomaly) => <Link className="equipment-alert-row" key={anomaly.id} to={`/alerts?anomaly=${anomaly.id}`}><span className="status-dot-large warning" /><span><strong>{anomaly.fields.join(', ')}</strong><small>{anomaly.occurredAt} · 모델 결과</small></span><b>확인 필요 →</b></Link>)}</div> : <><p className="empty-state">모델 결과 없음</p><p className="panel-description">test_data 기반 모델 결과가 없거나 아직 로드되지 않았습니다.</p></>}</section>
+  const currentModelAnomalies = loadedModelEquipmentId === equipmentId ? modelAnomalies : []
+  const filteredModelAnomalies = currentModelAnomalies.filter(anomaly => isDateInRange(anomaly.occurredAt, dateValidation))
+  const relatedAlertsPanel = equipment ? <RecentModelResults equipmentId={equipment.id} equipmentName={equipment.name}
+    anomalies={filteredModelAnomalies} loading={loadedModelEquipmentId !== equipmentId} /> : null
 
   if (!equipment) return <div className="dashboard-page equipment-power-page"><section className="dashboard-intro"><div><p className="eyebrow">EQUIPMENT POWER / DETAIL ANALYSIS</p><h2>설비 전력 분석</h2><p>선택된 설비의 전력 상세 정보를 확인할 수 있습니다.</p></div>{equipmentSelector}<span className="data-badge">LIVE CSV DATA</span></section><section className="panel invalid-selection-panel"><p className="eyebrow">EQUIPMENT NOT FOUND</p><h2>설비를 찾을 수 없습니다.</h2><p className="empty-state">요청한 설비 ID <strong>{requestedEquipmentId}</strong>에 해당하는 데이터가 없습니다.</p><Link className="detail-link" to="/equipment-power">기본 설비로 돌아가기 <span>→</span></Link></section></div>
 
@@ -68,7 +73,6 @@ export function EquipmentPowerPage() {
     <DateRangeFilter {...dateRange} onChange={setDateRange} error={dateValidation.error} resultCount={filteredDetail?.currentPowerSeries.length ?? 0} />
     <section className="panel equipment-summary-panel" aria-labelledby="equipment-summary-title"><div className="equipment-summary-heading"><div><p className="eyebrow">EQUIPMENT IDENTITY</p><h2 id="equipment-summary-title">{equipment.name}</h2><p className="equipment-meta">{equipment.id} · {equipment.zone}</p></div><span className={`detail-status ${equipment.status}`}>{statusLabels[equipment.status]} 운전</span></div><p className="empty-state">이 설비의 상세 분석 데이터가 없습니다. 분석 데이터가 제공되면 연결할 수 있습니다.</p></section>
     {relatedAlertsPanel}
-    <section className="panel anomaly-panel"><div className="panel-heading"><div><p className="eyebrow">MODEL OUTPUT</p><h2>모델 감지 결과</h2></div><span className="alert-badge warning">의심 항목</span></div>{modelAnomalies.length ? modelAnomalies.map((anomaly) => <p key={anomaly.id}><strong>{anomaly.fields.join(', ')}</strong> · 모델 감지 <small>source: {anomaly.source}</small></p>) : <p className="empty-state">이 설비에서 모델 감지 결과가 없습니다.</p>}<p className="muted">fault 확정이나 심각도·우선순위가 아닌 모델 출력입니다.</p></section>
     <section className="panel detail-chart-panel"><p className="empty-state">표시할 전력 비교 데이터가 없습니다.</p></section>
     <div className="equipment-analysis-grid"><section className="panel anomaly-panel"><p className="empty-state">표시할 이상 탐지 데이터가 없습니다.</p></section><section className="panel history-panel"><p className="empty-state">기록된 이상 탐지 이력이 없습니다.</p></section></div>
   </div>
@@ -109,7 +113,6 @@ export function EquipmentPowerPage() {
 
     {relatedAlertsPanel}
 
-    <section className="panel anomaly-panel"><div className="panel-heading"><div><p className="eyebrow">MODEL OUTPUT</p><h2>모델 감지 결과</h2></div><span className="alert-badge warning">의심 항목</span></div>{modelAnomalies.length ? modelAnomalies.map((anomaly) => <p key={anomaly.id}><strong>{anomaly.fields.join(', ')}</strong> · 모델 감지 <small>source: {anomaly.source}</small></p>) : <p className="empty-state">이 설비에서 모델 감지 결과가 없습니다.</p>}<p className="muted">fault 확정이나 심각도·우선순위가 아닌 모델 출력입니다.</p></section>
 
     <section className="panel detail-chart-panel" aria-labelledby="equipment-chart-title">
       <div className="panel-heading"><div><p className="eyebrow">HOURLY POWER COMPARISON</p><h2 id="equipment-chart-title">시간대별 전력 소비 비교</h2><p className="panel-description">현재와 지난달 동일 시간대의 순간 전력을 비교합니다.</p></div><div className="detail-chart-legend" aria-label="차트 범례"><span><i className="detail-legend-line current" />현재</span><span><i className="detail-legend-line last-month" />지난달</span></div></div>
