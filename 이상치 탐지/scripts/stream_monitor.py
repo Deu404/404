@@ -81,12 +81,9 @@ class EquipmentMonitor:
             return self.aliases[name]
         raise ValueError(f'Unknown source equipment: {equipment}')
 
-    def check(self, equipment, record):
+    def _prepare_record(self, name, record):
         if not isinstance(record, Mapping):
             raise ValueError('Each reading must be an object containing measurement fields')
-        name = self.resolve_equipment(equipment)
-        # The source argument already supplies device identity when the reading
-        # contains measurements only. An explicitly bad payload ID stays bad.
         current = {field: record.get(field) for field in FIELDS}
         for field in FIELDS:
             if isinstance(current[field], (Mapping, list, tuple, np.ndarray)):
@@ -98,8 +95,9 @@ class EquipmentMonitor:
                 current['module(equipment)'] = self.resolve_equipment(record['module(equipment)'])
             except ValueError:
                 pass
-        history = self._history[name]
-        readings = [*history, current][-121:]
+        return current
+
+    def _predict(self, name, readings):
         raw = {}
         for field in FIELDS:
             values = np.empty(len(readings), dtype=object)
@@ -108,12 +106,41 @@ class EquipmentMonitor:
         x, names = features(raw, self.model['normalizers'][name], name)
         if names != self.model['feature_names']:
             raise ValueError('Model feature schema mismatch')
+        return x, names
+
+    def check(self, equipment, record):
+        name = self.resolve_equipment(equipment)
+        current = self._prepare_record(name, record)
+        history = self._history[name]
+        readings = [*history, current][-121:]
+        x, names = self._predict(name, readings)
         score = float(self.model['classifier'].predict_proba(x[-1:])[0, 1])
         history.append(current)
         if score < self.model['threshold']:
             return None
         return {'equipment': name,
                 'fields': suspect_fields(x[-1], names)}
+
+    def check_many(self, equipment, records):
+        """Check a bounded batch while preserving the one-reading history semantics."""
+        name = self.resolve_equipment(equipment)
+        current_records = [self._prepare_record(name, record) for record in records]
+        if not current_records:
+            return []
+        history = self._history[name]
+        history_length = len(history)
+        readings = [*history, *current_records]
+        x, names = self._predict(name, readings)
+        scores = self.model['classifier'].predict_proba(x[history_length:])[:, 1]
+        history.extend(current_records)
+        notices = []
+        for score, features_row in zip(scores, x[history_length:]):
+            if score < self.model['threshold']:
+                notices.append(None)
+            else:
+                notices.append({'equipment': name,
+                                'fields': suspect_fields(features_row, names)})
+        return notices
 
     def reset(self, equipment=None):
         """Clear history after intentionally starting a new independent stream."""

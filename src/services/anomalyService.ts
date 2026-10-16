@@ -1,5 +1,5 @@
 import { EQUIPMENT_LAYOUT } from '../config/equipmentDataMap'
-import type { AnomalyDetection } from '../types/anomaly'
+import { ANOMALY_FIELDS, type AnomalyDetection, type AnomalyField } from '../types/anomaly'
 
 const apiUrl = import.meta.env.VITE_ANOMALY_API_URL?.trim()
 let anomaliesPromise: Promise<AnomalyDetection[]> | undefined
@@ -19,7 +19,7 @@ function normalizeAnomaly(value: unknown, index: number): AnomalyDetection | und
   const equipmentId = typeof item.equipmentId === 'string' && EQUIPMENT_LAYOUT.some(({ id }) => id === item.equipmentId) ? item.equipmentId : layout?.id
   if (!equipmentId) return undefined
   const canonical = EQUIPMENT_LAYOUT.find(({ id }) => id === equipmentId)
-  const fields = Array.isArray(item.fields) ? item.fields.filter((field): field is string => typeof field === 'string') : []
+  const fields = Array.isArray(item.fields) ? item.fields.filter((field): field is AnomalyField => typeof field === 'string' && (ANOMALY_FIELDS as readonly string[]).includes(field)) : []
   const occurredAt = typeof item.occurredAt === 'string' ? item.occurredAt : typeof item.timestamp === 'string' ? item.timestamp : ''
   if (!fields.length || !occurredAt) return undefined
   return {

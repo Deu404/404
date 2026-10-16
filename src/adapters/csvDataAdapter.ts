@@ -1,19 +1,33 @@
 import { EQUIPMENT_DATA_MAP } from '../config/equipmentDataMap'
 import type { EquipmentDetail } from '../types/equipment'
-import { asOptionalFiniteNumber, asString, isRecord } from '../services/dataNormalization'
+import { asString, isRecord } from '../services/dataNormalization'
 
 const DATA_ENDPOINT = '/api/equipment-data/'
 
-type CsvSample = { time?: unknown; powerKw?: unknown; energyKwh?: unknown }
+export type EquipmentPowerSample = { time: string; powerKw: number; energyKwh?: number }
 
-function normalizeSamples(input: unknown) {
+function asPowerNumber(value: unknown): number | undefined {
+  const number = typeof value === 'number' ? value : typeof value === 'string' ? Number(value.trim()) : Number.NaN
+  return Number.isFinite(number) ? number : undefined
+}
+
+function normalizeSampleTime(value: unknown): string {
+  const text = asString(value).trim()
+  const compact = /^\d{14}\.0+$/.test(text) ? text.slice(0, 14) : text
+  if (/^\d{14}$/.test(compact)) {
+    return `${compact.slice(0, 4)}-${compact.slice(4, 6)}-${compact.slice(6, 8)} ${compact.slice(8, 10)}:${compact.slice(10, 12)}`
+  }
+  return compact
+}
+
+function normalizeSamples(input: unknown): EquipmentPowerSample[] {
   if (!Array.isArray(input)) return []
   return input.flatMap((value) => {
     if (!isRecord(value)) return []
-    const time = asString(value.time).trim()
-    const powerKw = asOptionalFiniteNumber(value.powerKw)
+    const time = normalizeSampleTime(value.time)
+    const powerKw = asPowerNumber(value.powerKw)
     if (!time || powerKw === undefined) return []
-    const energyKwh = asOptionalFiniteNumber(value.energyKwh)
+    const energyKwh = asPowerNumber(value.energyKwh)
     return [{ time, powerKw, ...(energyKwh === undefined ? {} : { energyKwh }) }]
   })
 }
@@ -48,4 +62,4 @@ export async function fetchAllEquipmentCsvDetails(): Promise<EquipmentDetail[]> 
   return details.flatMap((detail) => detail ? [detail] : [])
 }
 
-export type { CsvSample }
+export type CsvSample = EquipmentPowerSample

@@ -17,6 +17,23 @@ export const EQUIPMENT_DATA_MAP = {
 
 export type EquipmentDataId = keyof typeof EQUIPMENT_DATA_MAP
 
+/** Root-level mixed test JSON used by the Vite power-data boundary. */
+export const EQUIPMENT_TEST_DATA_MAP: Record<EquipmentDataId, string> = {
+  'compressor-01': '01_PM-3.json',
+  'compressor-02': '02_L-1전등.json',
+  'motor-01': '03_분쇄기(2).json',
+  'motor-02': '04_분쇄기(1).json',
+  'conveyor-01': '05_좌측분전반.json',
+  'robot-01': '11_우측분전반1.json',
+  'robot-02': '12_4호기.json',
+  'robot-03': '13_3호기.json',
+  'cooling-01': '14_2호기.json',
+  'cooling-02': '15_예비건조기.json',
+  'pump-01': '16_호이스트.json',
+  'pump-02': '17_6호기.json',
+  'transformer-01': '18_우측분전반2.json',
+}
+
 /** The canonical equipment order and display names used by the factory layout. */
 export const EQUIPMENT_LAYOUT = [
   { id: 'conveyor-01', fileName: 'equipment_5(좌측분전반).csv', name: '좌측분전반', x: 12, y: 18 },

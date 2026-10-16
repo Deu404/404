@@ -2,7 +2,10 @@
 import argparse
 import csv
 import json
+from collections.abc import Mapping
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
+import re
 import sys
 import time
 
@@ -29,13 +32,87 @@ EQUIPMENT_FILES = (
     ('transformer-01', 'equipment_18(우측분전반2).csv', '18_우측분전반2.parquet', '우측분전반2'),
 )
 EQUIPMENT_NAMES = {equipment_id: display_name for equipment_id, _, _, display_name in EQUIPMENT_FILES}
+MODEL_EQUIPMENT_NAMES = {
+    equipment_id: csv_name.removeprefix('equipment_').removesuffix('.csv')
+    for equipment_id, csv_name, _, _ in EQUIPMENT_FILES
+}
+AUDIT_FIELDS = frozenset({'module(equipment)', 'is_anomaly', 'anomaly_type', 'fault_fields', 'event_id', 'reference_localtime'})
+INVALID_TIME_FIELDS = frozenset({'timestamp', 'localtime'})
+MODEL_RESULT_FIELDS = frozenset({
+    'voltageR', 'voltageS', 'voltageT', 'voltageRS', 'voltageST', 'voltageTR',
+    'currentR', 'currentS', 'currentT', 'activePower',
+    'powerFactorR', 'powerFactorS', 'powerFactorT', 'reactivePowerLagging',
+    'accumActiveEnergy', 'operation',
+})
+
+
+def normalize_value(value):
+    """Normalize numeric strings while leaving malformed values available to the model."""
+    if not isinstance(value, str):
+        return value
+    text = value.strip()
+    if re.fullmatch(r'[+-]?\d+\.0+', text):
+        return int(text.split('.', 1)[0])
+    return text
+
+
+def model_record(row):
+    # Pass measurement and clock inputs only; source metadata is supplied by the trusted equipment argument.
+    from scripts.full_features import FIELDS
+
+    record = {field: normalize_value(row.get(field)) for field in FIELDS if field not in AUDIT_FIELDS}
+    # Match full_features.epochs for valid localtime while preserving the raw localtime field.
+    timestamp = localtime_timestamp(record.get('localtime'))
+    if timestamp is not None:
+        record['timestamp'] = timestamp
+    return record
 
 
 def occurred_at(value):
+    value = normalize_value(value)
     text = str(value or '')
     if len(text) == 14 and text.isdigit():
+        try:
+            datetime.strptime(text, '%Y%m%d%H%M%S')
+        except ValueError:
+            return ''
         return f'{text[:4]}-{text[4:6]}-{text[6:8]} {text[8:10]}:{text[10:12]}:{text[12:14]}'
-    return text
+    if re.fullmatch(r'\d{13}', text):
+        try:
+            local = datetime.fromtimestamp(int(text) / 1000, timezone.utc).astimezone(
+                timezone(timedelta(hours=9)))
+        except (OverflowError, OSError, ValueError):
+            return ''
+        return local.strftime('%Y-%m-%d %H:%M:%S')
+    try:
+        parsed = datetime.fromisoformat(text.replace('Z', '+00:00'))
+    except ValueError:
+        return ''
+    return parsed.strftime('%Y-%m-%d %H:%M:%S')
+
+
+def json_file_map(json_root):
+    """Map the 13 expected parquet stems to root-level JSON files only."""
+    if not json_root.is_dir():
+        raise ValueError(f'JSON root does not exist or is not a directory: {json_root}')
+    expected = {parquet_name.removesuffix('.parquet').casefold(): equipment_id
+                for equipment_id, _, parquet_name, _ in EQUIPMENT_FILES}
+    candidates = {}
+    for path in json_root.iterdir():
+        if not path.is_file() or path.suffix.lower() != '.json' or path.stem.casefold() == 'events':
+            continue
+        key = path.stem.casefold()
+        if key in candidates:
+            raise ValueError(f'Duplicate JSON input stem: {path.stem}')
+        candidates[key] = path
+    missing = sorted(set(expected) - set(candidates))
+    if missing:
+        raise ValueError(f'Missing JSON inputs: {", ".join(missing)}')
+    unexpected = sorted(set(candidates) - set(expected))
+    if unexpected:
+        raise ValueError(f'Unexpected root JSON inputs: {", ".join(unexpected)}')
+    return [(equipment_id, candidates[parquet_name.removesuffix('.parquet').casefold()])
+            for equipment_id, _, parquet_name, _ in EQUIPMENT_FILES]
 
 
 def localtime_timestamp(localtime):
@@ -46,30 +123,41 @@ def localtime_timestamp(localtime):
     return int(epoch * 1000) if epoch == epoch else None
 
 
-def model_record(row):
-    # Match full_features.epochs for valid localtime while preserving the raw
-    # localtime field. Leave timestamp unchanged when localtime is invalid.
-    timestamp = localtime_timestamp(row.get('localtime'))
-    if timestamp is not None:
-        row = dict(row)
-        row['timestamp'] = timestamp
-    return row
-
-
-def anomaly_result(equipment_id, notice, row, count):
+def anomaly_result(equipment_id, notice, row, count, seen_ids=None):
+    if not notice:
+        return None
+    fields = [field for field in notice.get('fields', []) if field in MODEL_RESULT_FIELDS]
+    # A result without a measured/detected field cannot satisfy the browser contract.
+    if not fields:
+        return None
+    occurred = occurred_at(row.get('localtime')) or occurred_at(row.get('timestamp'))
+    if not occurred:
+        return None
+    seen_ids = seen_ids if seen_ids is not None else set()
+    identity = normalize_value(row.get('timestamp')) or normalize_value(row.get('localtime')) or count
+    base_id = f'model-{equipment_id}-{identity}'
+    result_id = base_id
+    if result_id in seen_ids:
+        result_id = f'{base_id}-{count}'
+        suffix = 2
+        while result_id in seen_ids:
+            result_id = f'{base_id}-{count}-{suffix}'
+            suffix += 1
+    seen_ids.add(result_id)
     return {
-        'id': f"model-{equipment_id}-{row.get('timestamp') or row.get('localtime') or count}",
+        'id': result_id,
         'equipment': notice['equipment'],
         'equipmentId': equipment_id,
         'equipmentName': EQUIPMENT_NAMES[equipment_id],
-        'occurredAt': occurred_at(row.get('localtime') or row.get('timestamp')),
-        'fields': notice['fields'],
+        'occurredAt': occurred,
+        'fields': fields,
         'source': 'model',
     }
 
 
-def stream_file(monitor, equipment_id, file_path, limit=None, stats=None):
+def stream_file(monitor, equipment_id, file_path, limit=None, stats=None, seen_ids=None):
     count = 0
+    seen_ids = seen_ids if seen_ids is not None else set()
     with file_path.open('r', encoding='utf-8-sig', newline='') as source:
         for row in csv.DictReader(source):
             if limit is not None and count >= limit:
@@ -77,18 +165,67 @@ def stream_file(monitor, equipment_id, file_path, limit=None, stats=None):
             count += 1
             source_equipment = row.get('module(equipment)') or equipment_id
             notice = monitor.check(source_equipment, model_record(row))
-            if notice:
-                yield anomaly_result(equipment_id, notice, row, count)
+            result = anomaly_result(equipment_id, notice, row, count, seen_ids)
+            if result:
+                yield result
     if stats is not None:
         stats['processed'] = count
     return count
 
 
-def stream_parquet(monitor, equipment_id, file_path, limit=None, stats=None):
+def stream_json(monitor, equipment_id, file_path, limit=None, stats=None, seen_ids=None):
+    count = 0
+    malformed = 0
+    seen_ids = seen_ids if seen_ids is not None else set()
+    try:
+        with file_path.open('r', encoding='utf-8') as source:
+            rows = json.load(source)
+    except (OSError, json.JSONDecodeError) as error:
+        raise ValueError(f'Unable to read JSON input {file_path}: {error}') from error
+    if not isinstance(rows, list):
+        raise ValueError(f'JSON input must contain an array: {file_path}')
+    batch = []
+
+    def flush_batch():
+        if not batch:
+            return []
+        records = [record for _, record in batch]
+        check_many = getattr(monitor, 'check_many', None)
+        notices = check_many(MODEL_EQUIPMENT_NAMES[equipment_id], records) if check_many else [
+            monitor.check(MODEL_EQUIPMENT_NAMES[equipment_id], record) for record in records]
+        return [(row_count, record, notice)
+                for (row_count, record), notice in zip(batch, notices)]
+
+    for raw_row in rows:
+        if limit is not None and count >= limit:
+            break
+        count += 1
+        if not isinstance(raw_row, Mapping):
+            malformed += 1
+            continue
+        batch.append((count, model_record(raw_row)))
+        if len(batch) >= 4096:
+            for row_count, row, notice in flush_batch():
+                result = anomaly_result(equipment_id, notice, row, row_count, seen_ids)
+                if result:
+                    yield result
+            batch.clear()
+    for row_count, row, notice in flush_batch():
+        result = anomaly_result(equipment_id, notice, row, row_count, seen_ids)
+        if result:
+            yield result
+    if stats is not None:
+        stats['processed'] = count
+        stats['malformed'] = malformed
+    return count
+
+
+def stream_parquet(monitor, equipment_id, file_path, limit=None, stats=None, seen_ids=None):
     import pyarrow.parquet as pq
 
     from scripts.full_features import FIELDS
 
+    seen_ids = seen_ids if seen_ids is not None else set()
     parquet = pq.ParquetFile(file_path)
     if any(field not in parquet.schema_arrow.names for field in FIELDS):
         raise ValueError('Parquet model schema mismatch')
@@ -101,8 +238,9 @@ def stream_parquet(monitor, equipment_id, file_path, limit=None, stats=None):
             count += 1
             source_equipment = row.get('module(equipment)') or equipment_id
             notice = monitor.check(source_equipment, model_record(row))
-            if notice:
-                yield anomaly_result(equipment_id, notice, row, count)
+            result = anomaly_result(equipment_id, notice, row, count, seen_ids)
+            if result:
+                yield result
         if limit is not None and count >= limit:
             break
     if stats is not None:
@@ -130,7 +268,11 @@ def main():
     parser.add_argument('--parquet', type=Path, help='Process a Parquet file as a bounded smoke test')
     parser.add_argument('--limit-rows', type=int, help='Limit rows per equipment for a smoke test')
     parser.add_argument('--equipment', help='Process one equipment ID for a smoke test')
+    parser.add_argument('--json-root', type=Path, help='Process the 13 root-level mixed JSON files')
     args = parser.parse_args()
+
+    if args.json_root and args.parquet:
+        parser.error('--json-root and --parquet cannot be used together')
 
     sys.path.insert(0, str(MODEL_ROOT))
     from scripts.stream_monitor import EquipmentMonitor
@@ -177,13 +319,33 @@ def main():
         print(f'Anomaly results: {anomaly_count} ({ratio:.6%})', file=sys.stderr)
         return
 
-    selected = [(equipment_id, file_name) for equipment_id, file_name, _, _ in EQUIPMENT_FILES
-                if args.equipment is None or args.equipment == equipment_id]
-    if not selected:
-        parser.error(f'Unknown equipment ID: {args.equipment}')
+    if args.json_root:
+        if args.limit_rows is not None and args.limit_rows <= 0:
+            parser.error('--limit-rows must be positive')
+        selected = json_file_map(args.json_root)
+        selected = [(equipment_id, path) for equipment_id, path in selected
+                    if args.equipment is None or args.equipment == equipment_id]
+        if args.equipment is not None and not selected:
+            parser.error(f'Unknown equipment ID: {args.equipment}')
+        outputs = [args.output or DEFAULT_OUTPUT]
+        if args.app_output:
+            outputs.append(args.app_output)
+        monitor = EquipmentMonitor(MODEL_ROOT / 'models/random_forest.joblib')
+        seen_ids = set()
+        streams = [stream_json(monitor, equipment_id, path, args.limit_rows, seen_ids=seen_ids)
+                   for equipment_id, path in selected]
+    else:
+        selected = [(equipment_id, file_name) for equipment_id, file_name, _, _ in EQUIPMENT_FILES
+                    if args.equipment is None or args.equipment == equipment_id]
+        if not selected:
+            parser.error(f'Unknown equipment ID: {args.equipment}')
+        monitor = EquipmentMonitor(MODEL_ROOT / 'models/random_forest.joblib')
+        outputs = [args.output or DEFAULT_OUTPUT, args.app_output or DEFAULT_APP_OUTPUT]
+        seen_ids = set()
+        streams = [stream_file(monitor, equipment_id, SOURCE_ROOT / file_name, args.limit_rows,
+                                seen_ids=seen_ids)
+                   for equipment_id, file_name in selected]
 
-    monitor = EquipmentMonitor(MODEL_ROOT / 'models/random_forest.joblib')
-    outputs = (args.output or DEFAULT_OUTPUT, args.app_output or DEFAULT_APP_OUTPUT)
     temporary = []
     for output in outputs:
         output.parent.mkdir(parents=True, exist_ok=True)
@@ -192,8 +354,6 @@ def main():
 
     result_count = 0
     try:
-        streams = [stream_file(monitor, equipment_id, SOURCE_ROOT / file_name, args.limit_rows)
-                   for equipment_id, file_name in selected]
         for output in temporary:
             output.write_text('[\n', encoding='utf-8')
         first = True

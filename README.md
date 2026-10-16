@@ -2,7 +2,7 @@
 
 PlantEye는 공장 설비 전력 모니터링 및 이상 탐지를 위한 React 화면입니다. 공통 레이아웃과 라우팅을 유지하면서 통합 대시보드(`/`)와 CSS 기반 공장 2D 배치도(`/layout`)를 구현했습니다.
 
-현재 화면은 분석 담당자의 JSON/API가 연결되기 전 단계이므로 `src/mocks`의 개발용 정적 목업 데이터만 사용합니다. 실제 데이터 처리나 API 호출은 구현하지 않았습니다. 알림과 가이드는 실제 진단 결과가 아닌 검토용 시뮬레이션입니다.
+전력 상세 화면은 개발 서버의 `/api/equipment-data/<CSV 파일명>` 경계를 통해 `test_data` 루트의 장비별 혼합 JSON을 읽습니다. 이상 결과는 `VITE_ANOMALY_API_URL`이 제공하는 모델 결과 경계를 사용하며, 그 외 화면의 일부 콘텐츠는 개발용 정적 데이터입니다. `clean_reference`와 `events.json`은 브라우저 입력으로 사용하지 않습니다.
 
 ## 데이터 경계
 
@@ -19,12 +19,12 @@ PlantEye는 공장 설비 전력 모니터링 및 이상 탐지를 위한 React 
 - `src/services`: 선택된 `DataProvider`를 통해 데이터를 조회하고 기본 선택·빈 배열 fallback을 제공하는 서비스 계층입니다. 내부 도메인 타입의 측정값은 선택적이며, 누락·잘못된 값은 0이 아닌 `undefined`로 유지되어 UI에서 `데이터 없음` 또는 빈 상태로 표시됩니다. `alertRules.ts`의 사전 정의 규칙만 데모 이상 분류에 사용하며, 실제 AI 분석이나 실시간 센서 판단은 없습니다. UI가 fixture 배열을 직접 참조하지 않습니다.
 - `src/data`: 기존 검증 코드와 호환하기 위한 경계이며, 새 UI 소비자는 사용하지 않습니다.
 
-실제 JSON 연결 시에는 다음 파일을 수정합니다.
+실제 JSON 연결 시에는 다음 경계를 유지합니다.
 
-1. 분석 담당자가 제공한 스키마를 전제로 `src/adapters/externalDataAdapter.ts` 또는 새 구체 어댑터에 입력 검증과 필드 매핑을 추가합니다. 외부 필드명은 스키마를 받은 뒤에만 결정하며, `src/adapters/dataProvider.ts`의 선택된 provider만 교체합니다.
-2. `src/services/equipmentService.ts`, `powerService.ts`, `alertService.ts`, `guideService.ts`는 계속 `dataProvider` 계약만 읽도록 유지합니다.
-3. `src/types`의 내부 도메인 타입은 UI 계약으로 유지하고 외부 JSON 필드명과 직접 결합하지 않습니다.
-4. 개발용 fallback이 필요하면 `src/mocks`와 기존 `src/data` 호환 파일을 유지하고, 필요하지 않으면 단계적으로 제거합니다.
+1. 전력 JSON은 `vite.config.ts`에서 stable equipment ID의 기존 CSV 파일명 URL로 매핑합니다. 루트 `test_data`의 13개 혼합 JSON만 읽고 `localtime`/`timestamp`, `activePower`, `accumActiveEnergy`를 각각 `time`, `powerKw`, `energyKwh`로 정규화합니다. 응답은 기존 `src/adapters/csvDataAdapter.ts` 계약을 유지하며 장비별 처음 96개 유효 샘플을 반환합니다.
+2. `test_data`가 없을 때는 기존 `장비별 Data` 또는 `EQUIPMENT_DATA_DIR` CSV 경로로 fallback하므로 기존 CSV/Parquet 입력 경계를 제거하지 않습니다. JSON 입력을 CSV 산출물로 복제하지 않는 방식입니다.
+3. 분석 결과와 전력 데이터는 계속 별도 서비스 경계로 유지합니다. `src/services/equipmentService.ts`, `powerService.ts`, `alertService.ts`, `guideService.ts`는 내부 계약만 읽습니다.
+4. 앱 실행 전 `npm run test:test-data-power`로 13개 stable ID와 실제 첫 JSON 행의 시간·전력·누적에너지 매핑을 확인합니다.
 
 ## 요구 사항
 
@@ -35,6 +35,7 @@ PlantEye는 공장 설비 전력 모니터링 및 이상 탐지를 위한 React 
 
 ```powershell
 npm install
+Copy-Item .env.example .env.local
 npm run dev
 ```
 
@@ -61,6 +62,7 @@ FEAT-002에서 실행하는 명령은 다음과 같습니다.
 npm run typecheck
 npm run build
 npm run lint
+npm run test:test-data-power
 npm run test:equipment-detail
 ```
 

@@ -12,6 +12,7 @@
     "test:equipment-detail": "node scripts/verify-canonical-fixtures.mjs && node scripts/verify-data-boundary.mjs && node scripts/verify-equipment-detail.mjs && node scripts/verify-equipment-detail-render.mjs && node scripts/verify-equipment-detail-browser.mjs",
     "test:equipment-detail-render": "node scripts/verify-equipment-detail-render.mjs",
     "test:equipment-detail-browser": "node scripts/verify-equipment-detail-browser.mjs",
+    "test:test-data-power": "node scripts/verify-test-data-power.mjs",
     "preview": "vite preview",
     "agent": "node --env-file-if-exists=server/.env server/src/server.ts",
     "test:agent": "node server/src/verifyTools.ts",
