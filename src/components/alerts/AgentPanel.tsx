@@ -9,11 +9,14 @@ import { DecisionCard } from './DecisionCard'
 import { InspectionReport } from './InspectionReport'
 
 const agentBaseUrl =
-  import.meta.env.VITE_AGENT_API_URL?.replace(/\/$/, '')
+  import.meta.env.VITE_AGENT_API_URL?.trim().replace(/\/+$/, '')
 
 const API_URL = agentBaseUrl
   ? `${agentBaseUrl}/api/agent`
   : '/api/agent'
+const INSPECTION_URL = agentBaseUrl
+  ? `${agentBaseUrl}/api/inspection`
+  : '/api/inspection'
 const suggestions = [
   { label: '쉽게 설명해줘', message: '선택한 알림을 쉽게 설명해줘.', intent: 'anomaly' },
   { label: '우선순위·근거', message: '어느 정도로 급하고 판단 근거는 뭐야?', intent: 'anomaly' },
@@ -41,7 +44,7 @@ export function AgentPanel({ alert, anomaly, collapsed = false, onExpand, compos
     if (!anomaly) return
     const controller = new AbortController()
     setInspectionNotice('발생 시점의 측정값과 설비별 정상 참조 범위를 확인하고 있어요.')
-    fetch('/api/inspection', { method: 'POST', signal: controller.signal, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ anomaly }) })
+    fetch(INSPECTION_URL, { method: 'POST', signal: controller.signal, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ anomaly }) })
       .then(async response => {
         if (!response.ok) throw new Error('조회 실패')
         const result = await response.json()
