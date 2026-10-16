@@ -6,7 +6,12 @@ import type { Alert } from '../../types/alert'
 import { decideAlert, reportText } from '../../shared/decision.ts'
 import { DecisionCard } from './DecisionCard'
 
-const API_URL = '/api/agent'
+const agentBaseUrl =
+  import.meta.env.VITE_AGENT_API_URL?.replace(/\/$/, '')
+
+const API_URL = agentBaseUrl
+  ? `${agentBaseUrl}/api/agent`
+  : '/api/agent'
 const suggestions = [
   { label: '쉽게 설명해줘', message: '선택한 알림을 쉽게 설명해줘.', intent: 'anomaly' },
   { label: '우선순위·근거', message: '어느 정도로 급하고 판단 근거는 뭐야?', intent: 'anomaly' },
